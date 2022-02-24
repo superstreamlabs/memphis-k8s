@@ -199,7 +199,7 @@ nats:
     #                          #
     ############################
     fileStorage:
-      enabled: false
+      enabled: true
       storageDirectory: /data
 
       # Set for use with existing PVC
@@ -208,7 +208,7 @@ nats:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 1Gi
+      size: 2Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
@@ -526,10 +526,10 @@ auth:
   #   accounts:
 
   # Reference to the Operator JWT.
-  # operatorjwt:
-  #   configMap:
-  #     name: operator-jwt
-  #     key: KO.jwt
+  operatorjwt:
+    configMap:
+      name: operator-jwt
+      key: KO.jwt
 
   # Token authentication
   # token:
@@ -550,7 +550,7 @@ auth:
     # Embedded NATS Account Server Resolver  #
     #                                        #
     ##########################################
-    # type: full
+    type: full
 
     # If the resolver type is 'full', delete when enabled will rename the jwt.
     allowDelete: false
@@ -558,23 +558,23 @@ auth:
     # Interval at which a nats-server with a nats based account resolver will compare
     # it's state with one random nats based account resolver in the cluster and if needed,
     # exchange jwt and converge on the same set of jwt.
-    #interval: 2m
+    interval: 2m
 
     # Operator JWT
-    #operator:
+    operator:
 
     # System Account Public NKEY
-    #systemAccount:
+    systemAccount:
 
     # resolverPreload:
     #   <ACCOUNT>: <JWT>
 
     # Directory in which the account JWTs will be stored.
-    #store:
-    #  dir: "/accounts/jwt"
+    store:
+      dir: "/accounts/jwt"
 
       # Size of the account JWT storage.
-    #  size: 1Gi
+      size: 1Gi
 
     ##############################
     #                            #
@@ -595,8 +595,8 @@ auth:
     #  URL resolver settings #
     #                        #
     ##########################
-    type: URL
-    url: "http://nats-account-server:9090/jwt/v1/accounts/"
+    #type: URL
+    #url: "http://nats-account-server:9090/jwt/v1/accounts/"
 
 websocket:
   enabled: false
