@@ -539,7 +539,7 @@ auth:
   #   users:
 
   # Public key of the System Account
-  # systemAccount:
+  #systemAccount:
 
   resolver:
     # Disables the resolver by default
@@ -550,7 +550,7 @@ auth:
     # Embedded NATS Account Server Resolver  #
     #                                        #
     ##########################################
-    type: full
+    ##type: full
 
     # If the resolver type is 'full', delete when enabled will rename the jwt.
     allowDelete: false
@@ -558,13 +558,13 @@ auth:
     # Interval at which a nats-server with a nats based account resolver will compare
     # it's state with one random nats based account resolver in the cluster and if needed,
     # exchange jwt and converge on the same set of jwt.
-    interval: 2m
+    ##interval: 2m
 
     # Operator JWT
-    operator:
+    ##operator: 
 
     # System Account Public NKEY
-    systemAccount:
+    ##systemAccount: 
 
     # resolverPreload:
     #   <ACCOUNT>: <JWT>
@@ -595,8 +595,9 @@ auth:
     #  URL resolver settings #
     #                        #
     ##########################
-    #type: URL
+    type: URL
     #url: "http://nats-account-server:9090/jwt/v1/accounts/"
+    url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
   enabled: false
