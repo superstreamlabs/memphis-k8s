@@ -596,8 +596,8 @@ auth:
     #                        #
     ##########################
     type: URL
-    #url: "http://nats-account-server:9090/jwt/v1/accounts/"
-    url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
+    url: "http://strech-server.memphis-chart-tests.svc.cluster.local:5555/usermgmt/jwt/v1/accounts/"
+    #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
   enabled: false
