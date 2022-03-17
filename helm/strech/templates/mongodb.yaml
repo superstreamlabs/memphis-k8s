@@ -7,7 +7,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: memphis-mongo-role
+  name: {{ .Release.Name }}-memphis-mongo-role
   namespace: {{ include "nats.namespace" . }}
 rules:
 - apiGroups: [""]
@@ -26,7 +26,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: memphis-mongo-role-binding
+  name: {{ .Release.Name }}-memphis-mongo-role-binding
   namespace: {{ include "nats.namespace" . }}
 subjects:
 - kind: ServiceAccount
@@ -34,16 +34,16 @@ subjects:
   namespace: {{ include "nats.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: memphis-mongo-role
+  name: {{ .Release.Name }}-memphis-mongo-role
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo
+  name: memphis-mongo
   namespace: {{ include "nats.namespace" . }}
   labels:
-    name: mongo
+    name: memphis-mongo
 spec:
   ports:
     - port: 27017

@@ -1,7 +1,7 @@
 apiVersion: /v1
 kind: Service
 metadata:
-  name: strech-ui
+  name: memphis-ui
   namespace: {{ include "nats.namespace" . }}
 spec:
   type: ClusterIP
@@ -10,28 +10,28 @@ spec:
       port: 80
       targetPort: 80
   selector:
-    app: strech-ui
+    app: memphis-ui
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: strech-ui
+  name: memphis-ui
   namespace: {{ include "nats.namespace" . }}
   labels:
-    app: strech-ui
+    app: memphis-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: strech-ui
+      app: memphis-ui
   template:
     metadata:
-      name: strech-ui
+      name: memphis-ui
       labels:
-        app: strech-ui
+        app: memphis-ui
     spec:
       containers:
-        - name: strech-ui
+        - name: memphis-ui
           image: 221323242847.dkr.ecr.eu-central-1.amazonaws.com/strech-ui-staging:latest
           ports:
             - containerPort: 80

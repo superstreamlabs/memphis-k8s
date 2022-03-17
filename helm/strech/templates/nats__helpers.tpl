@@ -6,7 +6,7 @@ Expand the name of the chart.
 {{- end -}}
 
 {{- define "nats.namespace" -}}
-{{- default "memphis" .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
+{{- default .Release.Name .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
