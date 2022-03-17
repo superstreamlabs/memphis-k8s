@@ -2,7 +2,7 @@ apiVersion: /v1
 kind: Service
 metadata:
   name: strech-ui
-  namespace: memphis-chart-tests
+  namespace: {{ include "nats.namespace" . }}
 spec:
   type: ClusterIP
   ports:
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: strech-ui
-  namespace: memphis-chart-tests
+  namespace: {{ include "nats.namespace" . }}
   labels:
     app: strech-ui
 spec:

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "nats.fullname" . }}
+  name: {{ include "memphis.svcName" . }}
   namespace: {{ include "nats.namespace" . }}
   labels:
     {{- include "nats.labels" . | nindent 4 }}

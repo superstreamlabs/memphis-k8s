@@ -2,15 +2,18 @@
 Expand the name of the chart.
 */}}
 {{- define "nats.name" -}}
-/*{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}*/
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "nats.namespace" -}}
-{{- default .Release.Namespace .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
+{{- default "memphis" .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
 {{- define "nats.fullname" -}}
+{{- printf "memphis-broker" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{/*
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -22,6 +25,11 @@ Expand the name of the chart.
 {{- end -}}
 {{- end -}}
 {{- end -}}
+*/}}
+
+{{- define "memphis.svcName" -}}
+{{- printf "memphis-cluster" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
