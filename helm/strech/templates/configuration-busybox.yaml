@@ -46,6 +46,7 @@ metadata:
   name: configuration-busybox
   namespace: memphis-chart-tests
 spec:
+  serviceName: busybox
   selector:
     matchLabels:
       app: busybox
