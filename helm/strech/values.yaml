@@ -515,23 +515,21 @@ exporter:
 auth:
   enabled: true
 
-  basic:
+  # basic:
   #   noAuthUser:
   #   # List of users that can connect with basic auth,
   #   # that belong to the global account.
-     users: [
-        {user: memphis, password: memphis}
-    ]
+  #   users:
 
   #   # List of accounts with users that can connect
   #   # using basic auth.
   #   accounts:
 
   # Reference to the Operator JWT.
-#  operatorjwt:
- #   configMap:
-  #    name: operator-jwt
-   #   key: KO.jwt
+  operatorjwt:
+    configMap:
+      name: operator-jwt
+      key: KO.jwt
 
   # Token authentication
   # token:
@@ -541,29 +539,29 @@ auth:
   #   users:
 
   # Public key of the System Account
-  #systemAccount: "ACLDRGQJB4GU3ECAT7V3AV4JKNPXYOVUAJC5LQMOIBSBG6574G2NK4TD"
+  systemAccount: ACLDRGQJB4GU3ECAT7V3AV4JKNPXYOVUAJC5LQMOIBSBG6574G2NK4TD
 
   resolver:
     # Disables the resolver by default
-    type: none
+    #type: none
 
     ##########################################
     #                                        #
     # Embedded NATS Account Server Resolver  #
     #                                        #
     ##########################################
-    #type: full
+    ##type: full
 
     # If the resolver type is 'full', delete when enabled will rename the jwt.
-    #allowDelete: false
+    allowDelete: false
 
     # Interval at which a nats-server with a nats based account resolver will compare
     # it's state with one random nats based account resolver in the cluster and if needed,
     # exchange jwt and converge on the same set of jwt.
-    #interval: 2m
+    ##interval: 2m
 
     # Operator JWT
-    #operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJSQUJXRVRVVDVBVVA3S0dXSTVPQVY0U1FIVVBBUkJMWElTS0JUUFRDUFczRUlLUUxXM1FBIiwiaWF0IjoxNjQ2MTY4NDA4LCJpc3MiOiJPQzZRT09GU1QzNzdaTUZUN0JZWVVEMlRHTkhON0g1TllETUo1MlpOVjRUVFMzSVpRUFlZTERXQSIsIm5hbWUiOiJtZW1waGlzLW9wZXJhdG9yIiwic3ViIjoiT0M2UU9PRlNUMzc3Wk1GVDdCWVlVRDJUR05ITjdINU5ZRE1KNTJaTlY0VFRTM0laUVBZWUxEV0EiLCJuYXRzIjp7InN5c3RlbV9hY2NvdW50IjoiQUNMRFJHUUpCNEdVM0VDQVQ3VjNBVjRKS05QWFlPVlVBSkM1TFFNT0lCU0JHNjU3NEcyTks0VEQiLCJ0eXBlIjoib3BlcmF0b3IiLCJ2ZXJzaW9uIjoyfX0.NTCnrfjtQss1Drq-KZLYzptfE6V_seVMSvKPkgPuaBOup9lhoFNgm93Px9pT27LuYOtnj4npSXpeGqkx_hBJCw
+    ##operator: 
 
     # System Account Public NKEY
     ##systemAccount: 
@@ -572,11 +570,11 @@ auth:
     #   <ACCOUNT>: <JWT>
 
     # Directory in which the account JWTs will be stored.
-    #store:
-     # dir: "/accounts/jwt"
+    store:
+      dir: "/accounts/jwt"
 
       # Size of the account JWT storage.
-#      size: 1Gi
+      size: 1Gi
 
     ##############################
     #                            #
@@ -597,9 +595,8 @@ auth:
     #  URL resolver settings #
     #                        #
     ##########################
-    #type: URL
-    #url: "http://strech-server/usermgmt/nats/authenticate"
-    #url: "https://webhook.site/ddadac26-5ec1-4e91-855d-4589e3712fed/jwt/v1/accounts/"
+    type: URL
+    url: "http://memphis-server/usermgmt/nats/authenticate/"
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
