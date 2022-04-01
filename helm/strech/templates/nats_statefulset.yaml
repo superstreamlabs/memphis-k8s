@@ -21,7 +21,7 @@ spec:
   {{- else }}
   replicas: 1
   {{- end }}
-  serviceName: {{ include "nats.fullname" . }}
+  serviceName: {{ include "memphis.svcName" . }}
 
   podManagementPolicy: {{ .Values.podManagementPolicy }}
 

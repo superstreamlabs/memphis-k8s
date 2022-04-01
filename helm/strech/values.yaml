@@ -539,7 +539,7 @@ auth:
   #   users:
 
   # Public key of the System Account
-  systemAccount: ACLDRGQJB4GU3ECAT7V3AV4JKNPXYOVUAJC5LQMOIBSBG6574G2NK4TD
+  systemAccount: ACDAOKW5IIW7GTSHN55LKTUTTLXOHPFC7UQZMCQGCPJSN2RHSI7O2JOF
 
   resolver:
     # Disables the resolver by default
@@ -596,7 +596,7 @@ auth:
     #                        #
     ##########################
     type: URL
-    url: "http://memphis-server/usermgmt/nats/authenticate/"
+    url: "http://strech-server/api-gw/usermgmt/nats/authenticate/"
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
