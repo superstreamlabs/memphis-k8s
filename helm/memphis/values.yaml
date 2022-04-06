@@ -5,7 +5,7 @@
 #####################################
 nats:
   #image: nats:2.7.2-alpine
-  image: strechinc/strech-broker:2.7.2-alpine3.15
+  image: memphisos/memphis-broker:2.7.2-alpine3.15
   pullPolicy: IfNotPresent
 
   # The servers name prefix, must be used for example when we want a NATS cluster
@@ -423,7 +423,7 @@ gateway:
 # enabled, an initializer container will be used to gather
 # the public ips.
 bootconfig:
-  image: strechinc/strech-broker-boot-config:0.5.4
+  image: memphisos/memphis-broker-boot-config:0.5.4
   pullPolicy: IfNotPresent
   securityContext: {}
 
@@ -487,7 +487,7 @@ natsbox:
 # The NATS config reloader image to use.
 reloader:
   enabled: true
-  image: strechinc/strech-broker-server-config-reloader:0.6.2
+  image: memphisos/memphis-broker-server-config-reloader:0.6.2
   pullPolicy: IfNotPresent
   securityContext: {}
   extraConfigs: []
@@ -596,7 +596,7 @@ auth:
     #                        #
     ##########################
     type: URL
-    url: "http://strech-server/api-gw/usermgmt/nats/authenticate/"
+    url: "http://memphis-server/api-gw/usermgmt/nats/authenticate/"
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:

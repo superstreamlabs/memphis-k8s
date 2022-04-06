@@ -63,7 +63,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-memphis-busybox-account
       containers:
       - name: busybox
-        image: strechinc/busybox:4.2
+        image: memphisos/busybox:4.2
         imagePullPolicy: Always
         env:
         - name: NAMESPACE
