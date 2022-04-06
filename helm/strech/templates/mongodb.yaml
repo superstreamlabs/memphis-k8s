@@ -52,6 +52,22 @@ spec:
   selector:
     app: mongo
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-startup-script
+  namespace: {{ include "nats.namespace" . }}
+data:
+  mongo-startup-script.sh: |
+    rs.initiate()
+    var cfg = rs.conf()
+    cfg.members[0].host="mongodb-replica-0.mongo:27017"
+    rs.reconfig(cfg)
+    rs.add("mongodb-replica-1.mongo:27017")
+    rs.status()
+    use maindb
+    db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -90,6 +106,12 @@ spec:
         volumeMounts:
         - name: {{ .Release.Name }}-memphis-mongo-data
           mountPath: /data/db
+        - name: mongo-startup-script
+          mountPath: /mnt/scripts
+      volumes:
+      - name: mongo-startup-script
+        configMap:
+          name: mongo-startup-script
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-memphis-mongo-data
