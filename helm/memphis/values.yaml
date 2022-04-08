@@ -596,7 +596,7 @@ auth:
     #                        #
     ##########################
     type: URL
-    url: "http://memphis-server/api-gw/usermgmt/nats/authenticate/"
+    url: "http://control-plane/api-gw/usermgmt/nats/authenticate/"
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:

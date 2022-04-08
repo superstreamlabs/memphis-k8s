@@ -90,6 +90,7 @@ spec:
       containers:
       - name: mongodb
         image: mongo:4.2
+        imagePullPolicy: Always
         env:
         command: ["/bin/sh"]
         args: ["-c", "mongod --replSet=rs0 --bind_ip_all"]
