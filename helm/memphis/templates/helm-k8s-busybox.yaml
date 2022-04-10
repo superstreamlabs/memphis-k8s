@@ -43,17 +43,29 @@ roleRef:
   name: {{ .Release.Name }}-memphis-busybox-role
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: configuration-busybox
+  name: k8s-busybox
   namespace: {{ include "nats.namespace" . }}
+  labels:
+    app: k8s-busybox
 spec:
-  serviceAccount: {{ .Release.Name }}-memphis-busybox-account
-  containers:
-  - name: busybox
-    image: memphisos/busybox:4.2
-    imagePullPolicy: Always
-    env:
-    - name: NAMESPACE
-      value: {{ include "nats.namespace" . }}
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-busybox
+  template:
+    metadata:
+      name: k8s-busybox
+      labels:
+        app: k8s-busybox
+    spec:
+      serviceAccount: {{ .Release.Name }}-memphis-busybox-account
+      containers:
+        - name: k8s-busybox
+          image: memphisos/k8s-busybox:latest
+          imagePullPolicy: Always
+          env:
+          - name: NAMESPACE
+            value: {{ include "nats.namespace" . }}
