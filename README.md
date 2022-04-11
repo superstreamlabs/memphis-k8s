@@ -1,2 +1,2 @@
-# strech-k8s
-Strech on Kubernetes with Helm Charts
+# Memphis Platform
+Installed on Kubernetes with Helm Chart
