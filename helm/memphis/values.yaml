@@ -1,3 +1,5 @@
+rootPwd: ""
+connectionToken: ""
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
@@ -539,7 +541,7 @@ auth:
   #    key: KO.jwt
 
   # Token authentication
-  token: memphismemphis
+  token: ""
 
   # NKey authentication
   # nkeys:

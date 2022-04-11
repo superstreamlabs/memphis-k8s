@@ -298,6 +298,7 @@ spec:
          - "nats-server"
          - "--config"
          - "/etc/nats-config/nats.conf"
+         - "--auth=$(CONNECTION_TOKEN)"
         {{- if .Values.nats.profiling.enabled }}
          - "--profile={{ .Values.nats.profiling.port }}"
         {{- end }}
@@ -310,6 +311,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: CONNECTION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: "memphis-creds"
+              key: CONNECTION_TOKEN
         - name: SERVER_NAME
           value: {{ .Values.nats.serverNamePrefix }}$(POD_NAME)
         - name: POD_NAMESPACE

@@ -477,16 +477,14 @@ data:
     system_account: {{ . }}
     {{- end }}
 
-    {{- with .Values.auth.token }}
     authorization {
-      token: "{{ . }}"
+      token: "test"
 
 
       {{- if $.Values.auth.timeout }}
       timeout: {{ $.Values.auth.timeout }}
       {{- end }}
     }
-    {{- end }}
 
     {{- with .Values.auth.nkeys }}
     {{- with .users }}
