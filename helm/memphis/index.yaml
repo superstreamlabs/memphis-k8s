@@ -3,7 +3,7 @@ entries:
   memphis:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-04-11T15:17:12.578519+03:00"
+    created: "2022-04-11T15:50:54.605102+03:00"
     description: A Helm chart for Kubernetes
     digest: f557dcaf1fbf21fe2fd5ae7ee28a1a5a3c149c9e78c1a16ebdcb9bd5cf9117e5
     name: memphis
@@ -11,4 +11,4 @@ entries:
     urls:
     - https://k8s.memphis.dev/helm/memphis/memphis-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-11T15:17:12.573801+03:00"
+generated: "2022-04-11T15:50:54.603251+03:00"
