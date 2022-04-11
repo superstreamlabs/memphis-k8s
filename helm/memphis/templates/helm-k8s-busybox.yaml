@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-memphis-busybox-account
+  namespace: {{ include "nats.namespace" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Name }}-memphis-busybox-role
+  namespace: {{ include "nats.namespace" . }}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["deployments"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create", "get", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create", "get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-memphis-busybox-role-binding
+  namespace: {{ include "nats.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}-memphis-busybox-account
+  namespace: {{ include "nats.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Name }}-memphis-busybox-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-busybox
+  namespace: {{ include "nats.namespace" . }}
+  labels:
+    app: k8s-busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-busybox
+  template:
+    metadata:
+      name: k8s-busybox
+      labels:
+        app: k8s-busybox
+    spec:
+      serviceAccount: {{ .Release.Name }}-memphis-busybox-account
+      containers:
+        - name: k8s-busybox
+          image: memphisos/k8s-busybox:latest
+          imagePullPolicy: Always
+          env:
+          - name: NAMESPACE
+            value: {{ include "nats.namespace" . }}

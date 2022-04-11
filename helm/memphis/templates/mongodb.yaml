@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-memphis-mongo-account
+  namespace: {{ include "nats.namespace" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Release.Name }}-memphis-mongo-role
+  namespace: {{ include "nats.namespace" . }}
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["deployments"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get","list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Release.Name }}-memphis-mongo-role-binding
+  namespace: {{ include "nats.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}-memphis-mongo-account
+  namespace: {{ include "nats.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Name }}-memphis-mongo-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: {{ include "nats.namespace" . }}
+  labels:
+    name: mongo
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  clusterIP: None
+  selector:
+    app: mongo
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-startup-script
+  namespace: {{ include "nats.namespace" . }}
+data:
+  mongo-startup-script.sh: |
+    rs.initiate()
+    var cfg = rs.conf()
+    cfg.members[0].host="mongodb-replica-0.mongo:27017"
+    rs.reconfig(cfg)
+    rs.add("mongodb-replica-1.mongo:27017")
+    rs.status()
+    use maindb
+    db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-replica
+  namespace: {{ include "nats.namespace" . }}
+spec:
+  serviceName: mongo
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+        selector: mongo
+    spec:
+      terminationGracePeriodSeconds: 30
+      serviceAccount: {{ .Release.Name }}-memphis-mongo-account
+      containers:
+      - name: mongodb
+        image: mongo:4.2
+        imagePullPolicy: Always
+        env:
+        command: ["/bin/sh"]
+        args: ["-c", "mongod --replSet=rs0 --bind_ip_all"]
+        resources:
+          limits:
+            cpu: 1
+            memory: 1500Mi
+          requests:
+            cpu: 1
+            memory: 1000Mi
+        ports:
+        - name: mongo-port
+          containerPort: 27017
+        volumeMounts:
+        - name: {{ .Release.Name }}-memphis-mongo-data
+          mountPath: /data/db
+        - name: mongo-startup-script
+          mountPath: /mnt/scripts
+      volumes:
+      - name: mongo-startup-script
+        configMap:
+          name: mongo-startup-script
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Release.Name }}-memphis-mongo-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 20Gi
