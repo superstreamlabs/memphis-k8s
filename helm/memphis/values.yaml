@@ -1,5 +1,7 @@
-rootPwd: ""
+rootPwd: "memphis"
 connectionToken: ""
+memphis-dashboard:
+  port: 80
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #

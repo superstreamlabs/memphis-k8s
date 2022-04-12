@@ -11,7 +11,7 @@ spec:
       port: 80
       targetPort: 5555
     - protocol: TCP
-      name: tcp-checks
+      name: client-conn
       port: 6666
       targetPort: 8877
   selector:
@@ -43,7 +43,7 @@ spec:
             - containerPort: 5555
               name: main-traffic
             - containerPort: 8877
-              name: tcp-checks
+              name: client-conn
           env:
           - name: ROOT_PASSWORD
             valueFrom:

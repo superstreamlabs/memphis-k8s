@@ -7,7 +7,7 @@ spec:
   type: ClusterIP
   ports:
     - protocol: TCP
-      port: 80
+      port: {{ .Values.memphis-dashboard.port }}
       targetPort: 80
   selector:
     app: memphis-ui

@@ -1,0 +1,39 @@
+
+ __  __                      _     _     
+|  \/  | ___ _ __ ___  _ __ | |__ (_)___ 
+| |\/| |/ _ \ '_ ` _ \| '_ \| '_ \| / __|
+| |  | |  __/ | | | | | |_) | | | | \__ \
+|_|  |_|\___|_| |_| |_| .__/|_| |_|_|___/
+                      |_|                
+
+Melvis thank you for installing {{ .Chart.Name }}!
+A dev first event-processing platform.
+
+{{- if eq .Values.service.type "ClusterIP" "NodePort" }}
+Memphis UI can be accessed via port {{ .Values.memphis-dashboard.port }} on the following DNS name from within your cluster:
+memphis-ui.{{ .Release.Namespace }}.svc.cluster.local
+
+To access Memphis from localhost, run the below commands:
+
+  1. export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app=memphis-ui" -o jsonpath="{.items[0].metadata.name}")
+
+  2. kubectl port-forward $POD_NAME 9000:80 --namespace {{ .Release.Namespace }}
+
+Read more about networking options here: https://docs.memphis.dev/k8s-deployment/networking
+
+Website: https://memphis.dev
+Documentations: https://docs.memphis.dev
+
+Deployment Information
+-------------------------
+## Secrets ##
+UI root username        - root
+UI root Password        - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
+Queue Connection Token  - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
+
+## Components ##
+{{ .Values.cluster.replicas }} Brokers - Where data flows through
+UI - GUI Dashboard
+Control Plane - Control Plane
+MongoDB - Internal Database for management
+
