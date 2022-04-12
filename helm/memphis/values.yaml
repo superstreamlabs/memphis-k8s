@@ -1,6 +1,6 @@
 rootPwd: "memphis"
 connectionToken: ""
-memphis-dashboard:
+dashboard:
   port: 80
 #####################################
 #                                   #

@@ -9,8 +9,7 @@
 Melvis thank you for installing {{ .Chart.Name }}!
 A dev first event-processing platform.
 
-{{- if eq .Values.service.type "ClusterIP" "NodePort" }}
-Memphis UI can be accessed via port {{ .Values.memphis-dashboard.port }} on the following DNS name from within your cluster:
+Memphis UI can be accessed via port {{ .Values.dashboard.port }} on the following DNS name from within your cluster:
 memphis-ui.{{ .Release.Namespace }}.svc.cluster.local
 
 To access Memphis from localhost, run the below commands:
@@ -36,4 +35,3 @@ Queue Connection Token  - kubectl get secret memphis-creds -n {{ .Release.Namesp
 UI - GUI Dashboard
 Control Plane - Control Plane
 MongoDB - Internal Database for management
-
