@@ -7,4 +7,5 @@ Installed on Kubernetes with Helm Chart
 `helm install my-memphis memphis/memphis --set cluster.replicas=4 --create-namespace --namespace memphis3`
 
 rootPwd
+
 connectionToken
