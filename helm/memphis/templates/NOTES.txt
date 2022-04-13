@@ -10,14 +10,15 @@ Melvis thank you for installing {{ .Chart.Name }}!
 A dev first event-processing platform.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
-Memphis UI can be accessed via port {{ .Values.dashboard.port }} on the following DNS name from within your cluster:                         |
-memphis-ui.{{ .Release.Namespace }}.svc.cluster.local                                                                                        |
-                                                                                                                                             |
-To access Memphis from localhost, run the below commands:                                                                                    |
-                                                                                                                                             |
-  1. export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app=memphis-ui" -o jsonpath="{.items[0].metadata.name}")    |
-                                                                                                                                             |
-  2. kubectl port-forward $POD_NAME 9000:80 --namespace {{ .Release.Namespace }}                                                             |
+Memphis UI can be accessed via port {{ .Values.dashboard.port }} on the following DNS name from within your cluster:memphis-ui.{{ .Release.Namespace }}.svc.cluster.local                                                                                        
+To access Memphis from localhost, run the below commands:                                                                                    
+  1. export UI=memphis-ui 
+  2. export BROKER_HOST=memphis-cluster     
+  3. kubectl port-forward service/$UI 9000:80 --namespace {{ .Release.Namespace }} &
+  3. kubectl port-forward service/$BROKER_HOST 7766:7766 --namespace {{ .Release.Namespace }} &
+
+Dashboard: http://localhost:9000
+                                                             
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Read more about networking options here: https://docs.memphis.dev/k8s-deployment/networking
 
