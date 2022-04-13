@@ -14,7 +14,7 @@ Memphis UI can be accessed via port {{ .Values.dashboard.port }} on the followin
 To access Memphis from localhost, run the below commands:                                                                                    
   1. kubectl port-forward service/memphis-ui 9000:80 --namespace {{ .Release.Namespace }} &
   2. kubectl port-forward service/memphis-cluster 7766:7766 --namespace {{ .Release.Namespace }} &
-  3. kubectl port-forward service/control-plane 6666:6666 --namespace {{ .Release.Namespace }} &
+  3. kubectl port-forward service/control-plane 6666:6666 6667:80 --namespace {{ .Release.Namespace }} &
 
 Dashboard: http://localhost:9000
                                                              
