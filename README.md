@@ -25,7 +25,7 @@ Consumers and Producers are filled with logic, data orchestration is needed betw
 
 No More.
 
-In the coming versions, Memphis will answer the challenges above,<br>and recude 90% of dev work arround building a real-time / event-driven / data-driven apps.
+In the coming versions, Memphis will solve the challenges above,<br>and recude 90% of dev work arround building a real-time / event-driven / data-driven apps.
 
 ---
 
