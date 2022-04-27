@@ -89,7 +89,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-memphis-mongo-account
       containers:
       - name: mongodb
-        image: mongo:4.2
+        image: memphisos/mongo:4.2
         imagePullPolicy: Always
         env:
         command: ["/bin/sh"]
