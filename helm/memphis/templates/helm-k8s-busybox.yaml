@@ -7,7 +7,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Release.Name }}-memphis-busybox-role
+  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-role
   namespace: {{ include "nats.namespace" . }}
 rules:
 - apiGroups: [""]
@@ -40,7 +40,7 @@ subjects:
   namespace: {{ include "nats.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-memphis-busybox-role
+  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-role
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: apps/v1
