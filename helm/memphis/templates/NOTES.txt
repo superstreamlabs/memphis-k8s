@@ -17,7 +17,7 @@ To access Memphis from localhost, run the below commands:
   3. kubectl port-forward service/control-plane 6666:6666 6667:80 --namespace {{ .Release.Namespace }} > /dev/null &
 
 Dashboard: http://localhost:9000
-Control-plane: localhost:9000 (For CLI, and SDK connections)
+Control-plane: localhost (For CLI, and SDK connections)
 Broker: localhost:7766 (For SDK connections)
                                                              
 ---------------------------------------------------------------------------------------------------------------------------------------------
