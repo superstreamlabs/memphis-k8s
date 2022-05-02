@@ -21,8 +21,13 @@ spec:
      {{- .Values.topologyKeys | toYaml | nindent 4 }}
   {{- end }}
   ports:
-  - name: dashboard
+  - name: memphis-cp-main-traffic
     port: 80
+    targetPort: 5555
+    appProtocol: tcp
+  - name: memphis-cp-client-conn
+    port: 6666
+    targetPort: 8877
     appProtocol: tcp
   {{- if .Values.websocket.enabled }}
   - name: websocket
