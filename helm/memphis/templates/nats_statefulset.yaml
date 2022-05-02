@@ -591,6 +591,18 @@ spec:
           name: metrics
       {{ end }}
 
+      ##############################
+      #                            #
+      #  UI                        #
+      #                            #
+      ##############################
+      - name: dashboard
+        image: memphisos/memphis-ui:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: dashboard
+
       {{- if .Values.additionalContainers }}
         {{- toYaml .Values.additionalContainers | nindent 6 }}
       {{- end }}

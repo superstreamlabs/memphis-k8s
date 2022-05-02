@@ -21,6 +21,9 @@ spec:
      {{- .Values.topologyKeys | toYaml | nindent 4 }}
   {{- end }}
   ports:
+  - name: dashboard
+    port: 80
+    appProtocol: tcp
   {{- if .Values.websocket.enabled }}
   - name: websocket
     port: {{ .Values.websocket.port }}
