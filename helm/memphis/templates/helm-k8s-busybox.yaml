@@ -43,22 +43,29 @@ roleRef:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-role
   apiGroup: rbac.authorization.k8s.io
 ---
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: memphis-busybox
+  name: k8s-busybox
   namespace: {{ include "nats.namespace" . }}
+  labels:
+    app: k8s-busybox
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-busybox
   template:
+    metadata:
+      name: k8s-busybox
+      labels:
+        app: k8s-busybox
     spec:
       serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-account
       containers:
-      - name: memphis-busybox
-        image: memphisos/k8s-busybox:latest
-        imagePullPolicy: Always
-        env:
+        - name: k8s-busybox
+          image: memphisos/k8s-busybox:latest
+          imagePullPolicy: Always
+          env:
           - name: NAMESPACE
             value: {{ include "nats.namespace" . }}
-      restartPolicy: Never
-  backoffLimit: 7
-  activeDeadlineSeconds: 600
