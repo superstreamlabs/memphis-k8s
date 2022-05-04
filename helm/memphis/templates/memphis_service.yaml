@@ -21,14 +21,12 @@ spec:
      {{- .Values.topologyKeys | toYaml | nindent 4 }}
   {{- end }}
   ports:
-  - name: memphis-cp-main-traffic
-    port: 80
+  - name: memphis-cp-management
+    port: 5555
     targetPort: 5555
-    appProtocol: tcp
-  - name: memphis-cp-client-conn
+  - name: memphis-cp-tcp
     port: 6666
-    targetPort: 8877
-    appProtocol: tcp
+    targetPort: 6666
   {{- if .Values.websocket.enabled }}
   - name: websocket
     port: {{ .Values.websocket.port }}

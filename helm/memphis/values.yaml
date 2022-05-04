@@ -1,4 +1,4 @@
-rootPwd: "memphis"
+rootPwd: ""
 connectionToken: ""
 dashboard:
   port: 80

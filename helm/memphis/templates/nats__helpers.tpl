@@ -13,6 +13,10 @@ Expand the name of the chart.
 {{- define "nats.fullname" -}}
 {{- printf "memphis-broker" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{- define "memphis.clustername" -}}
+{{- printf "memphis-cluster" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{/*
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}

@@ -601,9 +601,11 @@ spec:
         imagePullPolicy: Always
         ports:
             - containerPort: 5555
-              name: main-traffic
+              name: management
+              hostPort: 5555
             - containerPort: 8877
-              name: client-conn
+              name: tcp
+              hostPort: 8877
         env:
         - name: ROOT_PASSWORD
           valueFrom:
