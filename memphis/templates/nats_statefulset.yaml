@@ -591,6 +591,31 @@ spec:
           name: metrics
       {{ end }}
 
+      ##############################
+      #                            #
+      #  Control-plane             #
+      #                            #
+      ##############################
+      - name: memphis-control-plane
+        image: memphisos/memphis-control-plane:latest
+        imagePullPolicy: Always
+        ports:
+            - containerPort: 5555
+              name: main-traffic
+            - containerPort: 8877
+              name: client-conn
+        env:
+        - name: ROOT_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: ROOT_PASSWORD
+        - name: CONNECTION_TOKEN
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: CONNECTION_TOKEN
+
       {{- if .Values.additionalContainers }}
         {{- toYaml .Values.additionalContainers | nindent 6 }}
       {{- end }}
