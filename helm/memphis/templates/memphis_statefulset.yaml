@@ -607,6 +607,8 @@ spec:
               name: tcp
               hostPort: 8877
         env:
+        - name: ANALYTICS
+          value: "true"
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
