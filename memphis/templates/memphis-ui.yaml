@@ -36,6 +36,3 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-          env:
-          - name: ENVIRONMENT
-            value: "staging"

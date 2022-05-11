@@ -607,6 +607,8 @@ spec:
               name: tcp
               hostPort: 8877
         env:
+        - name: ANALYTICS
+          value: {{ if .Values.analytics }}{{ .Values.analytics | toString | quote }}{{ else }}{{ "true" }}{{ end }}
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
