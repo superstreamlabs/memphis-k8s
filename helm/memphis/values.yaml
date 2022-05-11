@@ -1,7 +1,9 @@
 rootPwd: ""
 connectionToken: ""
+analytics: true
 dashboard:
   port: 80
+ 
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
