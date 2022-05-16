@@ -85,6 +85,7 @@ Example:<br>
 |connectionToken   |Token for connecting an app to the Memphis Message Queue. Auto Generated   |`""`   |
 |dashboard.port   |Dashboard's (GUI) port   |80   |
 |cluster.replicas   |Amount of Message Queue workers   |3   |
+|analytics   |Collection of anonymous metadata    |`"true"`   |
 
 #### K8S Diagram
 ![](https://memphis-public-files.s3.eu-central-1.amazonaws.com/Untitled+Diagram.png)
