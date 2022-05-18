@@ -57,6 +57,7 @@ kind: ConfigMap
 metadata:
   name: mongo-startup-script
   namespace: {{ include "nats.namespace" . }}
+      {{- if .Values.cluster.enabled }}
 data:
   mongo-startup-script.sh: |
     rs.initiate()
@@ -67,6 +68,12 @@ data:
     rs.status()
     use maindb
     db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
+  {{- else }}
+data:
+  mongo-startup-script.sh: |
+    use maindb
+    db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
+  {{- end }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -75,7 +82,11 @@ metadata:
   namespace: {{ include "nats.namespace" . }}
 spec:
   serviceName: mongo
+      {{- if .Values.cluster.enabled }}
   replicas: 2
+  {{- else }}
+  replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: mongo
@@ -91,9 +102,11 @@ spec:
       - name: mongodb
         image: memphisos/mongo:4.2
         imagePullPolicy: Always
+      {{- if .Values.cluster.enabled }}
         env:
         command: ["/bin/sh"]
         args: ["-c", "mongod --replSet=rs0 --bind_ip_all"]
+      {{- end }}
         resources:
           limits:
             cpu: 1

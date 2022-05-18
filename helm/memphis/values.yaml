@@ -1,6 +1,6 @@
 rootPwd: ""
 connectionToken: ""
-analytics: true
+analytics: ""
 dashboard:
   port: 80
  
