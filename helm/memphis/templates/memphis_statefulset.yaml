@@ -597,11 +597,7 @@ spec:
       #                            #
       ##############################
       - name: memphis-control-plane
-        {{- if eq .Values.test-on "cp" }}
-        image: 221323242847.dkr.ecr.eu-central-1.amazonaws.com/memphis-control-plane-staging-test:latest
-        {{ else }}
-        image: memphisos/memphis-control-plane:latest
-        {{ end }}
+        image: {{ .Values.control-plane.image }}
         imagePullPolicy: Always
         ports:
             - containerPort: 5555
@@ -612,8 +608,8 @@ spec:
               hostPort: 8877
         env:
         - name: ANALYTICS
-          {{- if .Values.analytics }}
-          value: {{ .Values.analytics | quote }}
+          {{- if .Values.control-plane.analytics }}
+          value: {{ .Values.control-plane.analytics | quote }}
           {{ else }}
           value: "true"
           {{ end }}
