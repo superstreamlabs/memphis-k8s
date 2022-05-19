@@ -608,11 +608,7 @@ spec:
               hostPort: 8877
         env:
         - name: ANALYTICS
-          {{- if .Values.analytics }}
           value: {{ .Values.analytics | quote }}
-          {{ else }}
-          value: "true"
-          {{ end }}
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
