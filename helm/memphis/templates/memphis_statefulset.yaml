@@ -597,7 +597,7 @@ spec:
       #                            #
       ##############################
       - name: memphis-control-plane
-        image: {{ .Values.control-plane.image }}
+        image: memphisos/memphis-control-plane-staging:latest
         imagePullPolicy: Always
         ports:
             - containerPort: 5555
@@ -608,8 +608,8 @@ spec:
               hostPort: 8877
         env:
         - name: ANALYTICS
-          {{- if .Values.control-plane.analytics }}
-          value: {{ .Values.control-plane.analytics | quote }}
+          {{- if .Values.controlPlane.analytics }}
+          value: {{ .Values.controlPlane.analytics | quote }}
           {{ else }}
           value: "true"
           {{ end }}
