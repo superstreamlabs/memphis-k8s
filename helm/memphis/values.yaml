@@ -2,10 +2,10 @@ rootPwd: ""
 connectionToken: ""
 dashboard:
   port: 80
- 
-control-plane:
+
+controlPlane:
   analytics: ""
-  image: memphisos/memphis-control-plane-staging:latest
+  image: ""
   
 #####################################
 #                                   #
