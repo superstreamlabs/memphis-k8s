@@ -45,7 +45,7 @@ spec:
         {{- end }}
     spec:
 # {{- with .Values.imagePullSecrets }}
-      imagePullSecrets: regcred
+      imagePullSecrets: [{"name":"regcred"}]
 # {{- toYaml . | nindent 8 }}
 # {{- end }}
 {{- with .Values.securityContext }}
