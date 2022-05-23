@@ -5,6 +5,7 @@ dashboard:
 controlPlane:
   analytics: ""
   image: ""
+teston: ""
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
