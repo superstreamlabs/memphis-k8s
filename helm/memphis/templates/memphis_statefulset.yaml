@@ -600,7 +600,7 @@ spec:
         {{ if eq .Values.teston "cp" }}
         image: memphisos/memphis-control-plane-staging-test:latest
         {{ else }}
-        image: memphisos/memphis-control-plane:latest
+        image: memphisos/memphis-control-plane-staging:latest
         {{ end }}
         imagePullPolicy: Always
         ports:
