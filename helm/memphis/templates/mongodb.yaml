@@ -100,7 +100,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-account
       containers:
       - name: mongodb
-        image: memphisos/mongo:4.2
+        image: memphisos/mongo-staging:4.2
         imagePullPolicy: Always
       {{- if .Values.cluster.enabled }}
         env:

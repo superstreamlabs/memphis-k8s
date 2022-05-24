@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: memphis-ui
-          image: memphisos/memphis-ui:latest
+          image: memphisos/memphis-ui-staging:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80

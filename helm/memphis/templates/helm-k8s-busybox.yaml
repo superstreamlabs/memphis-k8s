@@ -64,7 +64,7 @@ spec:
       serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-account
       containers:
         - name: k8s-busybox
-          image: memphisos/k8s-busybox:latest
+          image: memphisos/k8s-busybox-staging:latest
           imagePullPolicy: Always
           env:
           - name: NAMESPACE
