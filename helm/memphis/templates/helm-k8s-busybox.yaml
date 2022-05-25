@@ -1,5 +1,11 @@
 apiVersion: v1
 kind: ServiceAccount
+imagePullSecrets:
+- name: gcr-secret
+- name: awsecr-cred
+- name: dpr-secret
+- name: acr-secret
+- name: regcred
 metadata:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-account
   namespace: {{ include "nats.namespace" . }}
@@ -10,9 +16,6 @@ metadata:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-busybox-role
   namespace: {{ include "nats.namespace" . }}
 rules:
-- apiGroups: [""]
-  resources: ["secrets"]
-  verbs: ["get"]
 - apiGroups: [""]
   resources: ["configmaps"]
   verbs: ["*"]
