@@ -32,7 +32,11 @@ spec:
     spec:
       containers:
         - name: memphis-ui
+          {{ if eq .Values.teston "ui" }}
+          image: memphisos/memphis-ui-staging-test:latest
+          {{ else }}
           image: memphisos/memphis-ui-staging:latest
+          {{ end }}
           imagePullPolicy: Always
           ports:
             - containerPort: 80
