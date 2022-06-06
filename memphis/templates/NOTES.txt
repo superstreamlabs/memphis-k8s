@@ -31,6 +31,8 @@ Deployment Information
 ## Secrets ##
 UI/CLI root username        - root
 UI/CLI root Password        - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
+SDK root connection token   - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
+
 
 ## Components ##
 Broker - Where data flows through
