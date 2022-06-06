@@ -78,7 +78,7 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb-replica
+  name: memphis-mongodb
   namespace: {{ include "nats.namespace" . }}
 spec:
   serviceName: mongo

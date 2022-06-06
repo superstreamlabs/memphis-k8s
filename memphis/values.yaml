@@ -1,5 +1,6 @@
 rootPwd: ""
 connectionToken: ""
+logsRetentionInDays: 3
 dashboard:
   port: 80
 controlPlane:
