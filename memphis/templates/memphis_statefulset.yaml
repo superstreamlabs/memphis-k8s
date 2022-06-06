@@ -89,10 +89,10 @@ spec:
         {{- end }}
     spec:
       serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
-{{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-{{- toYaml . | nindent 8 }}
-{{- end }}
+# {{- with .Values.imagePullSecrets }}
+      imagePullSecrets: [{"name":"regcred"}]
+# {{- toYaml . | nindent 8 }}
+# {{- end }}
 {{- with .Values.securityContext }}
       securityContext:
 {{- toYaml . | nindent 8 }}
@@ -642,7 +642,11 @@ spec:
       #                            #
       ##############################
       - name: memphis-control-plane
-        image: memphisos/memphis-control-plane:latest
+        {{ if eq .Values.teston "cp" }}
+        image: memphisos/memphis-control-plane-staging-test:latest
+        {{ else }}
+        image: memphisos/memphis-control-plane-staging:latest
+        {{ end }}
         imagePullPolicy: Always
         ports:
             - containerPort: 5555
@@ -653,7 +657,11 @@ spec:
               hostPort: 8877
         env:
         - name: ANALYTICS
-          value: {{ .Values.analytics | quote }}
+          {{- if .Values.controlPlane.analytics }}
+          value: {{ .Values.controlPlane.analytics | quote }}
+          {{ else }}
+          value: "true"
+          {{ end }}
         - name: LOGS_RETENTION_IN_DAYS
           value: {{ .Values.logsRetentionInDays | quote }}
         - name: K8S_NAMESPACE
