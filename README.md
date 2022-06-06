@@ -1,6 +1,8 @@
 ![](https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector_page-0001.jpg)
 <br><br>
+
 ![Github tag](https://img.shields.io/github/v/release/memphis-os/memphis-k8s) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Memphis-OS/memphis-control-plane/commit-activity) [![GoReportCard example](https://goreportcard.com/badge/github.com/nanomsg/mangos)](https://goreportcard.com/report/github.com/nanomsg/mangos)
+
 
 Too many data sources and too many schemas? Looking for a messaging queue to scale your data-driven architecture? Require greater performance for your data streams? Your architecture is based on post-processing data, and you want to switch to real-time in minutes instead of months? Struggle to install, configure and update Kafka/RabbitMQ/and other MQs?
 
@@ -53,7 +55,9 @@ For Memphis helm installation over Kubernetes
 - [Contact](#contact)
 
 ## Memphis Components
+
 ![](https://memphis-public-files.s3.eu-central-1.amazonaws.com/graphics+for+github/Architecture+for+ReadME-Page-2.drawio.png )
+
 
 ## Memphis repos
 - [memphis-control-plane](https://github.com/Memphis-OS/memphis-control-plane "memphis-control-plane")
@@ -85,7 +89,9 @@ Example:<br>
 |connectionToken   |Token for connecting an app to the Memphis Message Queue. Auto Generated   |`""`   |
 |dashboard.port   |Dashboard's (GUI) port   |80   |
 |cluster.replicas   |Amount of Message Queue workers   |3   |
+
 |analytics   |Collection of anonymous metadata    |`"true"`   |
+
 
 #### K8S Diagram
 ![](https://memphis-public-files.s3.eu-central-1.amazonaws.com/Untitled+Diagram.png)
@@ -130,8 +136,10 @@ Please expose the UI, Cluster, and Control-plane via k8s ingress / load balancer
 **To access Memphis, run the below commands:**
 Dashboard - `http://localhost:9000`<br>
 Broker - `localhost:7766`<br>
+
 Control-Plane for CLI - `localhost:9000`<br>
 Control-Plane for SDK - `localhost:6666` + `localhost:9000`
+
 
 ## Memphis Contributors
 <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Alon+Avrahami.jpg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Ariel+Bar.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Arjun+Anjaria.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Carlos+Gasperi.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Daniel+Eliyahu.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Itay+Katz.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Jim+Doty.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Nikita+Aizenberg.jpg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Rado+Marina.jpg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"><img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Raghav+Ramesh.jpg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Tal+Goldberg.jpg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;"> <img src="https://memphis-public-files.s3.eu-central-1.amazonaws.com/contributors-images/Yehuda+Mizrahi.jpeg" width="60" height="60" style="border-radius: 25px; border: 2px solid #61DFC6;">
