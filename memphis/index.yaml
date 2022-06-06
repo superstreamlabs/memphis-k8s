@@ -9,6 +9,6 @@ entries:
     name: memphis
     type: application
     urls:
-    - https://k8s.memphis.dev/helm/memphis/memphis-0.1.0.tgz
-    version: 0.1.0
+    - https://k8s.memphis.dev/helm/memphis/memphis-0.2.0.tgz
+    version: 0.2.0
 generated: "2022-04-11T15:50:54.603251+03:00"
