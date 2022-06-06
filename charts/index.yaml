@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  memphis:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-04-11T22:32:31.238603+03:00"
+    description: A Helm chart for Kubernetes
+    digest: e52af76d2e7589d01d35a6adb9350f0ef5043f8e0a6e7a53cb5dad81093ed689
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.0.tgz
+    version: 0.2.0
+generated: "2022-04-11T22:32:31.2367+03:00"
