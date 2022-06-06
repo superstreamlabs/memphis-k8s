@@ -4,6 +4,7 @@ analytics: true
 dashboard:
   port: 80
 logsRetentionInDays: 3
+
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
