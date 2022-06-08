@@ -9,6 +9,6 @@ entries:
     name: memphis
     type: application
     urls:
-    - memphis-0.2.0.tgz
-    version: 0.2.0
+    - memphis-0.2.1.tgz
+    version: 0.2.1
 generated: "2022-04-11T22:32:31.2367+03:00"
