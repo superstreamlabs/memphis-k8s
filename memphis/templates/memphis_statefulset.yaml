@@ -10,10 +10,13 @@ metadata:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-role
   namespace: {{ include "nats.namespace" . }}
 rules:
+- apiGroups: ["*"]
+  resources: ["statefulsets"]
+  verbs: ["list", "watch"]
 - apiGroups: [""]
   resources: ["configmaps"]
   verbs: ["*"]
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["deployments"]
   verbs: ["list", "watch"]
 - apiGroups: [""]
