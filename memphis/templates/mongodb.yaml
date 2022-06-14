@@ -62,9 +62,9 @@ data:
   mongo-startup-script.sh: |
     rs.initiate()
     var cfg = rs.conf()
-    cfg.members[0].host="mongodb-replica-0.mongo:27017"
+    cfg.members[0].host="memphis-mongodb-0.mongo:27017"
     rs.reconfig(cfg)
-    rs.add("mongodb-replica-1.mongo:27017")
+    rs.add("memphis-mongodb-1.mongo:27017")
     rs.status()
     use maindb
     db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
