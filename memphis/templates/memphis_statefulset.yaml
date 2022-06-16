@@ -285,6 +285,39 @@ spec:
           subPath: advertise
       {{- end }}
 
+      #####################
+      #                   #
+      #  InitContainerts  #
+      #                   #
+      #####################
+      initContainers:
+      {{- if .Values.cluster.enabled }}
+        - name: k8s-busybox-waits4mongo-cluster
+          image: busybox:1.28
+          imagePullPolicy: Always
+          env:
+          - name: NAMESPACE
+            value: {{ include "nats.namespace" . }}
+          command: ['sh', '-c', "until nslookup memphis-mongodb-1.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-1; sleep 2; done"]
+      {{- else }}
+        - name: k8s-busybox-waits4mongo
+          image: busybox:1.28
+          imagePullPolicy: Always
+          env:
+          - name: NAMESPACE
+            value: {{ include "nats.namespace" . }}
+          command: ['sh', '-c', "until nslookup memphis-mongodb-0.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-0; sleep 2; done"]
+      {{- end }}
+        - name: k8s-busybox-initiliaze-mongodb
+          image: memphisos/k8s-busybox:latest
+          imagePullPolicy: Always
+          env:
+          - name: NAMESPACE
+            value: {{ include "nats.namespace" . }}
+
+
+
+
       #################
       #               #
       #  NATS Server  #
