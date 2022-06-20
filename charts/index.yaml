@@ -3,12 +3,34 @@ entries:
   memphis:
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2022-04-11T22:32:31.238603+03:00"
-    description: A Helm chart for Kubernetes
-    digest: e52af76d2e7589d01d35a6adb9350f0ef5043f8e0a6e7a53cb5dad81093ed689
+    created: "2022-06-20T12:55:22.063387+03:00"
+    description: A Helm chart for Memphis
+    digest: d28563593f1577bb2381da7ec7a2b1a06301b04f30202ef00627127e21606657
+    home: https://github.com/memphisdev/memphis-broker
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
     name: memphis
     type: application
     urls:
     - memphis-0.2.2.tgz
     version: 0.2.2
-generated: "2022-04-11T22:32:31.2367+03:00"
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-06-20T12:55:22.062268+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 28d3abb9dbc8bb4e5d98e319af96bee39d7079373bc6f3ea1459f057557f07a2
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-06-20T12:55:22.061288+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 8a6ec6bc3d6cdaed00455814cceac7ee4096268d08e82bc9ca0af4cdf3a65cf1
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.0.tgz
+    version: 0.2.0
+generated: "2022-06-20T12:55:22.059741+03:00"
