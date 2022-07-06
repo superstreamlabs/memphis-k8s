@@ -1,5 +1,11 @@
 apiVersion: v1
 kind: ServiceAccount
+imagePullSecrets:
+- name: gcr-secret
+- name: awsecr-cred
+- name: dpr-secret
+- name: acr-secret
+- name: regcred
 metadata:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
   namespace: {{ include "nats.namespace" . }}
@@ -10,10 +16,13 @@ metadata:
   name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-role
   namespace: {{ include "nats.namespace" . }}
 rules:
+- apiGroups: ["*"]
+  resources: ["statefulsets"]
+  verbs: ["list", "watch"]
 - apiGroups: [""]
   resources: ["configmaps"]
   verbs: ["*"]
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["deployments"]
   verbs: ["list", "watch"]
 - apiGroups: [""]
@@ -89,10 +98,10 @@ spec:
         {{- end }}
     spec:
       serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
-# {{- with .Values.imagePullSecrets }}
+{{- with .Values.imagePullSecrets }}
       imagePullSecrets: [{"name":"regcred"}]
-# {{- toYaml . | nindent 8 }}
-# {{- end }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
 {{- with .Values.securityContext }}
       securityContext:
 {{- toYaml . | nindent 8 }}
@@ -674,9 +683,9 @@ spec:
       ##############################
       - name: memphis-control-plane
         {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-control-plane-staging-test:latest
+        image: memphisos/memphis-broker-staging-test:latest
         {{ else }}
-        image: memphisos/memphis-control-plane-staging:latest
+        image: memphisos/memphis-broker-staging:latest
         {{ end }}
         imagePullPolicy: Always
         ports:
@@ -688,15 +697,13 @@ spec:
               hostPort: 8877
         env:
         - name: ANALYTICS
-          {{- if .Values.controlPlane.analytics }}
-          value: {{ .Values.controlPlane.analytics | quote }}
-          {{ else }}
-          value: "true"
-          {{ end }}
+          value: {{ .Values.analytics | quote }}
         - name: LOGS_RETENTION_IN_DAYS
           value: {{ .Values.logsRetentionInDays | quote }}
         - name: K8S_NAMESPACE
           value: {{ include "nats.namespace" . }}
+        - name: SANDBOX_ENV
+          value: {{ .Values.sandbox | quote }}
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
@@ -707,6 +714,16 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
+        - name: JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: JWT_SECRET
+        - name: REFRESH_JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: REFRESH_JWT_SECRET
       {{- if .Values.additionalContainers }}
         {{- toYaml .Values.additionalContainers | nindent 6 }}
       {{- end }}
