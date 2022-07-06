@@ -1,11 +1,11 @@
 rootPwd: ""
 connectionToken: ""
-logsRetentionInDays: 3
 dashboard:
   port: 80
-controlPlane:
-  analytics: ""
-  image: ""
+analytics: ""
+image: ""
+sandbox: "false"
+logsRetentionInDays: 3
 teston: ""
 #####################################
 #                                   #
@@ -14,7 +14,7 @@ teston: ""
 #####################################
 nats:
   #image: nats:2.7.2-alpine
-  image: memphisos/memphis-broker-staging:2.7.2-alpine3.15
+  image: memphisos/memphis-nats:2.8.4-alpine3.15
   pullPolicy: IfNotPresent
 
   # The servers name prefix, must be used for example when we want a NATS cluster
@@ -493,7 +493,7 @@ natsbox:
   #    operator: "Equal|Exists"
   #    value: "value"
   #    effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
-  
+
   # Additional nats-box server Volume mounts
   extraVolumeMounts: []
 
