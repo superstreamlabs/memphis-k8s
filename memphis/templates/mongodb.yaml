@@ -46,8 +46,8 @@ metadata:
     name: mongo
 spec:
   ports:
-    - port: 27017
-      targetPort: 27017
+    - port: 27555
+      targetPort: 27555
   clusterIP: None
   selector:
     app: mongo
@@ -62,9 +62,9 @@ data:
   mongo-startup-script.sh: |
     rs.initiate()
     var cfg = rs.conf()
-    cfg.members[0].host="mongodb-replica-0.mongo:27017"
+    cfg.members[0].host="memphis-mongodb-0.mongo:27555"
     rs.reconfig(cfg)
-    rs.add("mongodb-replica-1.mongo:27017")
+    rs.add("memphis-mongodb-1.mongo:27555")
     rs.status()
     use maindb
     db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
@@ -116,7 +116,7 @@ spec:
             memory: 1000Mi
         ports:
         - name: mongo-port
-          containerPort: 27017
+          containerPort: 27555
         volumeMounts:
         - name: {{ .Release.Name }}-memphis-mongo-data
           mountPath: /data/db
