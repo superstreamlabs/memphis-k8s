@@ -46,8 +46,8 @@ metadata:
     name: mongo
 spec:
   ports:
-    - port: 27555
-      targetPort: 27555
+    - port: 27017
+      targetPort: 27017
   clusterIP: None
   selector:
     app: mongo
@@ -116,7 +116,7 @@ spec:
             memory: 1000Mi
         ports:
         - name: mongo-port
-          containerPort: 27555
+          containerPort: 27017
         volumeMounts:
         - name: {{ .Release.Name }}-memphis-mongo-data
           mountPath: /data/db
