@@ -7,3 +7,5 @@ type: Opaque
 data:
   ROOT_PASSWORD: {{ if .Values.rootPwd }}{{ .Values.rootPwd | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
   CONNECTION_TOKEN: {{ if .Values.connectionToken }}{{ .Values.connectionToken | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
+  JWT_SECRET: {{ randAlphaNum 128 | b64enc | quote }}
+  REFRESH_JWT_SECRET: {{ randAlphaNum 128 | b64enc | quote }}
