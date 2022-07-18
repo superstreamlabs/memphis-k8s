@@ -712,6 +712,16 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
+          - name: JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: JWT_SECRET
+        - name: REFRESH_JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: REFRESH_JWT_SECRET
       {{- if .Values.additionalContainers }}
         {{- toYaml .Values.additionalContainers | nindent 6 }}
       {{- end }}
