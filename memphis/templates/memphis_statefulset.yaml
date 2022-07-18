@@ -712,7 +712,7 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
-          - name: JWT_SECRET
+        - name: JWT_SECRET
           valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
