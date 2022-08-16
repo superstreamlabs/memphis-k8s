@@ -502,7 +502,7 @@ natsbox:
 # The NATS config reloader image to use.
 reloader:
   enabled: true
-  image: memphisos/memphis-broker-server-config-reloader:0.6.2
+  image: memphisos/memphis-config-reloader:latest
   pullPolicy: IfNotPresent
   securityContext: {}
   extraConfigs: []
