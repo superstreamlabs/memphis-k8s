@@ -351,6 +351,8 @@ spec:
           hostPort: 6666
         - containerPort: 8222
           name: monitor
+        - containerPort: 6222
+          name: cluster
         command:
          - "nats-server"
          - "--config"
