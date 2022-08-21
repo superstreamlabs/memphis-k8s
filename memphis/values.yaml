@@ -111,7 +111,7 @@ nats:
   resources: {}
 
   client:
-    port: 7766
+    port: 6666
     portName: "client"
 
   # Server settings.
