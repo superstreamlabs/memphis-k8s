@@ -331,7 +331,7 @@ spec:
       containers:
       - name: memphis-control-plane
         {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-broker-master-test:latest
+        image: memphisos/memphis-broker-memphis-nats-integration-test:latest
         {{ else }}
         image: memphisos/memphis-nats:allinone
         {{ end }}
