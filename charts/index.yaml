@@ -10,7 +10,7 @@ entries:
     name: memphis
     type: application
     urls:
-    - https://k8s.memphis.dev/memphis/memphis-0.3.5.tgz
+    - https://k8s.memphis.dev/charts/memphis-0.3.5.tgz
     version: 0.3.5
   - apiVersion: v2
     appVersion: 0.3.0
