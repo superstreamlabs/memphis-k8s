@@ -3,7 +3,7 @@ connectionToken: ""
 dashboard:
   port: 80
 image: ""
-analytics: "true"
+analytics: true
 logsRetentionInDays: 3
 teston: ""
 #####################################
