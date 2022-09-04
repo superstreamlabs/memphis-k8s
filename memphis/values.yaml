@@ -2,9 +2,7 @@ rootPwd: ""
 connectionToken: ""
 dashboard:
   port: 80
-analytics: ""
 image: ""
-sandbox: "false"
 logsRetentionInDays: 3
 teston: ""
 #####################################
@@ -15,7 +13,7 @@ teston: ""
 nats:
   #image: nats:2.7.2-alpine
   image: memphisos/memphis-nats:2.8.4-alpine3.15
-  pullPolicy: IfNotPresent
+  pullPolicy: Always 
 
   # The servers name prefix, must be used for example when we want a NATS cluster
   # spanning multiple Kubernetes clusters.
@@ -112,7 +110,7 @@ nats:
   resources: {}
 
   client:
-    port: 7766
+    port: 6666
     portName: "client"
 
   # Server settings.
@@ -130,13 +128,15 @@ nats:
     # to a client that has no activity.
     pingInterval:
 
-    # NOTE: this should be at least the same as 'terminationGracePeriodSeconds'
-    lameDuckDuration: "120s"
+    # grace period after pod begins shutdown before starting to close client connections
+    lameDuckGracePeriod: "10s"
 
-  # terminationGracePeriodSeconds determines how long to allow for a pod
-  # to be restarted.
-  terminationGracePeriodSeconds: 120
+    # duration over which to slowly close close client connections after lameDuckGracePeriod has passed
+    lameDuckDuration: "30s"
 
+  # terminationGracePeriodSeconds determines how long to wait for graceful shutdown
+  # this should be at least `lameDuckGracePeriod` + `lameDuckDuration` + 20s shutdown overhead
+  terminationGracePeriodSeconds: 60
   logging:
     debug:
     trace:
@@ -503,7 +503,7 @@ natsbox:
 # The NATS config reloader image to use.
 reloader:
   enabled: true
-  image: memphisos/memphis-broker-server-config-reloader-staging:0.6.2
+  image: memphisos/memphis-config-reloader:latest
   pullPolicy: IfNotPresent
   securityContext: {}
   extraConfigs: []

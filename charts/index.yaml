@@ -1,0 +1,46 @@
+apiVersion: v1
+entries:
+  memphis:
+  - apiVersion: v2
+    appVersion: 0.3.0
+    created: "2022-07-18T19:34:39.963338+03:00"
+    description: A Helm chart for Kubernetes
+    digest: f855318032efd8e687d501562f01393b5c4cc736cc4e4ace5358d56430922b7e
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.2.2
+    created: "2022-07-18T19:34:39.961869+03:00"
+    description: A Helm chart for Kubernetes
+    digest: d28563593f1577bb2381da7ec7a2b1a06301b04f30202ef00627127e21606657
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-07-18T19:34:39.960833+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 28d3abb9dbc8bb4e5d98e319af96bee39d7079373bc6f3ea1459f057557f07a2
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2022-07-18T19:34:39.959749+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 8a6ec6bc3d6cdaed00455814cceac7ee4096268d08e82bc9ca0af4cdf3a65cf1
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.2.0.tgz
+    version: 0.2.0
+generated: "2022-07-18T19:34:39.958164+03:00"
