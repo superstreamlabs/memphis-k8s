@@ -1,6 +1,5 @@
 rootPwd: ""
 connectionToken: ""
-analytics: true
 dashboard:
   port: 80
 image: ""
@@ -440,7 +439,7 @@ gateway:
 # enabled, an initializer container will be used to gather
 # the public ips.
 bootconfig:
-  image: memphisos/memphis-broker-boot-config:0.5.4
+  image: memphisos/memphis-broker-boot-config-staging:0.5.4
   pullPolicy: IfNotPresent
   securityContext: {}
 
@@ -494,7 +493,7 @@ natsbox:
   #    operator: "Equal|Exists"
   #    value: "value"
   #    effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
-  
+
   # Additional nats-box server Volume mounts
   extraVolumeMounts: []
 

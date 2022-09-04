@@ -676,7 +676,7 @@ spec:
           name: metrics
       {{ end }}
 
-    
+
   volumeClaimTemplates:
   {{- if eq .Values.auth.resolver.type "full" }}
   {{- if and .Values.auth.resolver .Values.auth.resolver.store }}
