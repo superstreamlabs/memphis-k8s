@@ -329,8 +329,12 @@ spec:
       #################
       terminationGracePeriodSeconds: {{ .Values.nats.terminationGracePeriodSeconds }}
       containers:
-      - name: nats
-        image: {{ .Values.nats.image }}
+      - name: memphis-broker
+        {{ if eq .Values.teston "cp" }}
+        image: memphisos/memphis-broker-master-test:latest
+        {{ else }}
+        image: memphisos/memphis-broker-staging:latest
+        {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
         securityContext:
@@ -339,46 +343,16 @@ spec:
         resources:
           {{- toYaml .Values.nats.resources | nindent 10 }}
         ports:
-        - containerPort: {{ .Values.nats.client.port }}
-          name: {{ .Values.nats.client.portName }}
-          {{- if .Values.nats.externalAccess }}
-          hostPort: {{ .Values.nats.client.port }}
-          {{- end }}
-        - containerPort: 7422
-          name: leafnodes
-          {{- if .Values.nats.externalAccess }}
-          hostPort: 7422
-          {{- end }}
-        - containerPort: 7522
-          name: gateways
-          {{- if .Values.nats.externalAccess }}
-          hostPort: 7522
-          {{- end }}
-        - containerPort: 6222
-          name: cluster
+        - containerPort: 5555
+          name: management
+          hostPort: 5555
+        - containerPort: 6666
+          name: tcp
+          hostPort: 6666
         - containerPort: 8222
           name: monitor
-        - containerPort: 7777
-          name: metrics
-        {{- if .Values.mqtt.enabled }}
-        - containerPort: 1883
-          name: mqtt
-          {{- if .Values.nats.externalAccess }}
-          hostPort: 1883
-          {{- end }}
-        {{- end }}
-        {{- if .Values.websocket.enabled }}
-        - containerPort: {{ .Values.websocket.port }}
-          name: websocket
-          {{- if .Values.nats.externalAccess }}
-          hostPort: {{ .Values.websocket.port }}
-          {{- end }}
-        {{- end }}
-        {{- if .Values.nats.profiling.enabled }}
-        - containerPort: {{ .Values.nats.profiling.port }}
-          name: profiling
-        {{- end }}
-
+        - containerPort: 6222
+          name: cluster
         command:
          - "nats-server"
          - "--config"
@@ -421,6 +395,32 @@ spec:
         {{- end }}
         {{- end }}
         {{- end }}
+        - name: ANALYTICS
+          value: {{ .Values.analytics | quote }}
+        - name: LOGS_RETENTION_IN_DAYS
+          value: {{ .Values.logsRetentionInDays | quote }}
+        - name: K8S_NAMESPACE
+          value: {{ include "nats.namespace" . }}
+        - name: ROOT_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: ROOT_PASSWORD
+        - name: CONNECTION_TOKEN
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: CONNECTION_TOKEN
+        - name: JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: JWT_SECRET
+        - name: REFRESH_JWT_SECRET
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: REFRESH_JWT_SECRET
         volumeMounts:
           - name: config-volume
             mountPath: /etc/nats-config
@@ -623,7 +623,7 @@ spec:
         resources:
           {{- toYaml .Values.reloader.resources | nindent 10 }}
         command:
-         - "nats-server-config-reloader"
+         - "memphis-config-reloader"
          - "-pid"
          - "/var/run/nats/nats.pid"
          - "-config"
@@ -676,55 +676,7 @@ spec:
           name: metrics
       {{ end }}
 
-      ##############################
-      #                            #
-      #  Control-plane             #
-      #                            #
-      ##############################
-      - name: memphis-control-plane
-        {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-broker-master-test:latest
-        {{ else }}
-        image: memphisos/memphis-broker:latest
-        {{ end }}
-        imagePullPolicy: Always
-        ports:
-            - containerPort: 5555
-              name: management
-              hostPort: 5555
-            - containerPort: 8877
-              name: tcp
-              hostPort: 8877
-        env:
-        - name: ANALYTICS
-          value: {{ .Values.analytics | quote }}
-        - name: LOGS_RETENTION_IN_DAYS
-          value: {{ .Values.logsRetentionInDays | quote }}
-        - name: K8S_NAMESPACE
-          value: {{ include "nats.namespace" . }}
-        - name: ROOT_PASSWORD
-          valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: ROOT_PASSWORD
-        - name: CONNECTION_TOKEN
-          valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: CONNECTION_TOKEN
-        - name: JWT_SECRET
-          valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: JWT_SECRET
-        - name: REFRESH_JWT_SECRET
-          valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: REFRESH_JWT_SECRET
-      {{- if .Values.additionalContainers }}
-        {{- toYaml .Values.additionalContainers | nindent 6 }}
-      {{- end }}
+
   volumeClaimTemplates:
   {{- if eq .Values.auth.resolver.type "full" }}
   {{- if and .Values.auth.resolver .Values.auth.resolver.store }}
