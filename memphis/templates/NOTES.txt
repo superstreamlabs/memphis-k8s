@@ -15,10 +15,11 @@ To access Memphis UI from localhost, run the below commands:
   1. kubectl port-forward service/memphis-ui 9000:80 --namespace {{ .Release.Namespace }} > /dev/null &
 
 To access Memphis using CLI or SDK from localhost, run the below commands:                                                                                    
-  2. kubectl port-forward service/memphis-cluster 7766:7766 6666:6666 5555:5555 --namespace {{ .Release.Namespace }} > /dev/null &
+  2. kubectl port-forward service/memphis-cluster 6666:6666 5555:5555 --namespace {{ .Release.Namespace }} > /dev/null &
 
 Dashboard: http://localhost:9000
-Memphis broker: localhost:5555 (Management Port) / 7766 (Data Port) / 6666 (TCP Port)
+Memphis broker: localhost:6666 (Client Connections)
+Memphis broker: localhost:5555 (CLI Connections)
                                                              
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Read more about networking options here: https://docs.memphis.dev/deployment/kubernetes
@@ -29,9 +30,9 @@ Documentations: https://docs.memphis.dev
 Deployment Information
 -------------------------
 ## Secrets ##
-UI/CLI root username        - root
-UI/CLI root Password        - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
-SDK root connection token   - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
+UI/CLI/SDK root username        - root
+UI/CLI root Password            - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
+SDK root connection token       - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
 
 
 ## Components ##
