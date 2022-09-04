@@ -333,7 +333,7 @@ spec:
         {{ if eq .Values.teston "cp" }}
         image: memphisos/memphis-broker-master-test:latest
         {{ else }}
-        image: memphisos/memphis-broker:latest
+        image: memphisos/memphis-broker-staging:latest
         {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
