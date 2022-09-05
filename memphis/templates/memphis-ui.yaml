@@ -37,7 +37,11 @@ spec:
           command: ['sh', '-c', "until nslookup memphis-cluster.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-ui
+          {{ if eq .Values.teston "ui" }}
+          image: memphisos/memphis-ui-master-test:latest
+          {{ else }}
           image: memphisos/memphis-ui:latest
+          {{ end }}
           imagePullPolicy: Always
           ports:
             - containerPort: 80
