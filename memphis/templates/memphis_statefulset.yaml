@@ -331,9 +331,9 @@ spec:
       containers:
       - name: memphis-broker
         {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-broker-staging-test:latest
+        image: memphisos/memphis-broker-master-test:latest
         {{ else }}
-        image: memphisos/memphis-broker-staging:latest
+        image: memphisos/memphis-broker-master:latest
         {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
