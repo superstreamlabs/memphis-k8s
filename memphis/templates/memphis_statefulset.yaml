@@ -322,11 +322,11 @@ spec:
             value: {{ include "nats.namespace" . }}
 
 
-      #################
-      #               #
-      #  NATS Server  #
-      #               #
-      #################
+      ####################
+      #                  #
+      #  Memphis Server  #
+      #                  #
+      ####################
       terminationGracePeriodSeconds: {{ .Values.nats.terminationGracePeriodSeconds }}
       containers:
       - name: memphis-broker
@@ -370,11 +370,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: CONNECTION_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: "memphis-creds"
-              key: CONNECTION_TOKEN
         - name: SERVER_NAME
           value: {{ .Values.nats.serverNamePrefix }}$(POD_NAME)
         - name: POD_NAMESPACE
