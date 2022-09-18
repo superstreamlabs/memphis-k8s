@@ -2,10 +2,21 @@ apiVersion: v1
 entries:
   memphis:
   - apiVersion: v2
-    appVersion: 0.3.0
-    created: "2022-07-18T19:34:39.963338+03:00"
+    appVersion: 0.3.5
+    created: "2022-09-06T14:38:45.787049+03:00"
     description: A Helm chart for Kubernetes
-    digest: f855318032efd8e687d501562f01393b5c4cc736cc4e4ace5358d56430922b7e
+    digest: 51d842ed55f0b45b03483f9de2aa4acc1d497a8f674bd7a548731476b95e6607
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    name: memphis
+    type: application
+    urls:
+    - memphis-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
+    appVersion: 0.3.0
+    created: "2022-09-06T14:38:45.785791+03:00"
+    description: A Helm chart for Kubernetes
+    digest: df8bc3b91ffd995e9ee743c4814ce37b38ac55f9366d16a07eebf5f05a03d462
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
     name: memphis
     type: application
@@ -14,7 +25,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2022-07-18T19:34:39.961869+03:00"
+    created: "2022-09-06T14:38:45.784773+03:00"
     description: A Helm chart for Kubernetes
     digest: d28563593f1577bb2381da7ec7a2b1a06301b04f30202ef00627127e21606657
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -25,7 +36,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-07-18T19:34:39.960833+03:00"
+    created: "2022-09-06T14:38:45.78376+03:00"
     description: A Helm chart for Kubernetes
     digest: 28d3abb9dbc8bb4e5d98e319af96bee39d7079373bc6f3ea1459f057557f07a2
     name: memphis
@@ -35,7 +46,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-07-18T19:34:39.959749+03:00"
+    created: "2022-09-06T14:38:45.78272+03:00"
     description: A Helm chart for Kubernetes
     digest: 8a6ec6bc3d6cdaed00455814cceac7ee4096268d08e82bc9ca0af4cdf3a65cf1
     name: memphis
@@ -43,4 +54,4 @@ entries:
     urls:
     - memphis-0.2.0.tgz
     version: 0.2.0
-generated: "2022-07-18T19:34:39.958164+03:00"
+generated: "2022-09-06T14:38:45.781277+03:00"

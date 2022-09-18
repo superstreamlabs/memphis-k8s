@@ -322,18 +322,18 @@ spec:
             value: {{ include "nats.namespace" . }}
 
 
-      #################
-      #               #
-      #  NATS Server  #
-      #               #
-      #################
+      ####################
+      #                  #
+      #  Memphis Server  #
+      #                  #
+      ####################
       terminationGracePeriodSeconds: {{ .Values.nats.terminationGracePeriodSeconds }}
       containers:
       - name: memphis-broker
         {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-broker-master-test:latest
+        image: memphisos/memphis-broker-latest-test:latest
         {{ else }}
-        image: memphisos/memphis-broker-master:latest
+        image: memphisos/memphis-broker:latest
         {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
