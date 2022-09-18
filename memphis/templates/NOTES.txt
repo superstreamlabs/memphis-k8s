@@ -17,7 +17,7 @@ To access Memphis using UI/CLI/SDK from localhost, run the below commands:
 
 Dashboard: http://localhost:9000
 Memphis broker: localhost:6666 (Client Connections)
-Memphis broker: localhost:5555 (CLI Connections)
+Memphis broker: localhost:9000 (CLI Connections)
                                                              
 ---------------------------------------------------------------------------------------------------------------------------------------------
 Read more about networking options here: https://docs.memphis.dev/deployment/kubernetes
