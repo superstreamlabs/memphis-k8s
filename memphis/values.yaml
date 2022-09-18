@@ -200,7 +200,7 @@ nats:
     #############################
     memStorage:
       enabled: true
-      size: 1Gi
+      size: 8Gi
 
     ############################
     #                          #
@@ -217,7 +217,7 @@ nats:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 2Gi
+      size: 10Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
