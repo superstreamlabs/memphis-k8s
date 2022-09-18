@@ -22,8 +22,8 @@ spec:
   {{- end }}
   ports:
   - name: memphis-cp-management
-    port: 5555
-    targetPort: 5555
+    port: 9000
+    targetPort: 9000
   - name: memphis-cp-tcp
     port: 6666
     targetPort: 6666
