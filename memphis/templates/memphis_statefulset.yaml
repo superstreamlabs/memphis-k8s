@@ -343,9 +343,9 @@ spec:
         resources:
           {{- toYaml .Values.nats.resources | nindent 10 }}
         ports:
-        - containerPort: 5555
+        - containerPort: 9000
           name: management
-          hostPort: 5555
+          hostPort: 9000
         - containerPort: 6666
           name: tcp
           hostPort: 6666
