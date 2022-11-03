@@ -118,7 +118,7 @@ nats:
     maxConnections:  
     maxSubscriptions:
     maxControlLine:
-    maxPayload: 12M
+    maxPayload: 8M
 
     writeDeadline:
     maxPending:
