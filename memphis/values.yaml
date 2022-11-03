@@ -503,7 +503,7 @@ natsbox:
 
 # The NATS config reloader image to use.
 reloader:
-  enabled: true
+  enabled: false
   image: memphisos/memphis-config-reloader:latest
   pullPolicy: IfNotPresent
   securityContext: {}
