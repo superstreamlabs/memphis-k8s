@@ -330,7 +330,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.nats.terminationGracePeriodSeconds }}
       containers:
       - name: memphis-broker
-        image: memphisos/memphis-broker:check
+        image: memphisos/memphis-broker:latest
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
         securityContext:
