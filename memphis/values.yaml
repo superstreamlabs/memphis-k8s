@@ -118,7 +118,7 @@ nats:
     maxConnections:  
     maxSubscriptions:
     maxControlLine:
-    maxPayload: 12M
+    maxPayload: 8M
 
     writeDeadline:
     maxPending:
@@ -217,7 +217,7 @@ nats:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 20Gi
+      size: 500Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
@@ -322,7 +322,7 @@ podDisruptionBudget:
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector:
   App: "memphis"
-
+  #app: "memphis-big"
 # Node tolerations for server scheduling to nodes with taints
 # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 #
