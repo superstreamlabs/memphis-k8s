@@ -217,7 +217,7 @@ nats:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 500Gi
+      size: 1500Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
@@ -322,7 +322,8 @@ podDisruptionBudget:
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector:
   App: "memphis"
-  #app: "memphis-big"
+  #App: "memphis-big"
+
 # Node tolerations for server scheduling to nodes with taints
 # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
 #

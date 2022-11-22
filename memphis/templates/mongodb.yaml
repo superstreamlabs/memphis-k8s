@@ -107,13 +107,6 @@ spec:
         command: ["/bin/sh"]
         args: ["-c", "mongod --replSet=rs0 --bind_ip_all"]
       {{- end }}
-        resources:
-          limits:
-            cpu: 1
-            memory: 1500Mi
-          requests:
-            cpu: 1
-            memory: 1000Mi
         ports:
         - name: mongo-port
           containerPort: 27017
