@@ -24,6 +24,9 @@ spec:
   - name: memphis-cp-management
     port: 9000
     targetPort: 9000
+  - name: memphis-ws
+    port: 7770
+    targetPort: 7770
   - name: memphis-cp-tcp
     port: 6666
     targetPort: 6666

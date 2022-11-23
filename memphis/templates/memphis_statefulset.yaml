@@ -346,6 +346,9 @@ spec:
         - containerPort: 9000
           name: management
           hostPort: 9000
+        - containerPort: 7770
+          name: ws
+          hostPort: 7770
         - containerPort: 6666
           name: tcp
           hostPort: 6666
