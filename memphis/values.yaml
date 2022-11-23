@@ -617,8 +617,8 @@ auth:
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
-  enabled: false
-  port: 443
+  enabled: true
+  port: 7770
   noTLS: true
 
   sameOrigin: false
