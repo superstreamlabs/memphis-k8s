@@ -620,10 +620,10 @@ websocket:
   port: 7770
   noTLS: true
   tls:
-  #  cert: "memphis.pem"
-  #  key: "memphis-key.pem"
-  #  secret:
-  #    name: "tls-secret"
+    cert: "memphis.pem"
+    key: "memphis-key.pem"
+    secret:
+      name: "tls-secret"
   sameOrigin: false
   allowedOrigins: []
 
