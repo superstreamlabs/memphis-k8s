@@ -39,9 +39,9 @@ spec:
         - name: memphis-http-proxy
           image: memphisos/memphis-http-proxy:latest
           resources:
-          limits:
-            cpu: 500m
-            memory: 500Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
           imagePullPolicy: Always
           ports:
             - containerPort: 4444
