@@ -6,6 +6,9 @@ image: ""
 analytics: true
 logsRetentionInDays: 3
 teston: ""
+proxy:
+  user: root
+  port: 4444
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
@@ -620,7 +623,6 @@ websocket:
   enabled: true
   port: 7770
   noTLS: true
-
   sameOrigin: false
   allowedOrigins: []
 
