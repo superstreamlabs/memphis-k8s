@@ -5,6 +5,9 @@ dashboard:
 image: ""
 logsRetentionInDays: 3
 teston: ""
+proxy:
+  user: root
+  port: 4444
 #####################################
 #                                   #
 #  NATS Server Configuration BEGIN  #
