@@ -72,7 +72,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: memphis-http-proxy
-  namespace: memphis
+  namespace: {{ include "nats.namespace" . }}
 spec:
   maxReplicas: 10
   metrics:
