@@ -4,7 +4,7 @@ metadata:
   name: memphis-http-proxy
   namespace: {{ include "nats.namespace" . }}
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: {{ .Values.proxy.port }}
@@ -38,6 +38,10 @@ spec:
       containers:
         - name: memphis-http-proxy
           image: memphisos/memphis-http-proxy:latest
+          resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
           imagePullPolicy: Always
           ports:
             - containerPort: 4444
@@ -63,3 +67,23 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: memphis-http-proxy
+  namespace: memphis
+spec:
+  maxReplicas: 10
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 75
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: memphis-http-proxy
