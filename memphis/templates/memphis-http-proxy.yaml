@@ -20,7 +20,11 @@ metadata:
   labels:
     app: memphis-http-proxy
 spec:
+  {{- if .Values.cluster.enabled }}
+  replicas: 2
+  {{- else }}
   replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: memphis-http-proxy
@@ -67,23 +71,3 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: memphis-http-proxy
-  namespace: {{ include "nats.namespace" . }}
-spec:
-  maxReplicas: 10
-  metrics:
-  - resource:
-      name: cpu
-      target:
-        averageUtilization: 75
-        type: Utilization
-    type: Resource
-  minReplicas: 1
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: memphis-http-proxy
