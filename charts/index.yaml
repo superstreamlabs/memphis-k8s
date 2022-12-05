@@ -3,18 +3,18 @@ entries:
   memphis:
   - apiVersion: v2
     appVersion: 0.4.2
-    created: "2022-04-11T15:50:54.605102+03:00"
+    created: "2022-12-05T11:42:13.242818+02:00"
     description: Memphis.dev Helm chart
-    digest: f557dcaf1fbf21fe2fd5ae7ee28a1a5a3c149c9e78c1a16ebdcb9bd5cf9117e5
+    digest: 3cbc801afb88efa0beb7cfbf05a7b58ae1c2e477e03557c9aa839d22669ea03a
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
     name: memphis
     type: application
     urls:
-    - https://k8s.memphis.dev/charts/memphis-0.4.2.tgz
+    - memphis-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
     appVersion: 0.4.1
-    created: "2022-12-04T22:12:21.648462+02:00"
+    created: "2022-12-05T11:42:13.241577+02:00"
     description: Memphis.dev Helm chart
     digest: 3901e5059d04a93f2afef1e66f0f097610c4cf41ec8f85e030c3b4749a0b1c9b
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -25,7 +25,7 @@ entries:
     version: 0.4.1
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2022-12-04T22:12:21.647249+02:00"
+    created: "2022-12-05T11:42:13.240338+02:00"
     description: Memphis.dev Helm chart
     digest: abe8ef969af061633e0566bcc6f764a6175d74fe378d183a79394a3c4cf99b6b
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -36,7 +36,7 @@ entries:
     version: 0.4.0
   - apiVersion: v2
     appVersion: 0.3.6
-    created: "2022-12-04T22:12:21.643769+02:00"
+    created: "2022-12-05T11:42:13.236206+02:00"
     description: Memphis.dev Helm chart
     digest: 1463b0842ae745cfbc39bbbd59bf4aed1829610eb3305a5c9f0e8671fb9b433e
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -47,7 +47,7 @@ entries:
     version: 0.3.6
   - apiVersion: v2
     appVersion: 0.3.5
-    created: "2022-12-04T22:12:21.642625+02:00"
+    created: "2022-12-05T11:42:13.235065+02:00"
     description: Memphis.dev Helm chart
     digest: 9e05f5310f8456c431041b4e44f3570e4ae7d3bdab27d58f64c2486483951a2c
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -58,7 +58,7 @@ entries:
     version: 0.3.5
   - apiVersion: v2
     appVersion: 0.3.0
-    created: "2022-12-04T22:12:21.641376+02:00"
+    created: "2022-12-05T11:42:13.233214+02:00"
     description: A Helm chart for Kubernetes
     digest: df8bc3b91ffd995e9ee743c4814ce37b38ac55f9366d16a07eebf5f05a03d462
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -69,7 +69,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2022-12-04T22:12:21.639953+02:00"
+    created: "2022-12-05T11:42:13.231712+02:00"
     description: A Helm chart for Kubernetes
     digest: d28563593f1577bb2381da7ec7a2b1a06301b04f30202ef00627127e21606657
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -80,7 +80,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-12-04T22:12:21.638668+02:00"
+    created: "2022-12-05T11:42:13.230366+02:00"
     description: A Helm chart for Kubernetes
     digest: 28d3abb9dbc8bb4e5d98e319af96bee39d7079373bc6f3ea1459f057557f07a2
     name: memphis
@@ -90,7 +90,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2022-12-04T22:12:21.637392+02:00"
+    created: "2022-12-05T11:42:13.229103+02:00"
     description: A Helm chart for Kubernetes
     digest: 8a6ec6bc3d6cdaed00455814cceac7ee4096268d08e82bc9ca0af4cdf3a65cf1
     name: memphis
@@ -98,4 +98,4 @@ entries:
     urls:
     - memphis-0.2.0.tgz
     version: 0.2.0
-generated: "2022-12-04T22:12:21.635521+02:00"
+generated: "2022-12-05T11:42:13.227341+02:00"
