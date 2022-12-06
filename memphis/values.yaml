@@ -3,6 +3,7 @@ connectionToken: ""
 dashboard:
   port: 80
 image: ""
+analytics: true
 logsRetentionInDays: 3
 teston: ""
 proxy:
@@ -37,7 +38,7 @@ nats:
 
     # Enable liveness checks.  If this fails, then the NATS Server will restarted.
     liveness:
-      enabled: true
+      enabled: false
 
       initialDelaySeconds: 10
       timeoutSeconds: 5
@@ -505,7 +506,7 @@ natsbox:
 
 # The NATS config reloader image to use.
 reloader:
-  enabled: true
+  enabled: false
   image: memphisos/memphis-config-reloader:latest
   pullPolicy: IfNotPresent
   securityContext: {}

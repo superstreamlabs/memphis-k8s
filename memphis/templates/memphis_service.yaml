@@ -32,3 +32,5 @@ spec:
     targetPort: 6666
   - name: monitor
     port: 8222
+  - name: debug
+    port: 4000
