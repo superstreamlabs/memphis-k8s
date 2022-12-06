@@ -333,7 +333,7 @@ spec:
         {{ if eq .Values.teston "cp" }}
         image: memphisos/memphis-broker-latest-test:latest
         {{ else }}
-        image: memphisos/memphis-broker:latest
+        image: memphisos/memphis-broker-check:latest
         {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
@@ -356,8 +356,19 @@ spec:
           name: monitor
         - containerPort: 6222
           name: cluster
+        - containerPort: 4000
+          name: debug
         command:
-         - "nats-server"
+         - "/bin/dlv"
+         - "--listen=127.0.0.1:4000"
+         - "--headless"
+         - "--continue"
+         - "--log=true"
+         - "--accept-multiclient" 
+         - "--api-version=2"
+         - "exec"
+         - "/bin/nats-server"
+         - "--"
          - "--config"
          - "/etc/nats-config/nats.conf"
          - "--auth=$(CONNECTION_TOKEN)"
