@@ -12,6 +12,27 @@ spec:
   selector:
     app: memphis-http-proxy
 ---
+apiVersion: /v1
+kind: Service
+metadata:
+  name: memphis-http-proxy-external
+  namespace: {{ include "nats.namespace" . }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: proxy
+      protocol: TCP
+      port: {{ .Values.proxy.port }}
+      targetPort: 4444
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 4444
+  selector:
+    app: memphis-http-proxy
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
