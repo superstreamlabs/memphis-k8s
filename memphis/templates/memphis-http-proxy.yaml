@@ -71,3 +71,5 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+      nodeSelector:
+        App: "memphis-sidecar"

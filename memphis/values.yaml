@@ -204,7 +204,6 @@ nats:
     #############################
     memStorage:
       enabled: true
-      size: 8Gi
 
     ############################
     #                          #
@@ -221,7 +220,7 @@ nats:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 10Gi
+      size: 1500Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
@@ -324,7 +323,8 @@ podDisruptionBudget:
 
 # Node labels for pod assignment
 # Ref: https://kubernetes.io/docs/user-guide/node-selection/
-nodeSelector: {}
+nodeSelector:
+  App: memphis-broker
 
 # Node tolerations for server scheduling to nodes with taints
 # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/

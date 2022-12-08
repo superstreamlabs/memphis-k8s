@@ -122,6 +122,8 @@ spec:
           mountPath: /data/db
         - name: mongo-startup-script
           mountPath: /mnt/scripts
+      nodeSelector:
+        App: memphis-sidecar  
       volumes:
       - name: mongo-startup-script
         configMap:
