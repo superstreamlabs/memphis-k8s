@@ -20,6 +20,7 @@ node {
         git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-broker.git', branch: gitBranch
       }
       sh "cat memphis-broker/version.conf > version.conf"
+      sh "rm -rf memphis-broker"
     }
  
     stage('Edit helm files') {
@@ -43,7 +44,7 @@ node {
 
     stage('Checkout to version branch'){
       withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
-        sh "git reset --hard origin/master" //change to latest
+        //sh "git reset --hard origin/master" //change to latest
         sh "GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)"
         sh "GIT_SSH_COMMAND='ssh -i $check' git push --set-upstream origin \$(cat version.conf)"
       }
