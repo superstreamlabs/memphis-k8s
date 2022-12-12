@@ -44,9 +44,12 @@ node {
 
     stage('Checkout to version branch'){
       withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
-        sh "git reset --hard origin/master" //change to latest
-        sh "GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)"
-        sh "GIT_SSH_COMMAND='ssh -i $check' git push --set-upstream origin \$(cat version.conf)"
+        //sh "git reset --hard origin/master" //change to latest
+        sh"""
+          GIT_SSH_COMMAND='ssh -i $check'  git commit -m "\$(cat version.conf)" -a
+          GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)
+          GIT_SSH_COMMAND='ssh -i $check' git push --set-upstream origin \$(cat version.conf)
+        """
       }
     }
 
