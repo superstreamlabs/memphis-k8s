@@ -16,7 +16,7 @@ node {
     }
     
     stage('Import version number from broker'){
-      dir('memphis-broker){
+      dir('memphis-broker'){
         git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-broker.git', branch: gitBranch
       }
       sh "cat memphis-broker/version.conf > version.conf"
