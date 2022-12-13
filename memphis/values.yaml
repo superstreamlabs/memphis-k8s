@@ -38,7 +38,7 @@ nats:
 
     # Enable liveness checks.  If this fails, then the NATS Server will restarted.
     liveness:
-      enabled: false
+      enabled: true
 
       initialDelaySeconds: 10
       timeoutSeconds: 5
