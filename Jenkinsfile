@@ -42,24 +42,25 @@ node {
       sh"helm package memphis -d charts"
     }
 
-    stage('Checkout to version branch'){
+    stage('Push to latest'){
       withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
         //sh "git reset --hard origin/master" //change to latest
         sh"""
           GIT_SSH_COMMAND='ssh -i $check'  git add charts/memphis-*
-          GIT_SSH_COMMAND='ssh -i $check'  git commit -m "\$(cat version.conf)" -a
+          GIT_SSH_COMMAND='ssh -i $check'  git commit -m "Version \$(cat version.conf)" -a
+          GIT_SSH_COMMAND='ssh -i $check'  git push
+        """
+      }
+    }
+    
+    stage('Checkout to version branch'){
+      withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
+        //sh "git reset --hard origin/master" //change to latest
+        sh"""
           GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)
           GIT_SSH_COMMAND='ssh -i $check'  git push --set-upstream origin \$(cat version.conf)
         """
       }
-    }
-
-    stage('Push to latest'){
-
-    }
-
-    stage('Merge to gh-pages'){
-
     }
 
     stage('Create new release') {
@@ -69,6 +70,10 @@ node {
       withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
         sh(script:"""gh release create \$(cat version.conf) --generate-notes""", returnStdout: true)
       }
+    }
+    
+    stage('Merge to gh-pages'){
+
     }
 
     notifySuccessful()
