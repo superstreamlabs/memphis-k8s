@@ -625,6 +625,9 @@ websocket:
   noTLS: true
   sameOrigin: false
   allowedOrigins: []
+  auth: 
+    token: "memphis"
+ 
 
 appProtocol:
   enabled: false
