@@ -114,9 +114,8 @@ HTTP proxy: localhost:4444 (Data + Mgmt)
 Please expose the UI, Cluster, and Control-plane via k8s ingress / load balancer / nodeport
 
 ### Via Docker
-Dashboard - http://localhost:9000<br>
-Broker - localhost:7766<br>
-Control-Plane - localhost:5555/6666<br>
+Dashboard/CLI: http://localhost:9000<br>
+Control-Plane - localhost:6666<br>
 
 ## Beta
 Memphis{dev} is currently in Beta version. This means that we are still working on essential features like real-time messages tracing,<br>
