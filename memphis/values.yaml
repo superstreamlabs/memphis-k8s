@@ -247,13 +247,10 @@ nats:
   #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
   #
 
-  # tls:
-  #   secret:
-  #     name: tls-client-secret
-  #   ca: "rootCA.pem"
-  #   cert: "memphis_client.pem"
-  #   key: "memphis-key_client.pem"
-  #   verify: true
+  #   name: nats-client-tls
+  #   ca: "ca.crt"
+  #   cert: "tls.crt"
+  #   key: "tls.key"
 
 mqtt:
   enabled: false
