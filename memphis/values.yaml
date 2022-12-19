@@ -15,8 +15,9 @@ proxy:
 #                                   #
 #####################################
 nats:
-  #image: nats:2.7.2-alpine
-  image: memphisos/memphis-nats:2.8.4-alpine3.15
+  image: memphisos/memphis-broker-master:latest
+  teston:
+    image: memphisos/memphis-broker-master-test:latest
   pullPolicy: Always 
 
   # The servers name prefix, must be used for example when we want a NATS cluster
@@ -248,10 +249,11 @@ nats:
 
   # tls:
   #   secret:
-  #     name: nats-client-tls
-  #   ca: "ca.crt"
-  #   cert: "tls.crt"
-  #   key: "tls.key"
+  #     name: tls-client-secret
+  #   ca: "rootCA.pem"
+  #   cert: "memphis_client.pem"
+  #   key: "memphis-key_client.pem"
+  #   verify: true
 
 mqtt:
   enabled: false

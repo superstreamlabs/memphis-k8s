@@ -331,9 +331,9 @@ spec:
       containers:
       - name: memphis-broker
         {{ if eq .Values.teston "cp" }}
-        image: memphisos/memphis-broker-master-test:latest
+        image: {{ .Values.nats.teston.image }}
         {{ else }}
-        image: memphisos/memphis-broker-master:latest
+        image: {{ .Values.nats.image }}
         {{ end }}
         imagePullPolicy: {{ .Values.nats.pullPolicy }}
         {{- if .Values.nats.securityContext }}
@@ -568,17 +568,10 @@ spec:
         {{- if .Values.nats.healthcheck.startup.enabled }}
         startupProbe:
           httpGet:
-            {{- $parts := split ":" .Values.nats.image }}
-            {{- $tag := $parts._1 }}
-            {{- $version := semver $tag }}
-            {{- $simpleVersion := printf "%d.%d.%d" $version.Major $version.Minor $version.Patch }}
-            {{- if and (and (or .Release.IsUpgrade .Values.upgrade) (semverCompare "~2.7.1" $simpleVersion) .Values.nats.healthcheck.enableHealthz ) }}
             # During upgrades, healthz will be enabled instead to allow for a grace period
             # in case of JetStream enabled deployments to form quorum and streams to catch up.
             path: /healthz
-            {{- else }}
             path: /
-            {{- end }}
             port: 8222
         {{- with .Values.nats.healthcheck.startup }}
           initialDelaySeconds: {{ .initialDelaySeconds }}
