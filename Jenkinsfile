@@ -1,4 +1,4 @@
-def gitBranch = "master" //change to latest
+def gitBranch = "latest"
 def gitURL = "git@github.com:Memphisdev/memphis-k8s.git"
 def repoUrlPrefix = "memphisos"
 import hudson.model.*
@@ -25,12 +25,13 @@ node {
  
     stage('Edit helm files') {
       sh"""
+        sed -i -r "s/memphis-broker:[0-9].[0-9].[0-9]/memphis-broker:\$(cat version.conf)/g" memphis/values.yaml
         sed -i -r "s/[0-9].[0-9].[0-9]/\$(cat version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/appVersion: [0-9].[0-9].[0-9]/appVersion: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/[0-9].[0-9].[0-9].tgz/\$(cat version.conf).tgz/g" memphis/index.yaml
       """
-  	}
+      }
 
     stage('helm merge'){
       dir ('charts'){
@@ -55,7 +56,6 @@ node {
     
     stage('Checkout to version branch'){
       withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
-        //sh "git reset --hard origin/master" //change to latest
         sh"""
           GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)
           GIT_SSH_COMMAND='ssh -i $check'  git push --set-upstream origin \$(cat version.conf)
@@ -63,10 +63,15 @@ node {
       }
     }
 
+    stage('Install gh + jq') {
+      sh """
+        sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+        sudo yum install gh -y
+        sudo yum install jq -y
+      """
+    }
+
     stage('Create new release') {
-      sh 'sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo'
-      sh 'sudo yum install gh -y'
-      sh 'sudo yum install jq -y'
       withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
         sh(script:"""gh release create \$(cat version.conf) --generate-notes""", returnStdout: true)
       }
