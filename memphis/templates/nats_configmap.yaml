@@ -62,7 +62,9 @@ data:
       {{- end}}
 
       {{- if .Values.nats.jetstream.memStorage.enabled }}
+      {{- if .Values.nats.jetstream.memStorage.size }}
       max_mem: {{ .Values.nats.jetstream.memStorage.size }}
+      {{- end }}
       {{- end }}
 
       {{- if .Values.nats.jetstream.domain }}
@@ -393,7 +395,7 @@ data:
       port: {{ .Values.websocket.port }}
       {{- with .Values.websocket.tls }}
         {{ $secretName := tpl .secret.name $ }}
-        tls {
+      tls {
         {{- with .cert }}
         cert_file: /etc/nats-certs/ws/{{ $secretName }}/{{ . }}
         {{- end }}
@@ -405,7 +407,7 @@ data:
         {{- with .ca }}
         ca_file: /etc/nats-certs/ws/{{ $secretName }}/{{ . }}
         {{- end }}
-        }
+      }
       {{- else }}
       no_tls: {{ .Values.websocket.noTLS }}
       {{- end }}
@@ -413,6 +415,15 @@ data:
       {{- with .Values.websocket.allowedOrigins }}
       allowed_origins: {{ toRawJson . }}
       {{- end }}
+      
+      {{- with .Values.websocket.auth.token }}
+      authorization {
+        token: "{{ . }}"
+      {{- if $.Values.websocket.auth.timeout }}
+        timeout: {{ $.Values.auth.timeout }}
+      {{- end }}
+      }
+    {{- end }}
     }
     {{- end }}
 
@@ -477,14 +488,6 @@ data:
     system_account: {{ . }}
     {{- end }}
 
-    authorization {
-      token: "test"
-
-
-      {{- if $.Values.auth.timeout }}
-      timeout: {{ $.Values.auth.timeout }}
-      {{- end }}
-    }
 
     {{- with .Values.auth.nkeys }}
     {{- with .users }}
