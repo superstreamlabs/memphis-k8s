@@ -38,7 +38,7 @@ rules:
   resources: ["pods"]
   verbs: ["create", "get", "list"]
 - apiGroups: [""]
-  resources: ["nodes"]
+  resources: ["nodes" , "nodes/proxy"]
   verbs: ["get", "list", "watch"]
 - apiGroups: ["" , "metrics.k8s.io"]
   resources: ["pods"]
