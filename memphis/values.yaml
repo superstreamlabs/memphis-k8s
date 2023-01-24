@@ -698,7 +698,7 @@ upgrade: false
 
 
 # External MongoDB configuration
-mongo:
+mongoExternal:
   enabled: false
   user: ""
   pass: ""
