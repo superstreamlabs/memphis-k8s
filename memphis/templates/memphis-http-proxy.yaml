@@ -70,3 +70,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
+                key: REFRESH_JWT_SECRET
