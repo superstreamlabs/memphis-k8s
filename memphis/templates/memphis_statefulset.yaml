@@ -580,7 +580,6 @@ spec:
             # During upgrades, healthz will be enabled instead to allow for a grace period
             # in case of JetStream enabled deployments to form quorum and streams to catch up.
             path: /healthz
-            path: /
             port: 8222
         {{- with .Values.nats.healthcheck.startup }}
           initialDelaySeconds: {{ .initialDelaySeconds }}
