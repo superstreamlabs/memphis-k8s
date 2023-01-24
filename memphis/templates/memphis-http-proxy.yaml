@@ -39,15 +39,6 @@ spec:
           image: busybox:1.28
           imagePullPolicy: Always
           command: ['sh', '-c', "until nslookup memphis-cluster.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
-          env:
-          - name: EXTERNAL_MONGO
-            value: {{ .Values.mongoExternal.enabled | quote }}
-          - name: MONGO_URL
-            value: {{ .Values.mongoExternal.connectionString | quote }}
-          - name: MONGO_USER
-            value: {{ .Values.mongoExternal.user | quote }}
-          - name: MONGO_PASS
-            value: {{ .Values.mongoExternal.pass | quote }}
       containers:
         - name: memphis-http-proxy
           image: memphisos/memphis-http-proxy:latest
@@ -79,12 +70,3 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
-                key: REFRESH_JWT_SECRET
-          - name: EXTERNAL_MONGO
-            value: {{ .Values.mongoExternal.enabled | quote }}
-          - name: MONGO_URL
-            value: {{ .Values.mongoExternal.connectionString | quote }}
-          - name: MONGO_USER
-            value: {{ .Values.mongoExternal.user | quote }}
-          - name: MONGO_PASS
-            value: {{ .Values.mongoExternal.pass | quote }}

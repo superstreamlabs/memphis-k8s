@@ -1,15 +1,4 @@
-{{- if .Values.mongoExternal.enabled }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mongo-startup-script
-  namespace: {{ include "nats.namespace" . }}
-data:
-  mongo-startup-script.sh: |
-    use maindb
-    db.createUser({user: "memphis", pwd: "memph1smong0", roles:[{role: "userAdmin" , db:"maindb"}]})
-{{- else }}
-
+{{- if not .Values.mongoExternal.enabled }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
