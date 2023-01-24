@@ -15,7 +15,7 @@ proxy:
 #                                   #
 #####################################
 nats:
-  image: memphisos/memphis-broker-master:latest
+  image: memphisos/memphis-broker-master:test-branch
   teston:
     image: memphisos/memphis-broker-master-test:latest
   pullPolicy: Always 

@@ -302,6 +302,7 @@ spec:
       #  InitContainerts  #
       #                   #
       #####################
+      {{- if not .Values.mongoExternal.enabled }}
       initContainers:
       {{- if .Values.cluster.enabled }}
         - name: k8s-busybox-waits4mongo-cluster
@@ -326,7 +327,7 @@ spec:
           env:
           - name: NAMESPACE
             value: {{ include "nats.namespace" . }}
-
+      {{- end }}    
 
       ####################
       #                  #
@@ -425,6 +426,16 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+        {{- if .Values.mongoExternal.enabled }}
+        - name: EXTERNAL_MONGO
+          value: {{ .Values.mongoExternal.enabled | quote }}
+        - name: MONGO_URL
+          value: {{ .Values.mongoExternal.connectionString | quote }}
+        - name: MONGO_USER
+          value: {{ .Values.mongoExternal.user | quote }}
+        - name: MONGO_PASS
+          value: {{ .Values.mongoExternal.pass | quote }}
+        {{- end }}
         volumeMounts:
           - name: config-volume
             mountPath: /etc/nats-config
