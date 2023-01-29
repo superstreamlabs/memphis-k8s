@@ -426,6 +426,8 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+        - name: EXPORTER
+          value: {{ .Values.exporter.enabled | quote }}
         {{- if .Values.mongoExternal.enabled }}
         - name: EXTERNAL_MONGO
           value: {{ .Values.mongoExternal.enabled | quote }}
