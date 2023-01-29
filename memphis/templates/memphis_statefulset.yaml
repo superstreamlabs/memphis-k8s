@@ -76,7 +76,7 @@ spec:
     matchLabels:
       {{- include "nats.selectorLabels" . | nindent 6 }}
       {{- if .Values.cluster.enabled }}
-  replicas: 3
+  replicas: {{ .Values.cluster.replicas }}
   {{- else }}
   replicas: 1
   {{- end }}
