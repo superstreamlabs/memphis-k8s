@@ -15,7 +15,7 @@ proxy:
 #                                   #
 #####################################
 nats:
-  image: memphisos/memphis-broker:0.4.3
+  image: memphisos/memphis-broker:0.4.4
   teston:
     image: memphisos/memphis-broker-latest-test:latest
   pullPolicy: Always 
@@ -695,6 +695,15 @@ podManagementPolicy: Parallel
 # Toggle that this is an upgrade to enable healthz, in case not
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
+
+
+# External MongoDB configuration
+mongoExternal:
+  enabled: false
+  user: ""
+  pass: ""
+  connectionString: ""
+
 #####################################
 #                                   #
 #  NATS Server Configuration END    #
