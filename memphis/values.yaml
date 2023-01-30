@@ -695,6 +695,15 @@ podManagementPolicy: Parallel
 # Toggle that this is an upgrade to enable healthz, in case not
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
+
+
+# External MongoDB configuration
+mongoExternal:
+  enabled: false
+  user: ""
+  pass: ""
+  connectionString: ""
+
 #####################################
 #                                   #
 #  NATS Server Configuration END    #

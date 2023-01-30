@@ -41,7 +41,7 @@ spec:
           command: ['sh', '-c', "until nslookup memphis-cluster.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-http-proxy
-          image: memphisos/memphis-http-proxy:latest
+          image: memphisos/memphis-http-proxy:master
           resources:
             limits:
               cpu: 500m
@@ -71,3 +71,29 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+          {{- with .Values.nats.tls }}
+          {{ $secretName := tpl .secret.name $ }}
+          {{- with .cert }}
+          - name: CLIENT_CERT_PATH
+            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+          {{- end }}
+          {{- with .key }}
+          - name: CLIENT_KEY_PATH
+            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+          {{- end }}
+          {{- with .ca }}
+          - name: ROOT_CA_PATH
+            value: /etc/nats-certs/clients/{{ $secretName }}/{{ . }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ $secretName }}-clients-volume
+              mountPath: /etc/nats-certs/clients/{{ $secretName }}
+          {{- end }}
+         
+      {{- with .Values.nats.tls }}
+      {{ $secretName := tpl .secret.name $ }}      
+      volumes:
+      - name: {{ $secretName }}-clients-volume
+        secret:
+          secretName: {{ $secretName }}
+      {{- end }}
