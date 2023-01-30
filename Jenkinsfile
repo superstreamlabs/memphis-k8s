@@ -42,7 +42,13 @@ node {
     stage('helm package'){
       sh"helm package memphis -d charts"
     }
-
+    stage('Install gh + jq') {
+      sh """
+        sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+        sudo yum install gh -y
+        sudo yum install jq -y
+      """
+    }
     stage('Push to latest'){
       withCredentials([sshUserPrivateKey(keyFileVariable:'check',credentialsId: 'main-github')]) {
         //sh "git reset --hard origin/master" //change to latest
@@ -52,6 +58,11 @@ node {
           GIT_SSH_COMMAND='ssh -i $check'  git push
         """
       }
+      withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
+        sh """
+          gh release create v\$(cat version.conf) --generate-notes
+        """
+      }
     }
     
     stage('Checkout to version branch'){
@@ -59,23 +70,6 @@ node {
         sh"""
           GIT_SSH_COMMAND='ssh -i $check'  git checkout -b \$(cat version.conf)
           GIT_SSH_COMMAND='ssh -i $check'  git push --set-upstream origin \$(cat version.conf)
-        """
-      }
-    }
-
-    stage('Install gh + jq') {
-      sh """
-        sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-        sudo yum install gh -y
-        sudo yum install jq -y
-      """
-    }
-
-    stage('Create new release') {
-      withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
-        sh """
-          git pull
-          gh release create v\$(cat version.conf) --generate-notes
         """
       }
     }
