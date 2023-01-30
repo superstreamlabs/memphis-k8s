@@ -49,7 +49,7 @@ node {
         sh"""
           GIT_SSH_COMMAND='ssh -i $check'  git add charts/memphis-*
           GIT_SSH_COMMAND='ssh -i $check'  git commit -m "Version \$(cat version.conf)" -a
-          GIT_SSH_COMMAND='ssh -i $check'  git push
+          GIT_SSH_COMMAND='ssh -i $check'  git push --set-upstream origin latest
         """
       }
     }
