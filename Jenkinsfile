@@ -73,7 +73,10 @@ node {
 
     stage('Create new release') {
       withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
-        sh(script:"""gh release create \$(cat version.conf) --generate-notes""", returnStdout: true)
+        sh """
+          git pull
+          gh release create v\$(cat version.conf) --generate-notes
+        """
       }
     }
     
