@@ -60,7 +60,7 @@ node {
       }
       withCredentials([string(credentialsId: 'gh_token', variable: 'GH_TOKEN')]) {
         sh """
-          gh release create v\$(cat version.conf) --generate-notes
+          gh release create v\$(cat version.conf) --generate-notes --target latest
         """
       }
     }
