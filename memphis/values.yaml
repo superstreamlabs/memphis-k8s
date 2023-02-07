@@ -6,7 +6,7 @@ image: ""
 analytics: true
 logsRetentionInDays: 3
 teston: ""
-proxy:
+restGateway:
   user: root
   port: 4444
 #####################################
