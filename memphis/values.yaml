@@ -1,14 +1,23 @@
+#####################################
+#                                   #
+#    Memphis Configuration BEGIN    #
+#                                   #
+#####################################
 rootPwd: ""
 connectionToken: ""
 analytics: true
 logsRetentionInDays: 3
-teston: ""
-restGateway:
-  user: root
-  port: 4444
+
 #####################################
 #                                   #
-#  NATS Server Configuration BEGIN  #
+#        Tests Configuration        #
+#                                   #
+#####################################
+teston: ""
+
+#####################################
+#                                   #
+#           Configuration           #
 #                                   #
 #####################################
 nats:
@@ -529,6 +538,12 @@ exporter:
     path: /metrics
     # interval:
     # scrapeTimeout:
+    
+    
+# Memphis REST Gateway configuration
+restGateway:
+  user: root
+  port: 4444
 
 # Authentication setup
 auth:
@@ -701,6 +716,7 @@ mongoExternal:
   user: ""
   pass: ""
   connectionString: ""
+ 
 
 #####################################
 #                                   #
