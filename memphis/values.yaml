@@ -462,8 +462,11 @@ bootconfig:
 #
 natsbox:
   enabled: false
-  image: natsio/nats-box:0.8.1
-  pullPolicy: IfNotPresent
+  image:
+    repository: natsio/nats-box
+    tag: 0.13.4
+    pullPolicy: IfNotPresent
+    # registry: docker.io
   securityContext: {}
 
   # Labels to add to the natsbox deployment
