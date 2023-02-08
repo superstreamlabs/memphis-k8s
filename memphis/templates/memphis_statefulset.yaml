@@ -43,7 +43,7 @@ spec:
         {{- tpl (toYaml .Values.statefulSetPodLabels) . | nindent 8 }}
         {{- end }}
     spec:
-      serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
+      serviceAccount: {{ include "nats.namespace" . }}-cp-account
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
