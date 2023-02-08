@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-account
+  name: {{ include "nats.namespace" . }}-mongo-account
   namespace: {{ include "nats.namespace" . }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-role
+  name: {{ include "nats.namespace" . }}-mongo-role
   namespace: {{ include "nats.namespace" . }}
 rules:
 - apiGroups: [""]
@@ -27,15 +27,15 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-role-binding
+  name: {{ include "nats.namespace" . }}-mongo-role-binding
   namespace: {{ include "nats.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-account
+  name: {{ include "nats.namespace" . }}-mongo-account
   namespace: {{ include "nats.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-role
+  name: {{ include "nats.namespace" . }}-mongo-role
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
@@ -98,7 +98,7 @@ spec:
         selector: mongo
     spec:
       terminationGracePeriodSeconds: 30
-      serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-mongo-account
+      serviceAccount: {{ include "nats.namespace" . }}-mongo-account
       containers:
       - name: mongodb
         image: memphisos/mongo:4.2
@@ -119,7 +119,7 @@ spec:
         - name: mongo-port
           containerPort: 27017
         volumeMounts:
-        - name: {{ .Release.Name }}-memphis-mongo-data
+        - name: memphis-mongo-data
           mountPath: /data/db
         - name: mongo-startup-script
           mountPath: /mnt/scripts
@@ -129,7 +129,7 @@ spec:
           name: mongo-startup-script
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Release.Name }}-memphis-mongo-data
+      name: memphis-mongo-data
     spec:
       accessModes:
         - ReadWriteOnce
