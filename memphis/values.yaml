@@ -235,13 +235,13 @@ nats:
       annotations:
       # key: "value"
 
-  accounts:
-    admin3:
-      jetstream:
-        max_mem: 512M
-        max_file: 1G
-        max_streams: 10
-        max_consumers: 100
+  #accounts:
+  #  admin3:
+  #    jetstream:
+  #      max_mem: 512M
+  #      max_file: 1G
+  #      max_streams: 10
+  #      max_consumers: 100
   #######################
   #                     #
   #  TLS Configuration  #
