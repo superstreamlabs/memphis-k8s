@@ -2,7 +2,7 @@ apiVersion: /v1
 kind: Service
 metadata:
   name: memphis-rest-gateway
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
 spec:
   type: ClusterIP
   ports:
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: memphis-rest-gateway
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
   labels:
     app: memphis-rest-gateway
 spec:
@@ -55,7 +55,7 @@ spec:
           - name: HTTP_PORT
             value: {{ .Values.restGateway.port | quote }}
           - name: MEMPHIS_HOST
-            value: {{ include "memphis.svcName" . }}.{{ include "nats.namespace" . }}.svc.cluster.local
+            value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
@@ -71,7 +71,7 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
-          {{- with .Values.nats.tls }}
+          {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
           - name: CLIENT_CERT_PATH
@@ -90,7 +90,7 @@ spec:
               mountPath: /etc/nats-certs/clients/{{ $secretName }}
           {{- end }}
          
-      {{- with .Values.nats.tls }}
+      {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}      
       volumes:
       - name: {{ $secretName }}-clients-volume

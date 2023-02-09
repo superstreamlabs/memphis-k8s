@@ -3,10 +3,10 @@
 apiVersion: {{ .Capabilities.APIVersions.Has "policy/v1" | ternary "policy/v1" "policy/v1beta1" }}
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "nats.fullname" . }}
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.fullname" . }}
+  namespace: {{ include "memphis.namespace" . }}
   labels:
-    {{- include "nats.labels" . | nindent 4 }}
+    {{- include "memphis.labels" . | nindent 4 }}
 spec:
   {{- if .Values.podDisruptionBudget.minAvailable }}
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
@@ -16,5 +16,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "nats.selectorLabels" . | nindent 6 }}
+      {{- include "memphis.selectorLabels" . | nindent 6 }}
 {{- end }}

@@ -20,18 +20,18 @@ teston: ""
 #           Configuration           #
 #                                   #
 #####################################
-nats:
+memphis:
   image: memphisos/memphis-broker-master:latest
   teston:
     image: memphisos/memphis-broker-master-test:latest
   pullPolicy: Always 
 
-  # The servers name prefix, must be used for example when we want a NATS cluster
+  # The servers name prefix, must be used for example when we want a Memphis cluster
   # spanning multiple Kubernetes clusters.
   serverNamePrefix: ""
 
   # Toggle profiling.
-  # This enables nats-server pprof (profiling) port, so you can see goroutines
+  # This enables memphis-server pprof (profiling) port, so you can see goroutines
   # stacks, memory heap sizes, etc.
   profiling:
     enabled: false
@@ -39,11 +39,10 @@ nats:
 
   # Toggle using health check probes to better detect failures.
   healthcheck:
-    # NOTE: Only works on NATS Server +2.7.1.
-    # This is recommended to be enabled for NATS JetStream deployments upgrades.
+    # This is recommended to be enabled for Memphis deployments upgrades.
     enableHealthz: true
 
-    # Enable liveness checks.  If this fails, then the NATS Server will restarted.
+    # Enable liveness checks.  If this fails, then the Memphis Broker will restarted.
     liveness:
       enabled: true
 
@@ -69,7 +68,7 @@ nats:
       terminationGracePeriodSeconds:
 
     # Periodically check for the server to be ready for connections while
-    # the NATS container is running.
+    # the Memphis container is running.
     # Disabled by default since covered by startup probe and it is the same
     # as the liveness check.
     readiness:
@@ -93,7 +92,7 @@ nats:
       successThreshold: 1
       failureThreshold: 30
 
-  # securityContext for the nats container
+  # securityContext for the memphis container
   securityContext: {}
 
   # Toggle whether to enable external access.
@@ -108,7 +107,7 @@ nats:
   # In case both external access and advertise are enabled
   # then a service account would be required to be able to
   # gather the public ip from a node.
-  serviceAccount: "nats-server"
+  serviceAccount: ""
 
   # The number of connect attempts against discovered routes.
   connectRetries: 120
@@ -156,7 +155,7 @@ nats:
     reconnectErrorReports:
 
   # customConfigSecret can be used to use an custom secret for the config
-  # of the NATS Server.
+  # of the Memphis Broker.
   # NOTE: For this to work the name of the configuration has to be
   # called `nats.conf`.
   #
@@ -201,7 +200,7 @@ nats:
 
       # Use a secret reference if you want to get a key from a secret
       # secret:
-      #   name: "nats-jetstream-encryption"
+      #   name: "memphis-jetstream-encryption"
       #   key: "key"
 
     #############################
@@ -235,27 +234,15 @@ nats:
       annotations:
       # key: "value"
 
-  #accounts:
-  #  admin3:
-  #    jetstream:
-  #      max_mem: 512M
-  #      max_file: 1G
-  #      max_streams: 10
-  #      max_consumers: 100
   #######################
   #                     #
   #  TLS Configuration  #
   #                     #
   #######################
-  #
-  #  # You can find more on how to setup and trouble shoot TLS connnections at:
-  #
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
-  #
 
   # tls:
   #   secret:
-  #     name: nats-client-tls
+  #     name: memphis-client-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
@@ -270,16 +257,11 @@ mqtt:
   #  TLS Configuration  #
   #                     #
   #######################
-  #
-  #  # You can find more on how to setup and trouble shoot TLS connnections at:
-  #
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
-  #
 
   #
   # tls:
   #   secret:
-  #     name: nats-mqtt-tls
+  #     name: memphis-mqtt-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
@@ -319,7 +301,7 @@ topologySpreadConstraints: []
 #   topologyKey: zone
 #   whenUnsatisfiable: DoNotSchedule
 
-# Annotations to add to the NATS pods
+# Annotations to add to the Memphis pods
 # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
 # key: "value"
@@ -344,22 +326,22 @@ tolerations: []
 #    value: "value"
 #    effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
 
-# Annotations to add to the NATS StatefulSet
+# Annotations to add to the Memphis StatefulSet
 statefulSetAnnotations: {}
 
-# Labels to add to the pods of the NATS StatefulSet
+# Labels to add to the pods of the Memphis StatefulSet
 statefulSetPodLabels: {}
 
-# Annotations to add to the NATS Service
+# Annotations to add to the Memphis Service
 serviceAnnotations: {}
 
-# additionalContainers are the sidecar containers to add to the NATS StatefulSet
+# additionalContainers are the sidecar containers to add to the Memphis StatefulSet
 additionalContainers: []
 
-# additionalVolumes are the additional volumes to add to the NATS StatefulSet
+# additionalVolumes are the additional volumes to add to the Memphis StatefulSet
 additionalVolumes: []
 
-# additionalVolumeMounts are the additional volume mounts to add to the nats-server and nats-server-config-reloader containers
+# additionalVolumeMounts are the additional volume mounts to add to the memphis-server and memphis-server-config-reloader containers
 additionalVolumeMounts: []
 
 cluster:
@@ -376,10 +358,6 @@ cluster:
   #   password: pwd
   #   timeout: 0.5
 
-# Leafnode connections to extend a cluster:
-#
-# https://docs.nats.io/nats-server/configuration/leafnodes
-#
 leafnodes:
   enabled: false
   noAdvertise: false
@@ -391,24 +369,15 @@ leafnodes:
   #  TLS Configuration  #
   #                     #
   #######################
-  #
-  #  # You can find more on how to setup and trouble shoot TLS connnections at:
-  #
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
-  #
 
   #
   # tls:
   #   secret:
-  #     name: nats-client-tls
+  #     name: memphis-client-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
 
-# Gateway connections to create a super cluster
-#
-# https://docs.nats.io/nats-server/configuration/gateways
-#
 gateway:
   enabled: false
   name: "default"
@@ -420,7 +389,7 @@ gateway:
 
   # You can add an implicit advertise address instead of using from Node's IP
   # could also be a fqdn address
-  # advertise: "nats.example.com"
+  # advertise: "memphis.example.com"
 
   #############################
   #                           #
@@ -436,14 +405,10 @@ gateway:
   #  TLS Configuration  #
   #                     #
   #######################
-  #
-  #  # You can find more on how to setup and trouble shoot TLS connnections at:
-  #
-  #  # https://docs.nats.io/nats-server/configuration/securing_nats/tls
-  #
+
   # tls:
   #   secret:
-  #     name: nats-client-tls
+  #     name: memphis-client-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
@@ -457,7 +422,7 @@ bootconfig:
   securityContext: {}
 
 
-# The NATS config reloader image to use.
+# The Memphis config reloader image to use.
 reloader:
   enabled: true
   image: memphisos/memphis-config-reloader:latest
@@ -465,7 +430,7 @@ reloader:
   securityContext: {}
   extraConfigs: []
 
-# Prometheus NATS Exporter configuration.
+# Prometheus Memphis Exporter configuration.
 exporter:
   enabled: false
   image: natsio/prometheus-nats-exporter:0.10.1
@@ -528,7 +493,7 @@ auth:
 
     ##########################################
     #                                        #
-    # Embedded NATS Account Server Resolver  #
+    #   Embedded Memphis Account Resolver    #
     #                                        #
     ##########################################
     ##type: full
@@ -536,8 +501,8 @@ auth:
     # If the resolver type is 'full', delete when enabled will rename the jwt.
     allowDelete: false
 
-    # Interval at which a nats-server with a nats based account resolver will compare
-    # it's state with one random nats based account resolver in the cluster and if needed,
+    # Interval at which a memphis-server with a memphis based account resolver will compare
+    # it's state with one random memphis based account resolver in the cluster and if needed,
     # exchange jwt and converge on the same set of jwt.
     ##interval: 2m
 
@@ -568,7 +533,7 @@ auth:
     # into the container.
     #
     # configMap:
-    #   name: nats-accounts
+    #   name: memphis-accounts
     #   key: resolver.conf
 
     ##########################
@@ -577,7 +542,7 @@ auth:
     #                        #
     ##########################
     #type: URL
-    #url: "http://control-plane/api-gw/usermgmt/nats/authenticate/"
+    #url: "http://control-plane/api-gw/usermgmt/memphis/authenticate/"
     #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
@@ -598,7 +563,7 @@ appProtocol:
 # https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
 k8sClusterDomain: cluster.local
 
-# Define if NATS is using FQDN name for clustering (i.e. nats-0.nats.default.svc.cluster.local) or short name (i.e. nats-0.nats.default).
+# Define if Memphis is using FQDN name for clustering (i.e. memphis-broker-0.memphis.default.svc.cluster.local) or short name (i.e. memphis-broker-0.memphis.default).
 useFQDN: true
 
 # Add labels to all the deployed resources
@@ -623,6 +588,6 @@ mongoExternal:
 
 #####################################
 #                                   #
-#  NATS Server Configuration END    #
+#    Memphis Configuration END      #
 #                                   #
 #####################################

@@ -3,9 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "memphis.svcName" . }}
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
   labels:
-    {{- include "nats.labels" . | nindent 4 }}
+    {{- include "memphis.labels" . | nindent 4 }}
   {{- if .Values.serviceAnnotations}}
   annotations:
   {{- range $key, $value := .Values.serviceAnnotations }}
@@ -14,7 +14,7 @@ metadata:
   {{- end }}
 spec:
   selector:
-    {{- include "nats.selectorLabels" . | nindent 4 }}
+    {{- include "memphis.selectorLabels" . | nindent 4 }}
   clusterIP: None
   {{- if .Values.topologyKeys }}
   topologyKeys:

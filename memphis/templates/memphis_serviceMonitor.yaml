@@ -2,11 +2,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ template "nats.fullname" . }}
+  name: {{ template "memphis.fullname" . }}
   {{- if .Values.exporter.serviceMonitor.namespace }}
   namespace: {{ .Values.exporter.serviceMonitor.namespace }}
   {{- else }}
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
   {{- end }}
   {{- if .Values.exporter.serviceMonitor.labels }}
   labels:
@@ -32,5 +32,5 @@ spec:
     any: true
   selector:
     matchLabels:
-      {{- include "nats.selectorLabels" . | nindent 6 }}
+      {{- include "memphis.selectorLabels" . | nindent 6 }}
 {{- end }}
