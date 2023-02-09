@@ -456,65 +456,6 @@ bootconfig:
   pullPolicy: IfNotPresent
   securityContext: {}
 
-# NATS Box
-#
-# https://github.com/nats-io/nats-box
-#
-natsbox:
-  enabled: false
-  image:
-    repository: natsio/nats-box
-    tag: 0.13.4
-    pullPolicy: IfNotPresent
-    # registry: docker.io
-  securityContext: {}
-
-  # Labels to add to the natsbox deployment
-  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-  additionalLabels: {}
-
-  # An array of imagePullSecrets, and they have to be created manually in the same namespace
-  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  imagePullSecrets: []
-  #  - name: dockerhub
-
-  # credentials:
-  #   secret:
-  #     name: nats-sys-creds
-  #     key: sys.creds
-
-  # Annotations to add to the box pods
-  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-  podAnnotations: {}
-  #  key: "value"
-
-  # Labels to add to the box pods
-  # ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-  podLabels: {}
-  # key: "value"
-
-  # Affinity for nats box pod assignment
-  # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-  affinity: {}
-
-  # Node labels for pod assignment
-  # Ref: https://kubernetes.io/docs/user-guide/node-selection/
-  nodeSelector: {}
-
-  # Node tolerations for server scheduling to nodes with taints
-  # Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
-  #
-  tolerations: []
-  #  - key: "key"
-  #    operator: "Equal|Exists"
-  #    value: "value"
-  #    effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
-
-  # Additional nats-box server Volume mounts
-  extraVolumeMounts: []
-
-  # Additional nats-box server Volumes
-  extraVolumes: []
 
 # The NATS config reloader image to use.
 reloader:
