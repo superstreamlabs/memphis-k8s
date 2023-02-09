@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ include "nats.namespace" . }}-mongo-account
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.namespace" . }}-mongo-account
+  namespace: {{ include "memphis.namespace" . }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "nats.namespace" . }}-mongo-role
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.namespace" . }}-mongo-role
+  namespace: {{ include "memphis.namespace" . }}
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]
@@ -27,22 +27,22 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "nats.namespace" . }}-mongo-role-binding
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.namespace" . }}-mongo-role-binding
+  namespace: {{ include "memphis.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ include "nats.namespace" . }}-mongo-account
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.namespace" . }}-mongo-account
+  namespace: {{ include "memphis.namespace" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "nats.namespace" . }}-mongo-role
+  name: {{ include "memphis.namespace" . }}-mongo-role
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mongo
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
   labels:
     name: mongo
 spec:
@@ -57,7 +57,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mongo-startup-script
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
       {{- if .Values.cluster.enabled }}
 data:
   mongo-startup-script.sh: |
@@ -80,7 +80,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: memphis-mongodb
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
 spec:
   serviceName: mongo
       {{- if .Values.cluster.enabled }}
@@ -98,7 +98,7 @@ spec:
         selector: mongo
     spec:
       terminationGracePeriodSeconds: 30
-      serviceAccount: {{ include "nats.namespace" . }}-mongo-account
+      serviceAccount: {{ include "memphis.namespace" . }}-mongo-account
       containers:
       - name: mongodb
         image: memphisos/mongo:4.2

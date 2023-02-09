@@ -1,16 +1,16 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nats.name" -}}
+{{- define "memphis.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "nats.namespace" -}}
+{{- define "memphis.namespace" -}}
 {{- default .Release.Namespace .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
-{{- define "nats.fullname" -}}
+{{- define "memphis.fullname" -}}
 {{- printf "memphis-broker" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -39,19 +39,19 @@ Expand the name of the chart.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nats.chart" -}}
+{{- define "memphis.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "nats.labels" -}}
-helm.sh/chart: {{ include "nats.chart" . }}
+{{- define "memphis.labels" -}}
+helm.sh/chart: {{ include "memphis.chart" . }}
 {{- range $name, $value := .Values.commonLabels }}
 {{ $name }}: {{ tpl $value $ }}
 {{- end }}
-{{ include "nats.selectorLabels" . }}
+{{ include "memphis.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -61,11 +61,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nats.selectorLabels" -}}
-{{- if .Values.nats.selectorLabels }}
-{{ tpl (toYaml .Values.nats.selectorLabels) . }}
+{{- define "memphis.selectorLabels" -}}
+{{- if .Values.memphis.selectorLabels }}
+{{ tpl (toYaml .Values.memphis.selectorLabels) . }}
 {{- else }}
-app.kubernetes.io/name: {{ include "nats.name" . }}
+app.kubernetes.io/name: {{ include "memphis.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 {{- end }}
@@ -74,7 +74,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 Return the proper NATS image name
 */}}
-{{- define "nats.clusterAdvertise" -}}
+{{- define "memphis.clusterAdvertise" -}}
 {{- if $.Values.useFQDN }}
 {{- printf "$(POD_NAME).%s.$(POD_NAMESPACE).svc.%s" (include "memphis.svcName" . ) $.Values.k8sClusterDomain }}
 {{- else }}
@@ -85,10 +85,10 @@ Return the proper NATS image name
 {{/*
 Return the NATS cluster routes.
 */}}
-{{- define "nats.clusterRoutes" -}}
-{{- $name := (include "nats.fullname" . ) -}}
+{{- define "memphis.clusterRoutes" -}}
+{{- $name := (include "memphis.fullname" . ) -}}
 {{- $svcName := (include "memphis.svcName" . ) -}}
-{{- $namespace := (include "nats.namespace" . ) -}}
+{{- $namespace := (include "memphis.namespace" . ) -}}
 {{- range $i, $e := until (.Values.cluster.replicas | int) -}}
 {{- if $.Values.useFQDN }}
 {{- printf "nats://%s-%d.%s.%s.svc.%s:6222," $name $i $svcName $namespace $.Values.k8sClusterDomain -}}
@@ -98,13 +98,13 @@ Return the NATS cluster routes.
 {{- end -}}
 {{- end }}
 
-{{- define "nats.extraRoutes" -}}
+{{- define "memphis.extraRoutes" -}}
 {{- range $i, $url := .Values.cluster.extraRoutes -}}
 {{- printf "%s," $url -}}
 {{- end -}}
 {{- end }}
 
-{{- define "nats.tlsConfig" -}}
+{{- define "memphis.tlsConfig" -}}
 tls {
 {{- if .cert }}
     cert_file: {{ .secretPath }}/{{ .secret.name }}/{{ .cert }}

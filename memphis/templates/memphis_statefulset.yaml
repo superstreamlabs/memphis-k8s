@@ -1,70 +1,11 @@
-apiVersion: v1
-kind: ServiceAccount
-imagePullSecrets:
-- name: gcr-secret
-- name: awsecr-cred
-- name: dpr-secret
-- name: acr-secret
-- name: regcred
-metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
-  namespace: {{ include "nats.namespace" . }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-role
-  namespace: {{ include "nats.namespace" . }}
-rules:
-- apiGroups: ["*"]
-  resources: ["statefulsets"]
-  verbs: ["list", "watch"]
-- apiGroups: [""]
-  resources: ["configmaps"]
-  verbs: ["*"]
-- apiGroups: ["*"]
-  resources: ["deployments"]
-  verbs: ["list", "watch"]
-- apiGroups: [""]
-  resources: ["namespaces"]
-  verbs: ["list", "watch"]
-- apiGroups: [""]
-  resources: ["services"]
-  verbs: ["*"]
-- apiGroups: [""]
-  resources: ["pods" , "pods/exec"]
-  verbs: ["create", "get", "list"]
-- apiGroups: [""]
-  resources: ["nodes" , "nodes/proxy"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: [""]
-  resources: ["persistentvolumeclaims"]
-  verbs: ["get", "list", "watch"]
-- apiGroups: ["" , "metrics.k8s.io"]
-  resources: ["pods"]
-  verbs: ["get", "watch", "list"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-role-binding
-  namespace: {{ include "nats.namespace" . }}
-subjects:
-- kind: ServiceAccount
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
-  namespace: {{ include "nats.namespace" . }}
-roleRef:
-  kind: ClusterRole
-  name: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-role
-  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "nats.fullname" . }}
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.fullname" . }}
+  namespace: {{ include "memphis.namespace" . }}
   labels:
-    {{- include "nats.labels" . | nindent 4 }}
+    {{- include "memphis.labels" . | nindent 4 }}
     {{- if .Values.statefulSetAnnotations}}
   annotations:
   {{- range $key, $value := .Values.statefulSetAnnotations }}
@@ -74,7 +15,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "nats.selectorLabels" . | nindent 6 }}
+      {{- include "memphis.selectorLabels" . | nindent 6 }}
       {{- if .Values.cluster.enabled }}
   replicas: {{ .Values.cluster.replicas }}
   {{- else }}
@@ -98,16 +39,16 @@ spec:
       {{- end }}
       {{- end }}
       labels:
-        {{- include "nats.selectorLabels" . | nindent 8 }}
+        {{- include "memphis.selectorLabels" . | nindent 8 }}
         {{- if .Values.statefulSetPodLabels }}
         {{- tpl (toYaml .Values.statefulSetPodLabels) . | nindent 8 }}
         {{- end }}
     spec:
-      serviceAccount: {{ .Release.Name }}-{{ include "nats.namespace" . }}-cp-account
-{{- with .Values.imagePullSecrets }}
-      imagePullSecrets: [{"name":"regcred"}]
-{{- toYaml . | nindent 8 }}
-{{- end }}
+      serviceAccount: {{ include "memphis.namespace" . }}-cp-account
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- with .Values.securityContext }}
       securityContext:
 {{- toYaml . | nindent 8 }}
@@ -133,7 +74,7 @@ spec:
         {{- end }}
         labelSelector:
           matchLabels:
-            {{- include "nats.selectorLabels" $ | nindent 12 }}
+            {{- include "memphis.selectorLabels" $ | nindent 12 }}
       {{- end }}
       {{- end }}
 {{- end }}
@@ -143,18 +84,18 @@ spec:
       # Common volumes for the containers.
       volumes:
       - name: config-volume
-        {{ if .Values.nats.customConfigSecret }}
+        {{ if .Values.memphis.customConfigSecret }}
         secret:
-          secretName: {{ .Values.nats.customConfigSecret.name }}
+          secretName: {{ .Values.memphis.customConfigSecret.name }}
         {{ else }}
         configMap:
-          name: {{ include "nats.fullname" . }}-config
+          name: {{ include "memphis.fullname" . }}-config
         {{ end }}
 
       {{/* User extended config volumes*/}}
-      {{- if .Values.nats.config }}
+      {{- if .Values.memphis.config }}
       # User extended config volumes
-      {{- with .Values.nats.config }}
+      {{- with .Values.memphis.config }}
         {{- . | toYaml | nindent 6 }}
       {{- end }}
       {{- end }}
@@ -177,17 +118,17 @@ spec:
       {{- end }}
       {{- end }}
 
-      {{- if and .Values.nats.externalAccess .Values.nats.advertise }}
+      {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
       # Local volume shared with the advertise config initializer.
       - name: advertiseconfig
         emptyDir: {}
       {{- end }}
 
-      {{- if and .Values.nats.jetstream.fileStorage.enabled .Values.nats.jetstream.fileStorage.existingClaim }}
+      {{- if and .Values.memphis.jetstream.fileStorage.enabled .Values.memphis.jetstream.fileStorage.existingClaim }}
       # Persistent volume for jetstream running with file storage option
-      - name: {{ include "nats.fullname" . }}-js-pvc
+      - name: {{ include "memphis.fullname" . }}-js-pvc
         persistentVolumeClaim:
-          claimName: {{ .Values.nats.jetstream.fileStorage.existingClaim | quote }}
+          claimName: {{ .Values.memphis.jetstream.fileStorage.existingClaim | quote }}
       {{- end }}
 
       #################
@@ -195,7 +136,7 @@ spec:
       #  TLS Volumes  #
       #               #
       #################
-      {{- with .Values.nats.tls }}
+      {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}
       - name: {{ $secretName }}-clients-volume
         secret:
@@ -255,18 +196,18 @@ spec:
       {{- toYaml .Values.additionalVolumes | nindent 6 }}
       {{- end }}
 
-      {{ if and .Values.nats.externalAccess .Values.nats.advertise }}
+      {{ if and .Values.memphis.externalAccess .Values.memphis.advertise }}
       # Assume that we only use the service account in case we want to
       # figure out what is the current external public IP from the server
       # in order to be able to advertise correctly.
-      serviceAccountName: {{ .Values.nats.serviceAccount }}
+      serviceAccountName: {{ .Values.memphis.serviceAccount }}
       {{ end }}
 
       # Required to be able to HUP signal and apply config
       # reload to the server without restarting the pod.
       shareProcessNamespace: true
 
-      {{- if and .Values.nats.externalAccess .Values.nats.advertise }}
+      {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
       # Initializer container required to be able to lookup
       # the external ip on which this node is running.
       initContainers:
@@ -310,7 +251,7 @@ spec:
           imagePullPolicy: Always
           env:
           - name: NAMESPACE
-            value: {{ include "nats.namespace" . }}
+            value: {{ include "memphis.namespace" . }}
           command: ['sh', '-c', "until nslookup memphis-mongodb-1.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-1; sleep 2; done"]
       {{- else }}
         - name: k8s-busybox-waits4mongo
@@ -318,7 +259,7 @@ spec:
           imagePullPolicy: Always
           env:
           - name: NAMESPACE
-            value: {{ include "nats.namespace" . }}
+            value: {{ include "memphis.namespace" . }}
           command: ['sh', '-c', "until nslookup memphis-mongodb-0.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-0; sleep 2; done"]
       {{- end }}
         - name: k8s-busybox-initiliaze-mongodb
@@ -326,7 +267,7 @@ spec:
           imagePullPolicy: Always
           env:
           - name: NAMESPACE
-            value: {{ include "nats.namespace" . }}
+            value: {{ include "memphis.namespace" . }}
       {{- end }}    
 
       ####################
@@ -334,21 +275,21 @@ spec:
       #  Memphis Server  #
       #                  #
       ####################
-      terminationGracePeriodSeconds: {{ .Values.nats.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.memphis.terminationGracePeriodSeconds }}
       containers:
       - name: memphis-broker
         {{ if eq .Values.teston "cp" }}
-        image: {{ .Values.nats.teston.image }}
+        image: {{ .Values.memphis.teston.image }}
         {{ else }}
-        image: {{ .Values.nats.image }}
+        image: {{ .Values.memphis.image }}
         {{ end }}
-        imagePullPolicy: {{ .Values.nats.pullPolicy }}
-        {{- if .Values.nats.securityContext }}
+        imagePullPolicy: {{ .Values.memphis.pullPolicy }}
+        {{- if .Values.memphis.securityContext }}
         securityContext:
-        {{- .Values.nats.securityContext | toYaml | nindent 10 }}
+        {{- .Values.memphis.securityContext | toYaml | nindent 10 }}
         {{- end }}
         resources:
-          {{- toYaml .Values.nats.resources | nindent 10 }}
+          {{- toYaml .Values.memphis.resources | nindent 10 }}
         ports:
         - containerPort: 9000
           name: management
@@ -366,10 +307,10 @@ spec:
         command:
          - "nats-server"
          - "--config"
-         - "/etc/nats-config/nats.conf"
+         - "/etc/nats-config/memphis.conf"
          - "--auth=$(CONNECTION_TOKEN)"
-        {{- if .Values.nats.profiling.enabled }}
-         - "--profile={{ .Values.nats.profiling.port }}"
+        {{- if .Values.memphis.profiling.enabled }}
+         - "--profile={{ .Values.memphis.profiling.port }}"
         {{- end }}
 
         # Required to be able to define an environment variable
@@ -381,16 +322,16 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: SERVER_NAME
-          value: {{ .Values.nats.serverNamePrefix }}$(POD_NAME)
+          value: {{ .Values.memphis.serverNamePrefix }}$(POD_NAME)
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
         - name: CLUSTER_ADVERTISE
-          value: {{ include "nats.clusterAdvertise" . }}
+          value: {{ include "memphis.clusterAdvertise" . }}
 
-        {{- if .Values.nats.jetstream.enabled }}
-        {{- with .Values.nats.jetstream.encryption }}
+        {{- if .Values.memphis.jetstream.enabled }}
+        {{- with .Values.memphis.jetstream.encryption }}
         {{- with .secret }}
         - name: JS_KEY
           valueFrom:
@@ -405,7 +346,7 @@ spec:
         - name: LOGS_RETENTION_IN_DAYS
           value: {{ .Values.logsRetentionInDays | quote }}
         - name: K8S_NAMESPACE
-          value: {{ include "nats.namespace" . }}
+          value: {{ include "memphis.namespace" . }}
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
@@ -442,15 +383,15 @@ spec:
           - name: config-volume
             mountPath: /etc/nats-config
           - name: pid
-            mountPath: /var/run/nats
-          {{- if and .Values.nats.externalAccess .Values.nats.advertise }}
+            mountPath: /var/run/memphis
+          {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
           - mountPath: /etc/nats-config/advertise
             name: advertiseconfig
             subPath: advertise
           {{- end }}
 
           {{/* User extended config volumes*/}}
-          {{- range .Values.nats.config }}
+          {{- range .Values.memphis.config }}
           # User extended config volumes
           - name: {{ .name }}
             mountPath: /etc/nats-config/{{ .name }}
@@ -469,7 +410,7 @@ spec:
             mountPath: /etc/nats-config/accounts
           {{- end }}
           {{- if and .Values.auth.resolver .Values.auth.resolver.store }}
-          - name: nats-jwt-pvc
+          - name: memphis-jwt-pvc
             mountPath: {{ .Values.auth.resolver.store.dir }}
           {{- end }}
           {{- end }}
@@ -480,12 +421,12 @@ spec:
           {{- end }}
           {{- end }}
 
-          {{- if .Values.nats.jetstream.fileStorage.enabled }}
-          - name: {{ include "nats.fullname" . }}-js-pvc
-            mountPath: {{ .Values.nats.jetstream.fileStorage.storageDirectory }}
+          {{- if .Values.memphis.jetstream.fileStorage.enabled }}
+          - name: {{ include "memphis.fullname" . }}-js-pvc
+            mountPath: {{ .Values.memphis.jetstream.fileStorage.storageDirectory }}
           {{- end }}
 
-          {{- with .Values.nats.tls }}
+          {{- with .Values.memphis.tls }}
           #######################
           #                     #
           #  TLS Volumes Mounts #
@@ -493,37 +434,37 @@ spec:
           #######################
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-clients-volume
-            mountPath: /etc/nats-certs/clients/{{ $secretName }}
+            mountPath: /etc/memphis-certs/clients/{{ $secretName }}
           {{- end }}
           {{- with .Values.mqtt.tls }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-mqtt-volume
-            mountPath: /etc/nats-certs/mqtt/{{ $secretName }}
+            mountPath: /etc/memphis-certs/mqtt/{{ $secretName }}
           {{- end }}
           {{- with .Values.cluster.tls }}
           {{- if not .custom }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-cluster-volume
-            mountPath: /etc/nats-certs/cluster/{{ $secretName }}
+            mountPath: /etc/memphis-certs/cluster/{{ $secretName }}
           {{- end }}
           {{- end }}
           {{- with .Values.leafnodes.tls }}
           {{- if not .custom }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-leafnodes-volume
-            mountPath: /etc/nats-certs/leafnodes/{{ $secretName }}
+            mountPath: /etc/memphis-certs/leafnodes/{{ $secretName }}
           {{- end }}
           {{- end }}
           {{- with .Values.gateway.tls }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-gateways-volume
-            mountPath: /etc/nats-certs/gateways/{{ $secretName }}
+            mountPath: /etc/memphis-certs/gateways/{{ $secretName }}
           {{- end }}
 
           {{- with .Values.websocket.tls }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-ws-volume
-            mountPath: /etc/nats-certs/ws/{{ $secretName }}
+            mountPath: /etc/memphis-certs/ws/{{ $secretName }}
           {{- end }}
 
           {{- if .Values.leafnodes.enabled }}
@@ -533,11 +474,11 @@ spec:
           {{- range .Values.leafnodes.remotes }}
           {{- with .credentials }}
           - name: {{ .secret.name }}-volume
-            mountPath: /etc/nats-creds/{{ .secret.name }}
+            mountPath: /etc/memphis-creds/{{ .secret.name }}
           {{- end }}
           {{- with .tls }}
           - name: {{ .secret.name }}-volume
-            mountPath: /etc/nats-certs/leafnodes/{{ .secret.name }}
+            mountPath: /etc/memphis-certs/leafnodes/{{ .secret.name }}
           {{- end }}
           {{- end }}
           {{- end }}
@@ -551,9 +492,9 @@ spec:
         # Healthcheck Probes  #
         #                     #
         #######################
-        {{- if .Values.nats.healthcheck }}
+        {{- if .Values.memphis.healthcheck }}
 
-        {{- with .Values.nats.healthcheck.liveness }}
+        {{- with .Values.memphis.healthcheck.liveness }}
         {{- if .enabled }}
         livenessProbe:
           httpGet:
@@ -570,7 +511,7 @@ spec:
         {{- end }}
         {{- end }}
 
-        {{- with .Values.nats.healthcheck.readiness }}
+        {{- with .Values.memphis.healthcheck.readiness }}
         {{- if .enabled }}
         readinessProbe:
           httpGet:
@@ -584,14 +525,14 @@ spec:
         {{- end }}
         {{- end }}
 
-        {{- if .Values.nats.healthcheck.startup.enabled }}
+        {{- if .Values.memphis.healthcheck.startup.enabled }}
         startupProbe:
           httpGet:
             # During upgrades, healthz will be enabled instead to allow for a grace period
             # in case of JetStream enabled deployments to form quorum and streams to catch up.
             path: /
             port: 8222
-        {{- with .Values.nats.healthcheck.startup }}
+        {{- with .Values.memphis.healthcheck.startup }}
           initialDelaySeconds: {{ .initialDelaySeconds }}
           timeoutSeconds: {{ .timeoutSeconds }}
           periodSeconds: {{ .periodSeconds }}
@@ -634,9 +575,9 @@ spec:
         command:
          - "memphis-config-reloader"
          - "-pid"
-         - "/var/run/nats/nats.pid"
+         - "/var/run/memphis/memphis.pid"
          - "-config"
-         - "/etc/nats-config/nats.conf"
+         - "/etc/nats-config/memphis.conf"
         {{- range .Values.reloader.extraConfigs }}
          - "-config"
          - {{ . | quote }}
@@ -645,7 +586,7 @@ spec:
           - name: config-volume
             mountPath: /etc/nats-config
           - name: pid
-            mountPath: /var/run/nats
+            mountPath: /var/run/memphis
           {{- if .Values.additionalVolumeMounts }}
           {{- toYaml .Values.additionalVolumeMounts | nindent 10 }}
           {{- end }}
@@ -673,7 +614,7 @@ spec:
         - -varz
         - -prefix=nats
         - -use_internal_server_id
-        {{- if .Values.nats.jetstream.enabled }}
+        {{- if .Values.memphis.jetstream.enabled }}
         - -jsz=all
         {{- end }}
         {{- if .Values.leafnodes.enabled }}
@@ -705,29 +646,29 @@ spec:
   {{- end }}
   {{- end }}
 
-  {{- if and .Values.nats.jetstream.fileStorage.enabled (not .Values.nats.jetstream.fileStorage.existingClaim) }}
+  {{- if and .Values.memphis.jetstream.fileStorage.enabled (not .Values.memphis.jetstream.fileStorage.existingClaim) }}
   #####################################
   #                                   #
   #  Jetstream New Persistent Volume  #
   #                                   #
   #####################################
     - metadata:
-        name: {{ include "nats.fullname" . }}-js-pvc
-        {{- if .Values.nats.jetstream.fileStorage.annotations }}
+        name: {{ include "memphis.fullname" . }}-js-pvc
+        {{- if .Values.memphis.jetstream.fileStorage.annotations }}
         annotations:
-        {{- range $key, $value := .Values.nats.jetstream.fileStorage.annotations }}
+        {{- range $key, $value := .Values.memphis.jetstream.fileStorage.annotations }}
           {{ $key }}: {{ $value | quote }}
         {{- end }}
         {{- end }}
       spec:
         accessModes:
-        {{- range .Values.nats.jetstream.fileStorage.accessModes }}
+        {{- range .Values.memphis.jetstream.fileStorage.accessModes }}
           - {{ . | quote }}
         {{- end }}
         resources:
           requests:
-            storage: {{ .Values.nats.jetstream.fileStorage.size }}
-        {{- if .Values.nats.jetstream.fileStorage.storageClassName }}
-        storageClassName: {{ .Values.nats.jetstream.fileStorage.storageClassName | quote }}
+            storage: {{ .Values.memphis.jetstream.fileStorage.size }}
+        {{- if .Values.memphis.jetstream.fileStorage.storageClassName }}
+        storageClassName: {{ .Values.memphis.jetstream.fileStorage.storageClassName | quote }}
         {{- end }}
   {{- end }}
