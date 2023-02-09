@@ -529,6 +529,8 @@ exporter:
   enabled: false
   image: natsio/prometheus-nats-exporter:0.10.1
   pullPolicy: IfNotPresent
+  
+  portName: metrics
   securityContext: {}
   resources: {}
   # Prometheus operator ServiceMonitor support. Exporter has to be enabled
