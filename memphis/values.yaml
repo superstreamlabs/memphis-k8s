@@ -227,7 +227,7 @@ memphis:
 
       # Use below block to create new persistent volume
       # only used if existingClaim is not specified
-      size: 10Gi
+      size: 30Gi
       # storageClassName: ""
       accessModes:
         - ReadWriteOnce
