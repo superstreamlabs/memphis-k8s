@@ -51,3 +51,44 @@ roleRef:
   kind: ClusterRole
   name: {{ include "memphis.namespace" . }}-cp-role
   apiGroup: rbac.authorization.k8s.io
+---
+{{- if .Capabilities.APIVersions.Has "security.openshift.io/v1/SecurityContextConstraints" }}
+allowHostPorts: true
+priority: null
+requiredDropCapabilities:
+  - ALL
+allowPrivilegedContainer: false
+runAsUser:
+  type: MustRunAsRange
+users:
+  - 'system:serviceaccount:{{ include "memphis.namespace" . }}:{{ include "memphis.namespace" . }}-cp-account'
+allowHostDirVolumePlugin: false
+seccompProfiles:
+  - runtime/default
+allowHostIPC: false
+seLinuxContext:
+  type: MustRunAs
+readOnlyRootFilesystem: false
+metadata:
+  name: memphis-hostnetwork-v2
+fsGroup:
+  type: MustRunAs
+groups: []
+kind: SecurityContextConstraints
+defaultAddCapabilities: null
+supplementalGroups:
+  type: MustRunAs
+volumes:
+  - configMap
+  - downwardAPI
+  - emptyDir
+  - persistentVolumeClaim
+  - projected
+  - secret
+allowHostPID: false
+allowHostNetwork: true
+allowPrivilegeEscalation: false
+apiVersion: security.openshift.io/v1
+allowedCapabilities:
+  - NET_BIND_SERVICE
+{{- end }}
