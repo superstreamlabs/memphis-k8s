@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "memphis.namespace" . }}-cp-account
+  namespace: {{ include "memphis.namespace" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "memphis.namespace" . }}-cp-role
+  namespace: {{ include "memphis.namespace" . }}
+rules:
+- apiGroups: ["*"]
+  resources: ["statefulsets"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["*"]
+- apiGroups: ["*"]
+  resources: ["deployments"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["list", "watch"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["pods" , "pods/exec"]
+  verbs: ["create", "get", "list"]
+- apiGroups: [""]
+  resources: ["nodes" , "nodes/proxy"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["" , "metrics.k8s.io"]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "memphis.namespace" . }}-cp-role-binding
+  namespace: {{ include "memphis.namespace" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "memphis.namespace" . }}-cp-account
+  namespace: {{ include "memphis.namespace" . }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "memphis.namespace" . }}-cp-role
+  apiGroup: rbac.authorization.k8s.io
+---
+{{- if .Capabilities.APIVersions.Has "security.openshift.io/v1/SecurityContextConstraints" }}
+allowHostPorts: true
+priority: null
+requiredDropCapabilities:
+  - ALL
+allowPrivilegedContainer: false
+runAsUser:
+  type: MustRunAsRange
+users:
+  - 'system:serviceaccount:{{ include "memphis.namespace" . }}:{{ include "memphis.namespace" . }}-cp-account'
+allowHostDirVolumePlugin: false
+seccompProfiles:
+  - runtime/default
+allowHostIPC: false
+seLinuxContext:
+  type: MustRunAs
+readOnlyRootFilesystem: false
+metadata:
+  name: memphis-hostnetwork-v2
+fsGroup:
+  type: MustRunAs
+groups: []
+kind: SecurityContextConstraints
+defaultAddCapabilities: null
+supplementalGroups:
+  type: MustRunAs
+volumes:
+  - configMap
+  - downwardAPI
+  - emptyDir
+  - persistentVolumeClaim
+  - projected
+  - secret
+allowHostPID: false
+allowHostNetwork: true
+allowPrivilegeEscalation: false
+apiVersion: security.openshift.io/v1
+allowedCapabilities:
+  - NET_BIND_SERVICE
+{{- end }}
