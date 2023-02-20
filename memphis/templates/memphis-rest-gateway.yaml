@@ -75,19 +75,19 @@ spec:
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
           - name: CLIENT_CERT_PATH
-            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+            value: "/etc/memphis-certs/clients/{{ $secretName }}/{{ . }}"
           {{- end }}
           {{- with .key }}
           - name: CLIENT_KEY_PATH
-            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+            value: "/etc/memphis-certs/clients/{{ $secretName }}/{{ . }}"
           {{- end }}
           {{- with .ca }}
           - name: ROOT_CA_PATH
-            value: /etc/nats-certs/clients/{{ $secretName }}/{{ . }}
+            value: /etc/memphis-certs/clients/{{ $secretName }}/{{ . }}
           {{- end }}
           volumeMounts:
             - name: {{ $secretName }}-clients-volume
-              mountPath: /etc/nats-certs/clients/{{ $secretName }}
+              mountPath: /etc/memphis-certs/clients/{{ $secretName }}
           {{- end }}
          
       {{- with .Values.memphis.tls }}
