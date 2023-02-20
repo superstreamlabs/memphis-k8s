@@ -21,7 +21,7 @@ teston: ""
 #                                   #
 #####################################
 memphis:
-  image: memphisos/memphis-broker-master:latest
+  image: memphisos/memphis-broker:0.4.4
   teston:
     image: memphisos/memphis-broker-latest-test:latest
   pullPolicy: Always 
