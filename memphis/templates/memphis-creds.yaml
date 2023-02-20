@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: memphis-creds
-  namespace: {{ include "nats.namespace" . }}
+  namespace: {{ include "memphis.namespace" . }}
 type: Opaque
 data:
   ROOT_PASSWORD: {{ if .Values.rootPwd }}{{ .Values.rootPwd | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}

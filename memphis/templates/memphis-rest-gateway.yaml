@@ -1,24 +1,24 @@
 apiVersion: /v1
 kind: Service
 metadata:
-  name: memphis-http-proxy
-  namespace: {{ include "nats.namespace" . }}
+  name: memphis-rest-gateway
+  namespace: {{ include "memphis.namespace" . }}
 spec:
   type: ClusterIP
   ports:
     - protocol: TCP
-      port: {{ .Values.proxy.port }}
+      port: {{ .Values.restGateway.port }}
       targetPort: 4444
   selector:
-    app: memphis-http-proxy
+    app: memphis-rest-gateway
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: memphis-http-proxy
-  namespace: {{ include "nats.namespace" . }}
+  name: memphis-rest-gateway
+  namespace: {{ include "memphis.namespace" . }}
   labels:
-    app: memphis-http-proxy
+    app: memphis-rest-gateway
 spec:
   {{- if .Values.cluster.enabled }}
   replicas: 2
@@ -27,12 +27,12 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: memphis-http-proxy
+      app: memphis-rest-gateway
   template:
     metadata:
-      name: memphis-http-proxy
+      name: memphis-rest-gateway
       labels:
-        app: memphis-http-proxy
+        app: memphis-rest-gateway
     spec:
       initContainers:
         - name: k8s-busybox-waits4broker
@@ -40,8 +40,8 @@ spec:
           imagePullPolicy: Always
           command: ['sh', '-c', "until nslookup memphis-cluster.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
-        - name: memphis-http-proxy
-          image: memphisos/memphis-http-proxy:latest
+        - name: memphis-rest-gateway
+          image: memphisos/memphis-rest-gateway:master
           resources:
             limits:
               cpu: 500m
@@ -51,11 +51,11 @@ spec:
             - containerPort: 4444
           env:
           - name: ROOT_USER
-            value: {{ .Values.proxy.user | quote }}
+            value: {{ .Values.restGateway.user | quote }}
           - name: HTTP_PORT
-            value: {{ .Values.proxy.port | quote }}
+            value: {{ .Values.restGateway.port | quote }}
           - name: MEMPHIS_HOST
-            value: {{ include "memphis.svcName" . }}.{{ include "nats.namespace" . }}.svc.cluster.local
+            value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
@@ -71,26 +71,26 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
-          {{- with .Values.nats.tls }}
+          {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
           - name: CLIENT_CERT_PATH
-            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+            value: "/etc/memphis-certs/clients/{{ $secretName }}/{{ . }}"
           {{- end }}
           {{- with .key }}
           - name: CLIENT_KEY_PATH
-            value: "/etc/nats-certs/clients/{{ $secretName }}/{{ . }}"
+            value: "/etc/memphis-certs/clients/{{ $secretName }}/{{ . }}"
           {{- end }}
           {{- with .ca }}
           - name: ROOT_CA_PATH
-            value: /etc/nats-certs/clients/{{ $secretName }}/{{ . }}
+            value: /etc/memphis-certs/clients/{{ $secretName }}/{{ . }}
           {{- end }}
           volumeMounts:
             - name: {{ $secretName }}-clients-volume
-              mountPath: /etc/nats-certs/clients/{{ $secretName }}
+              mountPath: /etc/memphis-certs/clients/{{ $secretName }}
           {{- end }}
          
-      {{- with .Values.nats.tls }}
+      {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}      
       volumes:
       - name: {{ $secretName }}-clients-volume
