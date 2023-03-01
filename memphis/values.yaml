@@ -563,7 +563,7 @@ appProtocol:
 # https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
 k8sClusterDomain: cluster.local
 
-# Define if Memphis is using FQDN name for clustering (i.e. memphis-broker-0.memphis.default.svc.cluster.local) or short name (i.e. memphis-broker-0.memphis.default).
+# Define if Memphis is using FQDN name for clustering (i.e. memphis-0.memphis.default.svc.cluster.local) or short name (i.e. memphis-0.memphis.default).
 useFQDN: true
 
 # Add labels to all the deployed resources
