@@ -277,7 +277,7 @@ spec:
       ####################
       terminationGracePeriodSeconds: {{ .Values.memphis.terminationGracePeriodSeconds }}
       containers:
-      - name: memphis-broker
+      - name: memphis
         {{ if eq .Values.teston "cp" }}
         image: {{ .Values.memphis.teston.image }}
         {{ else }}
