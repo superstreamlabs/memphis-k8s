@@ -11,11 +11,11 @@ Expand the name of the chart.
 
 
 {{- define "memphis.fullname" -}}
-{{- printf "memphis-broker" | trunc 63 | trimSuffix "-" }}
+{{- printf "memphis" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "memphis.clustername" -}}
-{{- printf "memphis-cluster" | trunc 63 | trimSuffix "-" }}
+{{- printf "memphis" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{/*
 {{- if .Values.fullnameOverride -}}
@@ -32,7 +32,7 @@ Expand the name of the chart.
 */}}
 
 {{- define "memphis.svcName" -}}
-{{- printf "memphis-cluster" | trunc 63 | trimSuffix "-" }}
+{{- printf "memphis" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 
