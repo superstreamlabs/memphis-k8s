@@ -17,15 +17,15 @@ node {
     
     stage('Import version number from broker'){
       dir('memphis-broker'){
-        git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-broker.git', branch: gitBranch
+        git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis.git', branch: gitBranch
       }
-      sh "cat memphis-broker/version.conf > version.conf"
-      sh "rm -rf memphis-broker"
+      sh "cat memphis/version.conf > version.conf"
+      sh "rm -rf memphis"
     }
  
     stage('Edit helm files') {
       sh"""
-        sed -i -r "s/memphis-broker:[0-9].[0-9].[0-9]/memphis-broker:\$(cat version.conf)/g" memphis/values.yaml
+        sed -i -r "s/memphis:[0-9].[0-9].[0-9]/memphis:\$(cat version.conf)/g" memphis/values.yaml
         sed -i -r "s/[0-9].[0-9].[0-9]/\$(cat version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/appVersion: [0-9].[0-9].[0-9]/appVersion: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/index.yaml
