@@ -14,7 +14,7 @@ Memphis UI can be accessed on the following DNS name from within your cluster: m
 
 To access Memphis using UI/CLI/SDK from localhost, run the below commands:                                                                                    
 
-  - kubectl port-forward service/memphis-cluster 6666:6666 9000:9000 7770:7770 --namespace {{ .Release.Namespace }} > /dev/null &
+  - kubectl port-forward service/{{ include "memphis.svcName" . }} 6666:6666 9000:9000 7770:7770 --namespace {{ .Release.Namespace }} > /dev/null &
 
 For interacting with the broker via HTTP:
 
