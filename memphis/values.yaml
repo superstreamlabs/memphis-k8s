@@ -585,6 +585,14 @@ mongoExternal:
   pass: ""
   connectionString: ""
  
+# PostgreSQL configuration
+postgresql-ha:
+  postgresql:
+    repository: memphisos/memphis-metadata
+    replicaCount: 2
+  fullnameOverride: memphis-metadata
+  pgpool:
+    repository: memphisos/memphis-metadata-coordinator
 
 #####################################
 #                                   #

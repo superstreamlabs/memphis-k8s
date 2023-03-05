@@ -1,6 +1,10 @@
 apiVersion: v2
 name: memphis
 description: Memphis.dev Helm chart
+dependencies:
+  - name: postgresql-ha
+    condition: postgresql-ha.enabled
+    version: ">0.0.0-0"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
