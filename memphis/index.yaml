@@ -12,4 +12,3 @@ entries:
     urls:
     - https://k8s.memphis.dev/charts/memphis-0.4.5.tgz
     version: 0.4.5
-generated: "2022-04-11T15:50:54.603251+03:00"
