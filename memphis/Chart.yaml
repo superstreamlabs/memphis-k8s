@@ -1,27 +1,32 @@
+annotations:
+  category: Streaming and messaging
+  licenses: Memphis Business Source License 1.0
 apiVersion: v2
 name: memphis
-description: Memphis.dev Helm chart
+description: Memphis.dev Official Helm chart
+home: https://github.com/memphisdev/memphis
 
-# A chart can be either an 'application' or a 'library' chart.
-#
-# Application charts are a collection of templates that can be packaged into versioned archives
-# to be deployed.
-#
-# Library charts provide useful utilities or functions for the chart developer. They're included as
-# a dependency of application charts to inject those utilities and functions into the rendering
-# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+keywords:
+  - data streaming
+  - message broker
+  - memphis
+  - producer
+  - consumer
+  - cluster
+  - high availability
+  
+maintainers:
+  - name: Memphis.dev
+    url: https://k8s.memphis.dev/charts
+
+
 type: application
 
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-# Versions are expected to follow Semantic Versioning (https://semver.org/)
-
+sources:
+  - https://github.com/memphisdev/memphis
+  - https://www.memphis.dev
+  
 version: 0.4.5
 
-
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes.
 appVersion: "0.4.5"
 icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
