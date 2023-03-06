@@ -3,7 +3,7 @@ annotations:
   licenses: Memphis Business Source License 1.0
 apiVersion: v2
 name: memphis
-description: Memphis.dev Officail Helm chart
+description: Memphis.dev Official Helm chart
 home: https://github.com/memphisdev/memphis
 
 keywords:
