@@ -10,7 +10,7 @@ Melvis thank you for installing {{ .Chart.Name }}!
 A dev first event-processing platform.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
-Memphis UI can be accessed on the following DNS name from within your cluster: memphis-cluster.{{ .Release.Namespace }}.svc.cluster.local:9000                                                                                        
+Memphis UI can be accessed on the following DNS name from within your cluster: memphis.{{ .Release.Namespace }}.svc.cluster.local:9000                                                                                        
 
 To access Memphis using UI/CLI/SDK from localhost, run the below commands:                                                                                    
 

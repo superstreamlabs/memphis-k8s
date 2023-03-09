@@ -31,6 +31,27 @@ Expand the name of the chart.
 {{- end -}}
 */}}
 
+{{/*
+Return the cluster.enabled value
+*/}}
+
+{{- define "memphis.clusterEnabled" -}}
+{{- if .Values.global -}}
+    {{- if .Values.global.cluster -}}
+        {{- if .Values.global.cluster.enabled -}}
+            {{- .Values.global.cluster.enabled -}}
+        {{- else -}}
+            {{- .Values.cluster.enabled -}}
+        {{- end -}}
+    {{- else -}}
+        {{- .Values.cluster.enabled -}}
+    {{- end -}}
+{{- else -}}
+    {{- .Values.cluster.enabled -}}
+{{- end -}}
+{{- end -}}
+
+
 {{- define "memphis.svcName" -}}
 {{- printf "memphis" | trunc 63 | trimSuffix "-" }}
 {{- end }}

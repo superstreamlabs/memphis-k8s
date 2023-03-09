@@ -20,6 +20,9 @@ teston: ""
 #           Configuration           #
 #                                   #
 #####################################
+global:
+  cluster:
+    enabled: false
 memphis:
   image: memphisos/memphis-master:latest
   teston:
@@ -585,6 +588,23 @@ mongoExternal:
   pass: ""
   connectionString: ""
  
+# PostgreSQL configuration
+metadata:
+  postgresql:
+    repository: memphisos/memphis-metadata
+    replicaCount: 1
+    username: postgres
+    initdbScripts:
+      init.sql: |
+        CREATE DATABASE memphis;
+    containerPorts:
+      postgresql: 5005
+  fullnameOverride: memphis-metadata
+  service:
+    ports:
+      postgresql: 5005
+  pgpool:
+    repository: memphisos/memphis-metadata-coordinator
 
 #####################################
 #                                   #

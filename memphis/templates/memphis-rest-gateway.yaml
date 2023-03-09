@@ -20,7 +20,7 @@ metadata:
   labels:
     app: memphis-rest-gateway
 spec:
-  {{- if .Values.cluster.enabled }}
+{{- if eq (include "memphis.clusterEnabled" .) "true" }}
   replicas: 2
   {{- else }}
   replicas: 1

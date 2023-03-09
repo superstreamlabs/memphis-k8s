@@ -107,7 +107,7 @@ data:
     }
     {{- end }}
 
-    {{- if .Values.cluster.enabled }}
+    {{- if eq (include "memphis.clusterEnabled" .) "true" }}
     ###################################
     #                                 #
     # NATS Full Mesh Clustering Setup #

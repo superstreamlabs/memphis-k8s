@@ -1,7 +1,10 @@
 apiVersion: v2
 name: memphis
 description: Memphis.dev Helm chart
-
+dependencies:
+  - name: metadata
+    condition: metadata.enabled
+    version: ">0.0.0-0"
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
