@@ -379,7 +379,7 @@ spec:
         - name: POSTGRESQL_DBNAME
           value: "memphis"
         - name: POSTGRESQL_SERVICE
-          value: {{ .Values.metadata.fullnameOverride }}-coordinator.{{ include "memphis.namespace" . }}
+          value: {{ .Values.metadata.fullnameOverride }}-coordinator.{{ include "memphis.namespace" . }}.svc
         - name: POSTGRESQL_PORT
           value: {{ .Values.metadata.service.ports.postgresql | quote }}
         {{- if .Values.mongoExternal.enabled }}
