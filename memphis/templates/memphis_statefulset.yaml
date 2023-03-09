@@ -16,7 +16,7 @@ spec:
   selector:
     matchLabels:
       {{- include "memphis.selectorLabels" . | nindent 6 }}
-      {{- if .Values.cluster.enabled }}
+  {{- if eq (include "memphis.clusterEnabled" .) "true" }}
   replicas: {{ .Values.cluster.replicas }}
   {{- else }}
   replicas: 1
@@ -245,7 +245,7 @@ spec:
       #####################
       {{- if not .Values.mongoExternal.enabled }}
       initContainers:
-      {{- if .Values.cluster.enabled }}
+      {{- if eq (include "memphis.clusterEnabled" .) "true" }}
         - name: k8s-busybox-waits4mongo-cluster
           image: busybox:1.28
           imagePullPolicy: Always
@@ -369,6 +369,19 @@ spec:
                 key: REFRESH_JWT_SECRET
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
+        - name: POSTGRESQL_USER
+          value: {{ .Values.metadata.postgresql.username | quote }}
+        - name: POSTGRESQL_PASS
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-metadata"
+                key: password
+        - name: POSTGRESQL_DBNAME
+          value: "memphis"
+        - name: POSTGRESQL_SERVICE
+          value: {{ .Values.metadata.fullnameOverride }}-coordinator.{{ include "memphis.namespace" . }}
+        - name: POSTGRESQL_PORT
+          value: {{ .Values.metadata.service.ports.postgresql | quote }}
         {{- if .Values.mongoExternal.enabled }}
         - name: EXTERNAL_MONGO
           value: {{ .Values.mongoExternal.enabled | quote }}

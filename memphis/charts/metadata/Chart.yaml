@@ -25,7 +25,7 @@ keywords:
 maintainers:
   - name: Bitnami
     url: https://github.com/bitnami/charts
-name: postgresql-ha
+name: metadata
 sources:
   - https://github.com/bitnami/containers/tree/main/bitnami/postgresql
   - https://www.postgresql.org/

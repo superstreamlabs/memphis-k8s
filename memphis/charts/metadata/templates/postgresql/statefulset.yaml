@@ -16,7 +16,11 @@ metadata:
   annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 spec:
-  replicas: {{ .Values.postgresql.replicaCount }}
+  {{- if .Values.global.cluster.enabled }}
+  replicas: 2
+  {{- else }}
+  replicas: 1
+  {{- end }}
   podManagementPolicy: Parallel
   serviceName: {{ printf "%s-headless" (include "postgresql-ha.postgresql" .) }}
   updateStrategy: {{- toYaml .Values.postgresql.updateStrategy | nindent 4 }}

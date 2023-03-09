@@ -58,7 +58,7 @@ kind: ConfigMap
 metadata:
   name: mongo-startup-script
   namespace: {{ include "memphis.namespace" . }}
-      {{- if .Values.cluster.enabled }}
+{{- if eq (include "memphis.clusterEnabled" .) "true" }}
 data:
   mongo-startup-script.sh: |
     rs.initiate()
@@ -83,7 +83,7 @@ metadata:
   namespace: {{ include "memphis.namespace" . }}
 spec:
   serviceName: mongo
-      {{- if .Values.cluster.enabled }}
+{{- if eq (include "memphis.clusterEnabled" .) "true" }}
   replicas: 2
   {{- else }}
   replicas: 1
@@ -103,7 +103,7 @@ spec:
       - name: mongodb
         image: memphisos/mongo:4.2
         imagePullPolicy: Always
-      {{- if .Values.cluster.enabled }}
+        {{- if eq (include "memphis.clusterEnabled" .) "true" }}
         env:
         command: ["/bin/sh"]
         args: ["-c", "mongod --replSet=rs0 --bind_ip_all"]
