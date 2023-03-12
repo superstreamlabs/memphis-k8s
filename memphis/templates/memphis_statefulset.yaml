@@ -467,7 +467,7 @@ spec:
           {{- with .Values.metadata.pgpool.tls }}
           {{ $secretName := tpl .certificatesSecret $ }}
           - name: {{ $secretName }}-metadata-crt
-            mountPath: /etc/memphis-certs/metadata/{{ $secretName }}
+            mountPath: /etc/memphis-certs/metadata/memphis-metadata-coordinator-crt
           {{- end }}
           {{- end }}
           {{- end }}
