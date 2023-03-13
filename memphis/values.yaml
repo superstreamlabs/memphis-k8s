@@ -592,7 +592,6 @@ mongoExternal:
 metadata:
   postgresql:
     repository: memphisos/memphis-metadata
-    replicaCount: 1
     username: postgres
     initdbScripts:
       init.sql: |
