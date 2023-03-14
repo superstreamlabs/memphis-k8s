@@ -24,7 +24,8 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis-master:latest
+  #image: memphisos/memphis-master:latest
+  image: memphisos/memphis-master:initalize-postgre-sql-db
   teston:
     image: memphisos/memphis-master-test:latest
   pullPolicy: Always 
@@ -592,17 +593,11 @@ mongoExternal:
 metadata:
   postgresql:
     repository: memphisos/memphis-metadata
-    replicaCount: 1
     username: postgres
     initdbScripts:
       init.sql: |
         CREATE DATABASE memphis;
-    containerPorts:
-      postgresql: 5005
   fullnameOverride: memphis-metadata
-  service:
-    ports:
-      postgresql: 5005
   pgpool:
     repository: memphisos/memphis-metadata-coordinator
     tls:
