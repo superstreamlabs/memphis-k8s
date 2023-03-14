@@ -596,12 +596,7 @@ metadata:
     initdbScripts:
       init.sql: |
         CREATE DATABASE memphis;
-    containerPorts:
-      postgresql: 5005
   fullnameOverride: memphis-metadata
-  service:
-    ports:
-      postgresql: 5005
   pgpool:
     repository: memphisos/memphis-metadata-coordinator
     tls:
@@ -612,6 +607,7 @@ metadata:
       certFilename: ""
       certKeyFilename: ""
       certCAFilename: ""
+
 #####################################
 #                                   #
 #    Memphis Configuration END      #
