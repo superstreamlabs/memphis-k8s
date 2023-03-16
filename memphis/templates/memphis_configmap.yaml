@@ -2,25 +2,25 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "nats.fullname" . }}-config
-  namespace: {{ include "nats.namespace" . }}
+  name: {{ include "memphis.fullname" . }}-config
+  namespace: {{ include "memphis.namespace" . }}
   labels:
-    {{- include "nats.labels" . | nindent 4 }}
+    {{- include "memphis.labels" . | nindent 4 }}
 data:
-  nats.conf: |
-    # NATS Clients Port
-    port: {{ .Values.nats.client.port }}
+  memphis.conf: |
+    # Memphis Clients Port
+    port: {{ .Values.memphis.client.port }}
 
     # PID file shared with configuration reloader.
-    pid_file: "/var/run/nats/nats.pid"
+    pid_file: "/var/run/memphis/memphis.pid"
 
-    {{- if .Values.nats.config }}
+    {{- if .Values.memphis.config }}
     ###########
     #         #
     # Imports #
     #         #
     ###########
-    {{- range .Values.nats.config }}
+    {{- range .Values.memphis.config }}
     include ./{{ .name }}/{{ .name }}.conf
     {{- end}}
     {{- end }}
@@ -31,54 +31,54 @@ data:
     #             #
     ###############
     http: 8222
-    server_name: {{- if .Values.nats.serverNamePrefix  }}$SERVER_NAME{{- else }}$POD_NAME{{- end }}
+    server_name: {{- if .Values.memphis.serverNamePrefix  }}$SERVER_NAME{{- else }}$POD_NAME{{- end }}
 
-    {{- if .Values.nats.tls }}
+    {{- if .Values.memphis.tls }}
     #####################
     #                   #
     # TLS Configuration #
     #                   #
     #####################
-    {{- with .Values.nats.tls }}
-    {{- $nats_tls := merge (dict) . }}
-    {{- $_ := set $nats_tls "secretPath" "/etc/nats-certs/clients" }}
-    {{- tpl (include "nats.tlsConfig" $nats_tls) $ | nindent 4}}
+    {{- with .Values.memphis.tls }}
+    {{- $memphis_tls := merge (dict) . }}
+    {{- $_ := set $memphis_tls "secretPath" "/etc/memphis-certs/clients" }}
+    {{- tpl (include "memphis.tlsConfig" $memphis_tls) $ | nindent 4}}
     {{- end }}
     {{- end }}
 
-    {{- if .Values.nats.jetstream.enabled }}
+    {{- if .Values.memphis.jetstream.enabled }}
     ###################################
     #                                 #
     # NATS JetStream                  #
     #                                 #
     ###################################
     jetstream {
-      {{- if .Values.nats.jetstream.encryption }}
-      {{- if .Values.nats.jetstream.encryption.key }}
-      key: {{ .Values.nats.jetstream.encryption.key | quote }}
-      {{- else if .Values.nats.jetstream.encryption.secret }}
+      {{- if .Values.memphis.jetstream.encryption }}
+      {{- if .Values.memphis.jetstream.encryption.key }}
+      key: {{ .Values.memphis.jetstream.encryption.key | quote }}
+      {{- else if .Values.memphis.jetstream.encryption.secret }}
       key: $JS_KEY
       {{- end}}
       {{- end}}
 
-      {{- if .Values.nats.jetstream.memStorage.enabled }}
-      {{- if .Values.nats.jetstream.memStorage.size }}
-      max_mem: {{ .Values.nats.jetstream.memStorage.size }}
+      {{- if .Values.memphis.jetstream.memStorage.enabled }}
+      {{- if .Values.memphis.jetstream.memStorage.size }}
+      max_mem: {{ .Values.memphis.jetstream.memStorage.size }}
       {{- end }}
       {{- end }}
 
-      {{- if .Values.nats.jetstream.domain }}
-      domain: {{ .Values.nats.jetstream.domain }}
+      {{- if .Values.memphis.jetstream.domain }}
+      domain: {{ .Values.memphis.jetstream.domain }}
       {{- end }}
 
-      {{- if .Values.nats.jetstream.fileStorage.enabled }}
-      store_dir: {{ .Values.nats.jetstream.fileStorage.storageDirectory }}
+      {{- if .Values.memphis.jetstream.fileStorage.enabled }}
+      store_dir: {{ .Values.memphis.jetstream.fileStorage.storageDirectory }}
 
       max_file:
-      {{- if .Values.nats.jetstream.fileStorage.existingClaim }}
-      {{- .Values.nats.jetstream.fileStorage.claimStorageSize  }}
+      {{- if .Values.memphis.jetstream.fileStorage.existingClaim }}
+      {{- .Values.memphis.jetstream.fileStorage.claimStorageSize  }}
       {{- else }}
-      {{- .Values.nats.jetstream.fileStorage.size }}
+      {{- .Values.memphis.jetstream.fileStorage.size }}
       {{- end }}
       {{- end }}
     }
@@ -94,8 +94,8 @@ data:
 
       {{- with .Values.mqtt.tls }}
       {{-  $mqtt_tls := merge (dict) . }}
-      {{- $_ := set $mqtt_tls "secretPath" "/etc/nats-certs/mqtt" }}
-      {{- tpl (include "nats.tlsConfig" $mqtt_tls) $ | nindent 6}}
+      {{- $_ := set $mqtt_tls "secretPath" "/etc/memphis-certs/mqtt" }}
+      {{- tpl (include "memphis.tlsConfig" $mqtt_tls) $ | nindent 6}}
       {{- end }}
 
       {{- if .Values.mqtt.noAuthUser }}
@@ -116,11 +116,11 @@ data:
     cluster {
       port: 6222
 
-      {{- if .Values.nats.jetstream.enabled }}
+      {{- if .Values.memphis.jetstream.enabled }}
       {{- if .Values.cluster.name }}
       name: {{ .Values.cluster.name }}
       {{- else }}
-      name: {{ template "nats.name" . }}
+      name: {{ template "memphis.name" . }}
       {{- end }}
       {{- else }}
       {{- with .Values.cluster.name }}
@@ -130,8 +130,8 @@ data:
 
       {{- with .Values.cluster.tls }}
       {{-  $cluster_tls := merge (dict) . }}
-      {{- $_ := set $cluster_tls "secretPath" "/etc/nats-certs/cluster" }}
-      {{- tpl (include "nats.tlsConfig" $cluster_tls) $ | nindent 6}}
+      {{- $_ := set $cluster_tls "secretPath" "/etc/memphis-certs/cluster" }}
+      {{- tpl (include "memphis.tlsConfig" $cluster_tls) $ | nindent 6}}
       {{- end }}
 
       {{- if .Values.cluster.authorization }}
@@ -149,8 +149,8 @@ data:
       {{- end }}
 
       routes = [
-        {{ include "nats.clusterRoutes" . }}
-        {{ include "nats.extraRoutes" . }}
+        {{ include "memphis.clusterRoutes" . }}
+        {{ include "memphis.extraRoutes" . }}
       ]
       cluster_advertise: $CLUSTER_ADVERTISE
 
@@ -158,11 +158,11 @@ data:
       no_advertise: {{ . }}
       {{- end }}
 
-      connect_retries: {{ .Values.nats.connectRetries }}
+      connect_retries: {{ .Values.memphis.connectRetries }}
     }
     {{- end }}
 
-    {{- if and .Values.nats.advertise .Values.nats.externalAccess }}
+    {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
     include "advertise/client_advertise.conf"
     {{- end }}
 
@@ -177,7 +177,7 @@ data:
       listen: "0.0.0.0:7422"
       {{- end }}
 
-      {{- if and .Values.nats.advertise .Values.nats.externalAccess }}
+      {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
       include "advertise/gateway_advertise.conf"
       {{- end }}
 
@@ -216,8 +216,8 @@ data:
       }
       {{- else }}
       {{-  $leafnode_tls := merge (dict) . }}
-      {{- $_ := set $leafnode_tls "secretPath" "/etc/nats-certs/leafnodes" }}
-      {{- tpl (include "nats.tlsConfig" $leafnode_tls) $ | nindent 6}}
+      {{- $_ := set $leafnode_tls "secretPath" "/etc/memphis-certs/leafnodes" }}
+      {{- tpl (include "memphis.tlsConfig" $leafnode_tls) $ | nindent 6}}
       {{- end }}
       {{- end }}
 
@@ -237,7 +237,7 @@ data:
         {{- end }}
 
         {{- with .credentials }}
-        credentials: "/etc/nats-creds/{{ .secret.name }}/{{ .secret.key }}"
+        credentials: "/etc/memphis-creds/{{ .secret.name }}/{{ .secret.key }}"
         {{- end }}
 
         {{- with .tls }}
@@ -247,15 +247,15 @@ data:
           {{- else }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
-          cert_file: /etc/nats-certs/leafnodes/{{ $secretName }}/{{ . }}
+          cert_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
           {{- end }}
 
           {{- with .key }}
-          key_file: /etc/nats-certs/leafnodes/{{ $secretName }}/{{ . }}
+          key_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
           {{- end }}
 
           {{- with .ca }}
-          ca_file: /etc/nats-certs/leafnodes/{{ $secretName }}/{{ . }}
+          ca_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
           {{- end }}
           {{- end }}
         }
@@ -298,14 +298,14 @@ data:
       }
       {{- end }}
 
-      {{- if and .Values.nats.advertise .Values.nats.externalAccess }}
+      {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
       include "advertise/gateway_advertise.conf"
       {{- end }}
 
       {{- with .Values.gateway.tls }}
       {{-  $gateway_tls := merge (dict) . }}
-      {{- $_ := set $gateway_tls "secretPath" "/etc/nats-certs/gateways" }}
-      {{- tpl (include "nats.tlsConfig" $gateway_tls) $ | nindent 6}}
+      {{- $_ := set $gateway_tls "secretPath" "/etc/memphis-certs/gateways" }}
+      {{- tpl (include "memphis.tlsConfig" $gateway_tls) $ | nindent 6}}
       {{- end }}
 
       # Gateways array here
@@ -329,59 +329,59 @@ data:
     }
     {{- end }}
 
-    {{- with .Values.nats.logging.debug }}
+    {{- with .Values.memphis.logging.debug }}
     debug: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.logging.trace }}
+    {{- with .Values.memphis.logging.trace }}
     trace:  {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.logging.logtime }}
+    {{- with .Values.memphis.logging.logtime }}
     logtime: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.logging.connectErrorReports }}
+    {{- with .Values.memphis.logging.connectErrorReports }}
     connect_error_reports: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.logging.reconnectErrorReports }}
+    {{- with .Values.memphis.logging.reconnectErrorReports }}
     reconnect_error_reports: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxConnections }}
+    {{- with .Values.memphis.limits.maxConnections }}
     max_connections: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxSubscriptions }}
+    {{- with .Values.memphis.limits.maxSubscriptions }}
     max_subscriptions: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxPending }}
+    {{- with .Values.memphis.limits.maxPending }}
     max_pending: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxControlLine }}
+    {{- with .Values.memphis.limits.maxControlLine }}
     max_control_line: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxPayload }}
+    {{- with .Values.memphis.limits.maxPayload }}
     max_payload: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.pingInterval }}
+    {{- with .Values.memphis.limits.pingInterval }}
     ping_interval: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.maxPings }}
+    {{- with .Values.memphis.limits.maxPings }}
     ping_max: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.writeDeadline }}
+    {{- with .Values.memphis.limits.writeDeadline }}
     write_deadline: {{ . }}
     {{- end }}
 
-    {{- with .Values.nats.limits.lameDuckDuration }}
+    {{- with .Values.memphis.limits.lameDuckDuration }}
     lame_duck_duration: {{ . }}
     {{- end }}
 
@@ -395,19 +395,19 @@ data:
       port: {{ .Values.websocket.port }}
       {{- with .Values.websocket.tls }}
         {{ $secretName := tpl .secret.name $ }}
-        tls {
+      tls {
         {{- with .cert }}
-        cert_file: /etc/nats-certs/ws/{{ $secretName }}/{{ . }}
+        cert_file: /etc/memphis-certs/ws/{{ $secretName }}/{{ . }}
         {{- end }}
 
         {{- with .key }}
-        key_file: /etc/nats-certs/ws/{{ $secretName }}/{{ . }}
+        key_file: /etc/memphis-certs/ws/{{ $secretName }}/{{ . }}
         {{- end }}
 
         {{- with .ca }}
-        ca_file: /etc/nats-certs/ws/{{ $secretName }}/{{ . }}
+        ca_file: /etc/memphis-certs/ws/{{ $secretName }}/{{ . }}
         {{- end }}
-        }
+      }
       {{- else }}
       no_tls: {{ .Values.websocket.noTLS }}
       {{- end }}
@@ -415,6 +415,15 @@ data:
       {{- with .Values.websocket.allowedOrigins }}
       allowed_origins: {{ toRawJson . }}
       {{- end }}
+      
+      {{- with .Values.websocket.auth.token }}
+      authorization {
+        token: "{{ . }}"
+      {{- if $.Values.websocket.auth.timeout }}
+        timeout: {{ $.Values.auth.timeout }}
+      {{- end }}
+      }
+    {{- end }}
     }
     {{- end }}
 
@@ -471,7 +480,7 @@ data:
         {{- with .Values.auth.resolver.url }}
         resolver: URL({{ . }})
         {{- end }}
-        operator: /etc/nats-config/operator/{{ .Values.auth.operatorjwt.configMap.key }}
+        operator: /etc/memphis-config/operator/{{ .Values.auth.operatorjwt.configMap.key }}
       {{- end }}
     {{- end }}
 
@@ -479,14 +488,6 @@ data:
     system_account: {{ . }}
     {{- end }}
 
-    authorization {
-      token: "test"
-
-
-      {{- if $.Values.auth.timeout }}
-      timeout: {{ $.Values.auth.timeout }}
-      {{- end }}
-    }
 
     {{- with .Values.auth.nkeys }}
     {{- with .users }}
