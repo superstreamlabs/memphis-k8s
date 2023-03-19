@@ -24,8 +24,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  #image: memphisos/memphis-master:latest
-  image: memphisos/memphis-master:initalize-postgre-sql-db
+  image: memphisos/memphis-master:latest
   teston:
     image: memphisos/memphis-master-test:latest
   pullPolicy: Always 
