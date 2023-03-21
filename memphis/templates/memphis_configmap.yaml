@@ -416,11 +416,16 @@ data:
       allowed_origins: {{ toRawJson . }}
       {{- end }}
       
-      {{- with .Values.websocket.auth.token }}
+      {{- with .Values.websocket.auth }}
       authorization {
-        token: "{{ . }}"
-      {{- if $.Values.websocket.auth.timeout }}
-        timeout: {{ $.Values.auth.timeout }}
+        {{- if .token }}
+        token: {{ .token | quote }}
+        {{- else }}
+        user: {{ .user | quote }}
+        pass: {{ .pass | quote }}
+        {{- end }}
+      {{- if .timeout }}
+        timeout: {{ .timeout }}
       {{- end }}
       }
     {{- end }}
@@ -455,7 +460,7 @@ data:
             {{- end }}
 
             {{- if .systemAccount }}
-            system_account: {{ .systemAccount }}
+            system_account: {{ .systemAccount | quote }}
             {{- end }}
           {{- end }}
 
@@ -485,7 +490,7 @@ data:
     {{- end }}
 
     {{- with .Values.auth.systemAccount }}
-    system_account: {{ . }}
+    system_account: {{ . | quote }}
     {{- end }}
 
 

@@ -467,6 +467,7 @@ restGateway:
 # Authentication setup
 auth:
   enabled: true
+  # systemAccount: "$SYS"
 
   # basic:
   #   noAuthUser:
@@ -477,7 +478,16 @@ auth:
   #   # List of accounts with users that can connect
   #   # using basic auth.
   #   accounts:
-
+  #   accounts:
+  #     $SYS:
+  #       users:
+  #       - user: sys
+  #         pass: sys
+  #     js:
+  #       jetstream: true
+  #       users:
+  #       - user: foo
+  #         pass: foo
   # Reference to the Operator JWT.
   #operatorjwt:
   #  configMap:
@@ -558,10 +568,10 @@ websocket:
   noTLS: true
   sameOrigin: false
   allowedOrigins: []
-  auth: 
-    token: "memphis"
- 
-
+  auth:
+    token: memphis
+    #user: ""
+    #pass: ""
 appProtocol:
   enabled: false
 
