@@ -602,7 +602,7 @@ mongoExternal:
   pass: ""
   connectionString: ""
  
-# PostgreSQL configuration
+# Metadata DB configuration
 metadata:
   postgresql:
     repository: memphisos/memphis-metadata

@@ -14,11 +14,24 @@ data:
     # PID file shared with configuration reloader.
     pid_file: "/var/run/memphis/memphis.pid"
     
+    # Memphis K8s namespace
+    k8s_namespace: {{ include "memphis.namespace" . }}
+
     # Memphis HTTP/UI Port
     ui_port: {{ .Values.memphis.ui.port }}
 
     # Memphis Rest Gateway API Port
     rest_gw_port: {{ .Values.restGateway.port }}
+
+    # Logs retention parameter in days
+    logs_retention_days: {{ .Values.logsRetentionInDays }}
+
+    # Tiered storage upload interval in seconds
+    tiered_storage_upload_interval_seconds: 8
+
+    # Dead letter station retention
+    dls_retention_hours: 3
+
 
     {{- if .Values.memphis.config }}
     ###########
