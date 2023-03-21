@@ -13,6 +13,12 @@ data:
 
     # PID file shared with configuration reloader.
     pid_file: "/var/run/memphis/memphis.pid"
+    
+    # Memphis HTTP/UI Port
+    ui_port: {{ .Values.memphis.ui.port }}
+
+    # Memphis Rest Gateway API Port
+    rest_gw_port: {{ .Values.restGateway.port }}
 
     {{- if .Values.memphis.config }}
     ###########
@@ -49,7 +55,7 @@ data:
     {{- if .Values.memphis.jetstream.enabled }}
     ###################################
     #                                 #
-    # NATS JetStream                  #
+    #            JetStream            #
     #                                 #
     ###################################
     jetstream {

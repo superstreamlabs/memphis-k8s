@@ -368,11 +368,6 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: ROOT_PASSWORD
-        - name: CONNECTION_TOKEN
-          valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: CONNECTION_TOKEN
         - name: JWT_SECRET
           valueFrom:
               secretKeyRef:
@@ -418,14 +413,6 @@ spec:
           value: "/etc/memphis-certs/metadata/memphis-metadata-coordinator-crt/{{ .Values.metadata.pgpool.tls.certCAFilename }}"
         {{- end }}
         {{- end }}
-        - name: WS_PORT
-          value: {{ .Values.websocket.port | quote }}
-        - name: CLIENTS_PORT
-          value: {{ .Values.memphis.client.port | quote }}
-        - name: HTTP_PORT
-          value: {{ .Values.memphis.ui.port | quote }}
-        - name: REST_GW_PORT
-          value: {{ .Values.restGateway.port | quote }}
         {{- if .Values.mongoExternal.enabled }}
         - name: EXTERNAL_MONGO
           value: {{ .Values.mongoExternal.enabled | quote }}
