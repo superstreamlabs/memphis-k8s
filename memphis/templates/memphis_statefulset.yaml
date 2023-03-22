@@ -354,6 +354,11 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET
+        - name: CONNECTION_TOKEN
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: CONNECTION_TOKEN
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
         - name: METADATA_DB_USER
