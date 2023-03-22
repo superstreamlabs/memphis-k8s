@@ -105,7 +105,7 @@ data:
     {{- if .Values.mqtt.enabled }}
     ###################################
     #                                 #
-    # NATS MQTT                       #
+    #               MQTT              #
     #                                 #
     ###################################
     mqtt {
@@ -129,7 +129,7 @@ data:
     {{- if eq (include "memphis.clusterEnabled" .) "true" }}
     ###################################
     #                                 #
-    # NATS Full Mesh Clustering Setup #
+    #     Memphis Clustering Setup    #
     #                                 #
     ###################################
     cluster {
@@ -186,11 +186,11 @@ data:
     {{- end }}
 
     {{- if or .Values.leafnodes.enabled .Values.leafnodes.remotes }}
-    #################
-    #               #
-    # NATS Leafnode #
-    #               #
-    #################
+    ####################
+    #                  #
+    # Memphis Leafnode #
+    #                  #
+    ####################
     leafnodes {
       {{- if .Values.leafnodes.enabled }}
       listen: "0.0.0.0:7422"
@@ -286,11 +286,11 @@ data:
     {{- end }}
 
     {{- if .Values.gateway.enabled }}
-    #################
-    #               #
-    # NATS Gateways #
-    #               #
-    #################
+    ####################
+    #                  #
+    # Memphis Gateways #
+    #                  #
+    ####################
     gateway {
       name: {{ .Values.gateway.name }}
       port: 7522
