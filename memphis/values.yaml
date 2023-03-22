@@ -594,13 +594,6 @@ podManagementPolicy: Parallel
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
 
-
-# External MongoDB configuration
-mongoExternal:
-  enabled: false
-  user: ""
-  pass: ""
-  connectionString: ""
  
 # Metadata DB configuration
 metadata:

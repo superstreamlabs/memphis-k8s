@@ -259,32 +259,8 @@ spec:
       #  InitContainerts  #
       #                   #
       #####################
-      {{- if not .Values.mongoExternal.enabled }}
-      initContainers:
-      {{- if eq (include "memphis.clusterEnabled" .) "true" }}
-        - name: k8s-busybox-waits4mongo-cluster
-          image: busybox:1.28
-          imagePullPolicy: Always
-          env:
-          - name: NAMESPACE
-            value: {{ include "memphis.namespace" . }}
-          command: ['sh', '-c', "until nslookup memphis-mongodb-1.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-1; sleep 2; done"]
-      {{- else }}
-        - name: k8s-busybox-waits4mongo
-          image: busybox:1.28
-          imagePullPolicy: Always
-          env:
-          - name: NAMESPACE
-            value: {{ include "memphis.namespace" . }}
-          command: ['sh', '-c', "until nslookup memphis-mongodb-0.mongo.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-mongodb-0; sleep 2; done"]
-      {{- end }}
-        - name: k8s-busybox-initiliaze-mongodb
-          image: memphisos/k8s-busybox:latest
-          imagePullPolicy: Always
-          env:
-          - name: NAMESPACE
-            value: {{ include "memphis.namespace" . }}
-      {{- end }}    
+      #initContainers:
+
 
       ####################
       #                  #
@@ -412,16 +388,6 @@ spec:
         - name: METADATA_DB_TLS_CA
           value: "/etc/memphis-certs/metadata/memphis-metadata-coordinator-crt/{{ .Values.metadata.pgpool.tls.certCAFilename }}"
         {{- end }}
-        {{- end }}
-        {{- if .Values.mongoExternal.enabled }}
-        - name: EXTERNAL_MONGO
-          value: {{ .Values.mongoExternal.enabled | quote }}
-        - name: MONGO_URL
-          value: {{ .Values.mongoExternal.connectionString | quote }}
-        - name: MONGO_USER
-          value: {{ .Values.mongoExternal.user | quote }}
-        - name: MONGO_PASS
-          value: {{ .Values.mongoExternal.pass | quote }}
         {{- end }}
         volumeMounts:
           - name: config-volume
