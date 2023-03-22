@@ -594,15 +594,8 @@ podManagementPolicy: Parallel
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
 
-
-# External MongoDB configuration
-mongoExternal:
-  enabled: false
-  user: ""
-  pass: ""
-  connectionString: ""
  
-# PostgreSQL configuration
+# Metadata DB configuration
 metadata:
   postgresql:
     repository: memphisos/memphis-metadata

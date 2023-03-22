@@ -13,6 +13,25 @@ data:
 
     # PID file shared with configuration reloader.
     pid_file: "/var/run/memphis/memphis.pid"
+    
+    # Memphis K8s namespace
+    k8s_namespace: {{ include "memphis.namespace" . }}
+
+    # Memphis HTTP/UI Port
+    ui_port: {{ .Values.memphis.ui.port }}
+
+    # Memphis Rest Gateway API Port
+    rest_gw_port: {{ .Values.restGateway.port }}
+
+    # Logs retention parameter in days
+    logs_retention_days: {{ .Values.logsRetentionInDays }}
+
+    # Tiered storage upload interval in seconds
+    tiered_storage_upload_interval_seconds: 8
+
+    # Dead letter station retention
+    dls_retention_hours: 3
+
 
     {{- if .Values.memphis.config }}
     ###########
@@ -49,7 +68,7 @@ data:
     {{- if .Values.memphis.jetstream.enabled }}
     ###################################
     #                                 #
-    # NATS JetStream                  #
+    #            JetStream            #
     #                                 #
     ###################################
     jetstream {
@@ -86,7 +105,7 @@ data:
     {{- if .Values.mqtt.enabled }}
     ###################################
     #                                 #
-    # NATS MQTT                       #
+    #               MQTT              #
     #                                 #
     ###################################
     mqtt {
@@ -110,7 +129,7 @@ data:
     {{- if eq (include "memphis.clusterEnabled" .) "true" }}
     ###################################
     #                                 #
-    # NATS Full Mesh Clustering Setup #
+    #     Memphis Clustering Setup    #
     #                                 #
     ###################################
     cluster {
@@ -167,11 +186,11 @@ data:
     {{- end }}
 
     {{- if or .Values.leafnodes.enabled .Values.leafnodes.remotes }}
-    #################
-    #               #
-    # NATS Leafnode #
-    #               #
-    #################
+    ####################
+    #                  #
+    # Memphis Leafnode #
+    #                  #
+    ####################
     leafnodes {
       {{- if .Values.leafnodes.enabled }}
       listen: "0.0.0.0:7422"
@@ -267,11 +286,11 @@ data:
     {{- end }}
 
     {{- if .Values.gateway.enabled }}
-    #################
-    #               #
-    # NATS Gateways #
-    #               #
-    #################
+    ####################
+    #                  #
+    # Memphis Gateways #
+    #                  #
+    ####################
     gateway {
       name: {{ .Values.gateway.name }}
       port: 7522
