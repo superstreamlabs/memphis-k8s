@@ -495,7 +495,7 @@ auth:
   #    key: KO.jwt
 
   # Token authentication
-  token: ""
+  # token: ""
 
   # NKey authentication
   # nkeys:
