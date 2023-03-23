@@ -300,7 +300,6 @@ spec:
          - "nats-server"
          - "--config"
          - "/etc/nats-config/memphis.conf"
-         - "--auth=$(CONNECTION_TOKEN)"
         {{- if .Values.memphis.profiling.enabled }}
          - "--profile={{ .Values.memphis.profiling.port }}"
         {{- end }}
