@@ -138,7 +138,7 @@ memphis:
     maxConnections:  
     maxSubscriptions:
     maxControlLine:
-    maxPayload: 8M
+    maxPayload: 8MB
 
     writeDeadline:
     maxPending:
