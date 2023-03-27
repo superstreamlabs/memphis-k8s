@@ -63,6 +63,11 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
+          - name: ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: ROOT_PASSWORD
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
