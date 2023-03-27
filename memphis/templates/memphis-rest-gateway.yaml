@@ -72,12 +72,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
-                key: JWT_SECRET
+                key: JWT_SECRET_REST_GW
           - name: REFRESH_JWT_SECRET
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
-                key: REFRESH_JWT_SECRET
+                key: REFRESH_JWT_SECRET_REST_GW
           {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
