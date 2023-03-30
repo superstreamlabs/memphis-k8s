@@ -39,5 +39,5 @@ SDK root connection token       - kubectl get secret memphis-creds -n {{ .Releas
 
 
 ## Components ##
-Broker - Where data flows through
-MongoDB - Internal Database for management
+Broker   - Where data flows through
+Metadata - Internal Database for management
