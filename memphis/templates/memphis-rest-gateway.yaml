@@ -41,7 +41,7 @@ spec:
           command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-rest-gateway
-          image: memphisos/memphis-rest-gateway:master
+          image: {{ .Values.restGateway.image }}
           resources:
             limits:
               cpu: 500m

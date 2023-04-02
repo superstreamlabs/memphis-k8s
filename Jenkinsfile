@@ -22,6 +22,15 @@ node {
       sh "cat memphis/version.conf > version.conf"
       sh "rm -rf memphis"
     }
+   
+    stage('Import version number from rest gateway'){
+      dir('memphis-rest-gateway'){
+        git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis-rest-gateway.git', branch: gitBranch
+      }
+      sh "cat memphis-rest-gateway/version.conf > gw_version.conf"
+      sh "rm -rf memphis-rest-gateway"
+    }
+
  
     stage('Edit helm files') {
       sh"""
@@ -30,6 +39,7 @@ node {
         sed -i -r "s/appVersion: [0-9].[0-9].[0-9]/appVersion: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/[0-9].[0-9].[0-9].tgz/\$(cat version.conf).tgz/g" memphis/index.yaml
+        sed -i -r "s/memphis-rest-gateway:[0-9].[0-9].[0-9]/memphis-rest-gateway:\$(cat gw_version.conf)/g" memphis/values.yaml
       """
       }
 
