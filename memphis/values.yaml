@@ -27,7 +27,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:0.4.5
+  image: memphisos/memphis:1.0.0
   teston:
     image: memphisos/memphis-latest-test:latest
   pullPolicy: Always 
@@ -466,7 +466,7 @@ exporter:
 restGateway:
   user: root
   port: 4444
-  image: memphisos/memphis-rest-gateway:0.1.7
+  image: memphisos/memphis-rest-gateway:0.1.8
   pullPolicy: Always
 
 # Authentication setup
