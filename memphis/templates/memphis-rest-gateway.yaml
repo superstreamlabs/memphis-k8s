@@ -57,7 +57,7 @@ spec:
           - name: MEMPHIS_HOST
             value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: USER_PASS_BASED_AUTH
-            value: {{ .Values.user_pass_auth | quote }}
+            value: {{ .Values.user_pass_based_auth | quote }}
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
