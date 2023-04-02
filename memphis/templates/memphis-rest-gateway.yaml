@@ -20,7 +20,7 @@ metadata:
   labels:
     app: memphis-rest-gateway
 spec:
-  {{- if .Values.cluster.enabled }}
+{{- if eq (include "memphis.clusterEnabled" .) "true" }}
   replicas: 2
   {{- else }}
   replicas: 1
@@ -38,10 +38,10 @@ spec:
         - name: k8s-busybox-waits4broker
           image: busybox:1.28
           imagePullPolicy: Always
-          command: ['sh', '-c', "until nslookup memphis-cluster.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
+          command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-rest-gateway
-          image: memphisos/memphis-rest-gateway:latest
+          image: {{ .Values.restGateway.image }}
           resources:
             limits:
               cpu: 500m
@@ -56,21 +56,28 @@ spec:
             value: {{ .Values.restGateway.port | quote }}
           - name: MEMPHIS_HOST
             value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
+          - name: USER_PASS_BASED_AUTH
+            value: {{ .Values.user_pass_based_auth | quote }}
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
+          - name: ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: ROOT_PASSWORD
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
-                key: JWT_SECRET
+                key: JWT_SECRET_REST_GW
           - name: REFRESH_JWT_SECRET
             valueFrom:
               secretKeyRef:
                 name: "memphis-creds"
-                key: REFRESH_JWT_SECRET
+                key: REFRESH_JWT_SECRET_REST_GW
           {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}

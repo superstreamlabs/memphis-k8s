@@ -4,6 +4,10 @@ annotations:
 apiVersion: v2
 name: memphis
 description: Memphis.dev Official Helm chart
+dependencies:
+  - name: metadata
+    condition: metadata.enabled
+    version: ">1.0.0-0"
 home: https://github.com/memphisdev/memphis
 
 keywords:
@@ -26,7 +30,7 @@ sources:
   - https://github.com/memphisdev/memphis
   - https://www.memphis.dev
   
-version: 0.4.5
+version: 1.0.0
 
-appVersion: "0.4.5"
+appVersion: "1.0.0"
 icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
