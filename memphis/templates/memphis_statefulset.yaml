@@ -349,7 +349,7 @@ spec:
         {{- end }}
         {{- end }}
         - name: USER_PASS_BASED_AUTH
-          value: {{ .Values.user_pass_auth | quote }}
+          value: {{ .Values.user_pass_based_auth | quote }}
         - name: ANALYTICS
           value: {{ .Values.analytics | quote }}
         - name: LOGS_RETENTION_IN_DAYS
