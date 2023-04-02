@@ -10,7 +10,7 @@ logsRetentionInDays: 3
 ui_host: ""
 rest_gw_host: ""
 broker_host: ""
-user_pass_auth: true
+user_pass_based_auth: true
 #####################################
 #                                   #
 #        Tests Configuration        #
