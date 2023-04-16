@@ -34,7 +34,6 @@ node {
  
     stage('Edit helm files') {
       sh"""
-        sed -i -r "s/memphis:[0-9].[0-9].[0-9]/memphis:\$(cat version.conf)/g" memphis/values.yaml
         sed -i -r "s/[0-9].[0-9].[0-9]/\$(cat version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/appVersion: [0-9].[0-9].[0-9]/appVersion: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/index.yaml
