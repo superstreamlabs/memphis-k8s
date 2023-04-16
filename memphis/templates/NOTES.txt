@@ -39,6 +39,7 @@ UI/CLI root Password            - kubectl get secret memphis-creds -n {{ .Releas
 SDK root connection token       - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
 {{- end }}
 
+
 ## Components ##
 Broker   - Where data flows through
 Metadata - Internal Database for management

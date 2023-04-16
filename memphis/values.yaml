@@ -29,7 +29,7 @@ global:
 memphis:
   image: memphisos/memphis-master:latest
   teston:
-    image: memphisos/memphis-master-test:latest
+    image: memphisos/memphis-latest-test:latest
   pullPolicy: Always 
   
   # This configures memphis UI port to default (9000)
@@ -466,7 +466,7 @@ exporter:
 restGateway:
   user: root
   port: 4444
-  image: memphisos/memphis-rest-gateway:master
+  image: memphisos/memphis-rest-gateway:1.0.0
   pullPolicy: Always
 
 # Authentication setup
