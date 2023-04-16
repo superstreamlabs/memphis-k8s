@@ -260,6 +260,7 @@ spec:
       #                   #
       #####################
       initContainers:
+      {{- if .Values.metadata.enabled }}
       {{- if .Values.global.cluster.enabled }}
         - name: memphis-metadata-readiness
           image: busybox:1.36.0
@@ -277,6 +278,7 @@ spec:
             value: {{ include "memphis.namespace" . }}
           command: ['sh', '-c', "until nslookup {{ .Values.metadata.fullnameOverride }}-0.{{ .Values.metadata.fullnameOverride }}-headless.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-metadata; sleep 2; done"]
       {{- end }}   
+      {{- end }}
 
       ####################
       #                  #
@@ -378,6 +380,20 @@ spec:
                 key: CONNECTION_TOKEN
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
+        {{- if .Values.metadata.external.enabled }}
+        - name: METADATA_DB_USER
+          value: {{ .Values.metadata.external.dbUser | quote }}
+        - name: METADATA_DB_PASS
+          value: {{ .Values.metadata.external.dbPass | quote }}
+        - name: METADATA_DB_DBNAME
+          value: {{ .Values.metadata.external.dbName | quote }}
+        - name: METADATA_DB_HOST
+          value: {{ .Values.metadata.external.dbHost | quote }}
+        - name: METADATA_DB_PORT
+          value: {{ .Values.metadata.external.dbPort | quote }}
+        - name: METADATA_DB_TLS_MUTUAL
+          value: {{ .Values.metadata.external.dbTlsMutual | quote }}
+        {{- else }}
         - name: METADATA_DB_USER
           value: {{ .Values.metadata.postgresql.username | quote }}
         - name: METADATA_DB_PASS
@@ -391,6 +407,7 @@ spec:
           value: {{ .Values.metadata.fullnameOverride }}-coordinator.{{ include "memphis.namespace" . }}.svc
         - name: METADATA_DB_PORT
           value: {{ .Values.metadata.service.ports.postgresql | quote }}
+        {{- end }}
         {{- if .Values.metadata.pgpool.tls.enabled }}
         - name: METADATA_DB_TLS_ENABLED
           value: "true"
