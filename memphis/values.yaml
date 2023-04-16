@@ -602,6 +602,7 @@ upgrade: false
  
 # Metadata DB configuration
 metadata:
+  enabled: true
   postgresql:
     image:
       repository: memphisos/memphis-metadata
