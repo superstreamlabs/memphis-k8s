@@ -622,6 +622,14 @@ metadata:
       certFilename: ""
       certKeyFilename: ""
       certCAFilename: ""
+  external:
+    enabled: false
+    dbTlsMutual: true
+    dbName: ""
+    dbHost: ""
+    dbPort: ""
+    dbUser: ""
+    dbPass: ""
 
 #####################################
 #                                   #
