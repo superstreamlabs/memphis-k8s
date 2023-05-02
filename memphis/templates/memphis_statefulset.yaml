@@ -378,6 +378,11 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: CONNECTION_TOKEN
+        - name: AES_SECRET_KEY
+          valueFrom:
+              secretKeyRef:
+                name: "memphis-creds"
+                key: AES_SECRET_KEY
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
         {{- if .Values.metadata.external.enabled }}
