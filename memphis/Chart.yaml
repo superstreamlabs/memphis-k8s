@@ -30,7 +30,8 @@ sources:
   - https://github.com/memphisdev/memphis
   - https://www.memphis.dev
   
-version: 1.0.1
+version: 1.0.3
 
-appVersion: "1.0.1"
+appVersion: "1.0.3"
+
 icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
