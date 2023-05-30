@@ -7,7 +7,7 @@ description: Memphis.dev Official Helm chart
 dependencies:
   - name: metadata
     condition: metadata.enabled
-    version: "15.2.0"
+    version: "11.0.1"
 home: https://github.com/memphisdev/memphis
 
 keywords:
@@ -33,4 +33,5 @@ sources:
 version: 1.0.3
 
 appVersion: "1.0.3"
+
 icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
