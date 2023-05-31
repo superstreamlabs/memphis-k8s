@@ -466,7 +466,7 @@ exporter:
 restGateway:
   user: root
   port: 4444
-  image: memphisos/memphis-rest-gateway:1.0.0
+  image: memphisos/memphis-rest-gateway:1.0.1
   pullPolicy: Always
 
 # Authentication setup
