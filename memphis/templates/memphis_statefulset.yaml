@@ -53,10 +53,35 @@ spec:
       securityContext:
 {{- toYaml . | nindent 8 }}
 {{- end }}
-{{- with .Values.affinity }}
+
+{{- if or .Values.affinity.nodeAffinity .Values.affinity.podAffinity .Values.affinity.podAntiAffinity }}
       affinity:
-{{- tpl (toYaml .) $ | nindent 8 }}
-{{- end }}
+      {{- with .Values.affinity.nodeAffinity }}
+        nodeAffinity: {{- toYaml . | nindent 10 }}
+      {{- end }}
+      {{- with .Values.affinity.podAffinity }}
+        podAffinity: {{- toYaml . | nindent 10 }}
+      {{- end }}
+      {{- if .Values.affinity.podAntiAffinity }}
+        podAntiAffinity:
+        {{- if eq .Values.affinity.podAntiAffinity.type "hard" }}
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
+              labelSelector:
+                matchLabels: {{- include "memphis.selectorLabels" . | nindent 18 }}
+        {{- else if eq .Values.affinity.podAntiAffinity.type "soft" }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: {{ .Values.affinity.podAntiAffinity.weight | int64 }}
+              podAffinityTerm:
+                topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
+                labelSelector:
+                  matchLabels: {{- include "memphis.selectorLabels" . | nindent 20 }}
+        {{- else if eq .Values.affinity.podAntiAffinity.type "custom" }}
+          {{- toYaml .Values.affinity.podAntiAffinity.custom | nindent 12 }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+
 {{- with .Values.nodeSelector }}
       nodeSelector: {{ toYaml . | nindent 8 }}
 {{- end }}
