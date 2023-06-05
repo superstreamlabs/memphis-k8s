@@ -30,8 +30,8 @@ memphis:
   image: memphisos/memphis-master:latest
   teston:
     image: memphisos/memphis-master-test:latest
-  pullPolicy: Always 
-  
+  pullPolicy: Always
+
   # This configures memphis UI port to default (9000)
   ui:
     port: 9000
@@ -135,7 +135,7 @@ memphis:
 
   # Server settings.
   limits:
-    maxConnections:  
+    maxConnections:
     maxSubscriptions:
     maxControlLine:
     maxPayload: 1MB
@@ -205,13 +205,13 @@ memphis:
     #                        #
     ##########################
     encryption:
-      # Use key if you want to provide the key via Helm Values
-      # key: random_key
+    # Use key if you want to provide the key via Helm Values
+    # key: random_key
 
-      # Use a secret reference if you want to get a key from a secret
-      # secret:
-      #   name: "memphis-jetstream-encryption"
-      #   key: "key"
+    # Use a secret reference if you want to get a key from a secret
+    # secret:
+    #   name: "memphis-jetstream-encryption"
+    #   key: "key"
 
     #############################
     #                           #
@@ -240,7 +240,7 @@ memphis:
       size: 30Gi
       # storageClassName: ""
       accessModes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       annotations:
       # key: "value"
 
@@ -281,8 +281,8 @@ namespaceOverride: ""
 
 # An array of imagePullSecrets, and they have to be created manually in the same namespace
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: 
-  - name: regcred
+imagePullSecrets:
+- name: regcred
 
 # Toggle whether to use setup a Pod Security Context
 # ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -294,7 +294,28 @@ securityContext: {}
 
 # Affinity for pod assignment
 # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-affinity: {}
+affinity:
+  # Inter-Pod Affinity rules for scheduling Pods of this StatefulSet.
+  # For details,
+  # see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+  podAffinity: {}
+  # Anti-affinity rules for scheduling Pods of this StatefulSet.
+  # For details,
+  # see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+  # You may either edit the default settings for anti-affinity rules,
+  # or specify new anti-affinity rules to use instead of the defaults.
+  podAntiAffinity:
+    # The topologyKey to be used.
+    # Can be used to spread across different nodes, AZs, regions etc.
+    topologyKey: kubernetes.io/hostname
+    # Valid anti-affinity types are `soft`, `hard`, or `custom`.
+    # Use `custom` if you want to supply your own anti-affinity rules in the `podAntiAffinity.custom` object.
+    type: hard
+    # Weight for `soft` anti-affinity rules.
+    # Does not apply for other anti-affinity types.
+    weight: 100
+    # Change `podAntiAffinity.type` to `custom` and provide your own podAntiAffinity rules here.
+    custom: {}
 
 ## Pod priority class name
 ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
@@ -445,7 +466,7 @@ exporter:
   enabled: false
   image: natsio/prometheus-nats-exporter:0.10.1
   pullPolicy: IfNotPresent
-  
+
   portName: metrics
   securityContext: {}
   resources: {}
@@ -460,8 +481,8 @@ exporter:
     path: /metrics
     # interval:
     # scrapeTimeout:
-    
-    
+
+
 # Memphis REST Gateway configuration
 restGateway:
   user: root
@@ -599,7 +620,7 @@ podManagementPolicy: Parallel
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
 
- 
+
 # Metadata DB configuration
 metadata:
   enabled: true
