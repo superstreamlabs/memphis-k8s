@@ -25,6 +25,9 @@ spec:
 
   podManagementPolicy: {{ .Values.podManagementPolicy }}
 
+  updateStrategy:
+    type: OnDelete
+
   template:
     metadata:
       {{- if or .Values.podAnnotations .Values.exporter.enabled }}
