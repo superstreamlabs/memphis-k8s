@@ -127,10 +127,6 @@ data:
       {{- else }}
       name: {{ template "memphis.name" . }}
       {{- end }}
-      {{- else }}
-      {{- with .Values.cluster.name }}
-      name: {{ . }}
-      {{- end }}
 
       {{- with .Values.cluster.tls }}
       {{-  $cluster_tls := merge (dict) . }}
