@@ -149,11 +149,11 @@ spec:
         emptyDir: {}
       {{- end }}
 
-      {{- if and .Values.memphis.jetstream.fileStorage.enabled .Values.memphis.jetstream.fileStorage.existingClaim }}
-      # Persistent volume for jetstream running with file storage option
+      {{- if and .Values.memphis.storageEngine.fileStorage.enabled .Values.memphis.storageEngine.fileStorage.existingClaim }}
+      # Persistent volume for storageEngine running with file storage option
       - name: {{ include "memphis.fullname" . }}-js-pvc
         persistentVolumeClaim:
-          claimName: {{ .Values.memphis.jetstream.fileStorage.existingClaim | quote }}
+          claimName: {{ .Values.memphis.storageEngine.fileStorage.existingClaim | quote }}
       {{- end }}
       
       {{- if .Values.metadata.pgpool.tls.enabled }}
@@ -180,12 +180,6 @@ spec:
       {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}
       - name: {{ $secretName }}-clients-volume
-        secret:
-          secretName: {{ $secretName }}
-      {{- end }}
-      {{- with .Values.mqtt.tls }}
-      {{ $secretName := tpl .secret.name $ }}
-      - name: {{ $secretName }}-mqtt-volume
         secret:
           secretName: {{ $secretName }}
       {{- end }}
@@ -364,15 +358,14 @@ spec:
         - name: CLUSTER_ADVERTISE
           value: {{ include "memphis.clusterAdvertise" . }}
 
-        {{- if .Values.memphis.jetstream.enabled }}
-        {{- with .Values.memphis.jetstream.encryption }}
+
+        {{- with .Values.memphis.storageEngine.encryption }}
         {{- with .secret }}
         - name: JS_KEY
           valueFrom:
             secretKeyRef:
               name: {{ .name }}
               key: {{ .key }}
-        {{- end }}
         {{- end }}
         {{- end }}
         - name: USER_PASS_BASED_AUTH
@@ -500,9 +493,9 @@ spec:
           {{- end }}
           {{- end }}
 
-          {{- if .Values.memphis.jetstream.fileStorage.enabled }}
+          {{- if .Values.memphis.storageEngine.fileStorage.enabled }}
           - name: {{ include "memphis.fullname" . }}-js-pvc
-            mountPath: {{ .Values.memphis.jetstream.fileStorage.storageDirectory }}
+            mountPath: {{ .Values.memphis.storageEngine.fileStorage.storageDirectory }}
           {{- end }}
         
           {{- if .Values.metadata.pgpool.tls.enabled }}
@@ -530,11 +523,6 @@ spec:
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-clients-volume
             mountPath: /etc/memphis-certs/clients/{{ $secretName }}
-          {{- end }}
-          {{- with .Values.mqtt.tls }}
-          {{ $secretName := tpl .secret.name $ }}
-          - name: {{ $secretName }}-mqtt-volume
-            mountPath: /etc/memphis-certs/mqtt/{{ $secretName }}
           {{- end }}
           {{- with .Values.cluster.tls }}
           {{- if not .custom }}
@@ -624,7 +612,7 @@ spec:
         startupProbe:
           httpGet:
             # During upgrades, healthz will be enabled instead to allow for a grace period
-            # in case of JetStream enabled deployments to form quorum and streams to catch up.
+            # in case of storageEngine enabled deployments to form quorum and streams to catch up.
             path: /
             port: 8222
         {{- with .Values.memphis.healthcheck.startup }}
@@ -709,9 +697,7 @@ spec:
         - -varz
         - -prefix=nats
         - -use_internal_server_id
-        {{- if .Values.memphis.jetstream.enabled }}
         - -jsz=all
-        {{- end }}
         {{- if .Values.leafnodes.enabled }}
         - -leafz
         {{- end }}
@@ -741,29 +727,29 @@ spec:
   {{- end }}
   {{- end }}
 
-  {{- if and .Values.memphis.jetstream.fileStorage.enabled (not .Values.memphis.jetstream.fileStorage.existingClaim) }}
-  #####################################
-  #                                   #
-  #  Jetstream New Persistent Volume  #
-  #                                   #
-  #####################################
+  {{- if and .Values.memphis.storageEngine.fileStorage.enabled (not .Values.memphis.storageEngine.fileStorage.existingClaim) }}
+  #########################################
+  #                                       #
+  #  storageEngine New Persistent Volume  #
+  #                                       #
+  #########################################
     - metadata:
         name: {{ include "memphis.fullname" . }}-js-pvc
-        {{- if .Values.memphis.jetstream.fileStorage.annotations }}
+        {{- if .Values.memphis.storageEngine.fileStorage.annotations }}
         annotations:
-        {{- range $key, $value := .Values.memphis.jetstream.fileStorage.annotations }}
+        {{- range $key, $value := .Values.memphis.storageEngine.fileStorage.annotations }}
           {{ $key }}: {{ $value | quote }}
         {{- end }}
         {{- end }}
       spec:
         accessModes:
-        {{- range .Values.memphis.jetstream.fileStorage.accessModes }}
+        {{- range .Values.memphis.storageEngine.fileStorage.accessModes }}
           - {{ . | quote }}
         {{- end }}
         resources:
           requests:
-            storage: {{ .Values.memphis.jetstream.fileStorage.size }}
-        {{- if .Values.memphis.jetstream.fileStorage.storageClassName }}
-        storageClassName: {{ .Values.memphis.jetstream.fileStorage.storageClassName | quote }}
+            storage: {{ .Values.memphis.storageEngine.fileStorage.size }}
+        {{- if .Values.memphis.storageEngine.fileStorage.storageClassName }}
+        storageClassName: {{ .Values.memphis.storageEngine.fileStorage.storageClassName | quote }}
         {{- end }}
   {{- end }}

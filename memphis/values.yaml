@@ -193,46 +193,42 @@ memphis:
   #      configMap:
   #        name: log-config
 
-  jetstream:
-    enabled: true
+  storageEngine:
 
-    # Jetstream Domain
-    domain:
-
-    ##########################
-    #                        #
-    #  Jetstream Encryption  #
-    #                        #
-    ##########################
+    ##############################
+    #                            #
+    #  storageEngine Encryption  #
+    #                            #
+    ##############################
     encryption:
     # Use key if you want to provide the key via Helm Values
     # key: random_key
 
     # Use a secret reference if you want to get a key from a secret
     # secret:
-    #   name: "memphis-jetstream-encryption"
+    #   name: "memphis-storageEngine-encryption"
     #   key: "key"
 
-    #############################
-    #                           #
-    #  Jetstream Memory Storage #
-    #                           #
-    #############################
+    #################################
+    #                               #
+    #  storageEngine Memory Storage #
+    #                               #
+    #################################
     memStorage:
       enabled: true
       size: 8Gi
 
-    ############################
-    #                          #
-    #  Jetstream File Storage  #
-    #                          #
-    ############################
+    ################################
+    #                              #
+    #  storageEngine File Storage  #
+    #                              #
+    ################################
     fileStorage:
       enabled: true
       storageDirectory: /data
 
       # Set for use with existing PVC
-      # existingClaim: jetstream-pvc
+      # existingClaim: storageEngine-pvc
       # claimStorageSize: 1Gi
 
       # Use below block to create new persistent volume
@@ -253,25 +249,6 @@ memphis:
   # tls:
   #   secret:
   #     name: memphis-client-tls
-  #   ca: "ca.crt"
-  #   cert: "tls.crt"
-  #   key: "tls.key"
-
-mqtt:
-  enabled: false
-  ackWait: 1m
-  maxAckPending: 100
-
-  #######################
-  #                     #
-  #  TLS Configuration  #
-  #                     #
-  #######################
-
-  #
-  # tls:
-  #   secret:
-  #     name: memphis-mqtt-tls
   #   ca: "ca.crt"
   #   cert: "tls.crt"
   #   key: "tls.key"
@@ -485,6 +462,7 @@ exporter:
 
 # Memphis REST Gateway configuration
 restGateway:
+  enabled: true
   user: root
   port: 4444
   image: memphisos/memphis-rest-gateway:master
