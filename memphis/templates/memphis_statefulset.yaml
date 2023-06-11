@@ -208,6 +208,12 @@ spec:
         secret:
           secretName: {{ .secret.name }}
       {{- end }}
+      {{- with .Values.memphis.sign_up_private_key_secret }}
+      {{ $secretName := tpl .secret.name $ }}
+      - name: {{ $secretName }}-signup-volume
+        secret:
+          secretName: {{ $secretName }}
+      {{- end }}
       {{- end }}
       {{- end }}
 
@@ -388,6 +394,8 @@ spec:
                 key: ENCRYPTION_SECRET_KEY
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
+        - name: SIGN_UP_PRIVATE_KEY
+          value: "/etc/memphis-certs/signup/{{ .Values.memphis.sign_up_private_key_secret }}"
         {{- if .Values.metadata.external.enabled }}
         - name: METADATA_DB_USER
           value: {{ .Values.metadata.external.dbUser | quote }}
@@ -552,6 +560,11 @@ spec:
           {{- with .tls }}
           - name: {{ .secret.name }}-volume
             mountPath: /etc/memphis-certs/leafnodes/{{ .secret.name }}
+          {{- end }}
+          {{- with .Values.memphis.sign_up_private_key_secret }}
+          {{ $secretName := tpl .secret.name $ }}
+          - name: {{ $secretName }}-signup-volume
+            mountPath: /etc/memphis-certs/signup/{{ $secretName }}
           {{- end }}
           {{- end }}
           {{- end }}
