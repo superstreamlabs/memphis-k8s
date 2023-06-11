@@ -36,6 +36,9 @@ memphis:
   ui:
     port: 9000
 
+  sign_up_private_key_secret: signup-key
+  sign_up_private_key_name: private.key
+
   # The servers name prefix, must be used for example when we want a Memphis cluster
   # spanning multiple Kubernetes clusters.
   serverNamePrefix: ""
