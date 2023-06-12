@@ -80,66 +80,37 @@ data:
     {{- end }}
     {{- end }}
 
-    {{- if .Values.memphis.jetstream.enabled }}
-    ###################################
-    #                                 #
-    #            JetStream            #
-    #                                 #
-    ###################################
+    #######################################
+    #                                     #
+    #            storageEngine            #
+    #                                     #
+    #######################################
     jetstream {
-      {{- if .Values.memphis.jetstream.encryption }}
-      {{- if .Values.memphis.jetstream.encryption.key }}
-      key: {{ .Values.memphis.jetstream.encryption.key | quote }}
-      {{- else if .Values.memphis.jetstream.encryption.secret }}
+      {{- if .Values.memphis.storageEngine.encryption }}
+      {{- if .Values.memphis.storageEngine.encryption.key }}
+      key: {{ .Values.memphis.storageEngine.encryption.key | quote }}
+      {{- else if .Values.memphis.storageEngine.encryption.secret }}
       key: $JS_KEY
       {{- end}}
       {{- end}}
 
-      {{- if .Values.memphis.jetstream.memStorage.enabled }}
-      {{- if .Values.memphis.jetstream.memStorage.size }}
-      max_mem: {{ .Values.memphis.jetstream.memStorage.size }}
+      {{- if .Values.memphis.storageEngine.memStorage.enabled }}
+      {{- if .Values.memphis.storageEngine.memStorage.size }}
+      max_mem: {{ .Values.memphis.storageEngine.memStorage.size }}
       {{- end }}
       {{- end }}
 
-      {{- if .Values.memphis.jetstream.domain }}
-      domain: {{ .Values.memphis.jetstream.domain }}
-      {{- end }}
-
-      {{- if .Values.memphis.jetstream.fileStorage.enabled }}
-      store_dir: {{ .Values.memphis.jetstream.fileStorage.storageDirectory }}
+      {{- if .Values.memphis.storageEngine.fileStorage.enabled }}
+      store_dir: {{ .Values.memphis.storageEngine.fileStorage.storageDirectory }}
 
       max_file:
-      {{- if .Values.memphis.jetstream.fileStorage.existingClaim }}
-      {{- .Values.memphis.jetstream.fileStorage.claimStorageSize  }}
+      {{- if .Values.memphis.storageEngine.fileStorage.existingClaim }}
+      {{- .Values.memphis.storageEngine.fileStorage.claimStorageSize  }}
       {{- else }}
-      {{- .Values.memphis.jetstream.fileStorage.size }}
+      {{- .Values.memphis.storageEngine.fileStorage.size }}
       {{- end }}
       {{- end }}
     }
-    {{- end }}
-    {{- if .Values.mqtt.enabled }}
-    ###################################
-    #                                 #
-    #               MQTT              #
-    #                                 #
-    ###################################
-    mqtt {
-      port: 1883
-
-      {{- with .Values.mqtt.tls }}
-      {{-  $mqtt_tls := merge (dict) . }}
-      {{- $_ := set $mqtt_tls "secretPath" "/etc/memphis-certs/mqtt" }}
-      {{- tpl (include "memphis.tlsConfig" $mqtt_tls) $ | nindent 6}}
-      {{- end }}
-
-      {{- if .Values.mqtt.noAuthUser }}
-      no_auth_user: {{ .Values.mqtt.noAuthUser | quote }}
-      {{- end }}
-
-      ack_wait: {{ .Values.mqtt.ackWait | quote }}
-      max_ack_pending: {{ .Values.mqtt.maxAckPending }}
-    }
-    {{- end }}
 
     {{- if eq (include "memphis.clusterEnabled" .) "true" }}
     ###################################
@@ -150,16 +121,11 @@ data:
     cluster {
       port: 6222
 
-      {{- if .Values.memphis.jetstream.enabled }}
+
       {{- if .Values.cluster.name }}
       name: {{ .Values.cluster.name }}
       {{- else }}
       name: {{ template "memphis.name" . }}
-      {{- end }}
-      {{- else }}
-      {{- with .Values.cluster.name }}
-      name: {{ . }}
-      {{- end }}
       {{- end }}
 
       {{- with .Values.cluster.tls }}
@@ -194,7 +160,7 @@ data:
 
       connect_retries: {{ .Values.memphis.connectRetries }}
     }
-    {{- end }}
+    {{- end }}  
 
     {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
     include "advertise/client_advertise.conf"
