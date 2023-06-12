@@ -189,42 +189,11 @@ spec:
         secret:
           secretName: {{ $secretName }}
       {{- end }}
-      {{- with .Values.leafnodes.tls }}
-      {{- if not .custom }}
-      {{ $secretName := tpl .secret.name $ }}
-      - name: {{ $secretName }}-leafnodes-volume
-        secret:
-          secretName: {{ $secretName }}
-      {{- end }}
-      {{- end }}
-      {{- with .Values.gateway.tls }}
-      {{ $secretName := tpl .secret.name $ }}
-      - name: {{ $secretName }}-gateways-volume
-        secret:
-          secretName: {{ $secretName }}
-      {{- end }}
       {{- with .Values.websocket.tls }}
       {{ $secretName := tpl .secret.name $ }}
       - name: {{ $secretName }}-ws-volume
         secret:
           secretName: {{ $secretName }}
-      {{- end }}
-      {{- if .Values.leafnodes.enabled }}
-      #
-      # Leafnode credential volumes
-      #
-      {{- range .Values.leafnodes.remotes }}
-      {{- with .credentials }}
-      - name: {{ .secret.name }}-volume
-        secret:
-          secretName: {{ .secret.name }}
-      {{- end }}
-      {{- with .tls }}
-      - name: {{ .secret.name }}-volume
-        secret:
-          secretName: {{ .secret.name }}
-      {{- end }}
-      {{- end }}
       {{- end }}
 
       {{- if .Values.additionalVolumes }}
@@ -531,41 +500,11 @@ spec:
             mountPath: /etc/memphis-certs/cluster/{{ $secretName }}
           {{- end }}
           {{- end }}
-          {{- with .Values.leafnodes.tls }}
-          {{- if not .custom }}
-          {{ $secretName := tpl .secret.name $ }}
-          - name: {{ $secretName }}-leafnodes-volume
-            mountPath: /etc/memphis-certs/leafnodes/{{ $secretName }}
-          {{- end }}
-          {{- end }}
-          {{- with .Values.gateway.tls }}
-          {{ $secretName := tpl .secret.name $ }}
-          - name: {{ $secretName }}-gateways-volume
-            mountPath: /etc/memphis-certs/gateways/{{ $secretName }}
-          {{- end }}
-
           {{- with .Values.websocket.tls }}
           {{ $secretName := tpl .secret.name $ }}
           - name: {{ $secretName }}-ws-volume
             mountPath: /etc/memphis-certs/ws/{{ $secretName }}
           {{- end }}
-
-          {{- if .Values.leafnodes.enabled }}
-          #
-          # Leafnode credential volumes
-          #
-          {{- range .Values.leafnodes.remotes }}
-          {{- with .credentials }}
-          - name: {{ .secret.name }}-volume
-            mountPath: /etc/memphis-creds/{{ .secret.name }}
-          {{- end }}
-          {{- with .tls }}
-          - name: {{ .secret.name }}-volume
-            mountPath: /etc/memphis-certs/leafnodes/{{ .secret.name }}
-          {{- end }}
-          {{- end }}
-          {{- end }}
-
           {{- if .Values.additionalVolumeMounts }}
           {{- toYaml .Values.additionalVolumeMounts | nindent 10 }}
           {{- end }}
@@ -698,9 +637,6 @@ spec:
         - -prefix=nats
         - -use_internal_server_id
         - -jsz=all
-        {{- if .Values.leafnodes.enabled }}
-        - -leafz
-        {{- end }}
         - http://localhost:8222/
         ports:
         - containerPort: 7777
