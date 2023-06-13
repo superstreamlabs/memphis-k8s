@@ -146,7 +146,6 @@ kubectl create namespace memphis
 
 b) Create a k8s secret with the required certs
 
-{% code overflow="wrap" lineNumbers="true" %}
 ```bash
 kubectl create secret generic memphis-client-tls-secret \
 --from-file=memphis_client.pem \
