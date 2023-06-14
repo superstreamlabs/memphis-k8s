@@ -460,7 +460,7 @@ exporter:
 
 # Memphis busybox configuration
 busybox:
-  image: busybox:1.36.0
+  image: busybox:1.36.1
   pullPolicy: IfNotPresent
 
 # Memphis REST Gateway configuration
