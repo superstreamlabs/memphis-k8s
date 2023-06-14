@@ -38,6 +38,10 @@ spec:
       labels:
         app: memphis-rest-gateway
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
       initContainers:
         - name: k8s-busybox-waits4broker
           image: busybox:1.28
