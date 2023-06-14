@@ -38,10 +38,14 @@ spec:
       labels:
         app: memphis-rest-gateway
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: k8s-busybox-waits4broker
-          image: busybox:1.28
-          imagePullPolicy: Always
+          image: {{ .Values.busybox.image }}
+          imagePullPolicy: {{ .Values.busybox.pullPolicy }}
           command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-rest-gateway
