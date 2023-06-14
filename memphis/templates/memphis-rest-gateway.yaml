@@ -47,8 +47,8 @@ spec:
         - name: memphis-rest-gateway
           image: {{ .Values.restGateway.image }}
           resources:
-            {{- .Values.restGateway.resources | toYaml | noindent 4 }}
-          imagePullPolicy: {{ .Values.restGaway.pullPolicy }}
+            {{- toYaml .Values.restGateway.resources | nindent 12 }}
+          imagePullPolicy: {{ .Values.restGateway.pullPolicy }}
           ports:
             - containerPort: 4444
           env:
