@@ -3,13 +3,8 @@
 #    Memphis Configuration BEGIN    #
 #                                   #
 #####################################
-rootPwd: ""
-connectionToken: ""
 analytics: true
 logsRetentionInDays: 3
-ui_host: ""
-rest_gw_host: ""
-broker_host: ""
 user_pass_based_auth: true
 #####################################
 #                                   #
@@ -35,6 +30,20 @@ memphis:
   # This configures memphis UI port to default (9000)
   ui:
     port: 9000
+
+  # Hosts name configuration for UI configuraion
+  hosts:
+    uiHostName: ""
+    restgwHostName: ""
+    brokerHostName: ""
+  
+  # Varibles that configure Memphis credentials.Random by default
+  creds:
+    rootPwd: ""
+    connectionToken: ""
+    jwtSecret: ""
+    refreshJwtSecret: ""
+    encryptionSecretKey: ""
 
   # Installation source config
   source: main
@@ -416,6 +425,8 @@ restGateway:
   enabled: true
   user: root
   port: 4444
+  jwtSecret: ""
+  refreshJwtSecret: ""
   image: memphisos/memphis-rest-gateway:master
   pullPolicy: Always
 

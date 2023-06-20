@@ -23,19 +23,19 @@ data:
     # Memphis Rest Gateway API Port
     rest_gw_port: {{ .Values.restGateway.port }}
 
-    {{- if .Values.ui_host }}
+    {{- if .Values.memphis.hosts.uiHostName }}
     # Memphis UI URL that displayed in dashboard
-    ui_host: {{ .Values.ui_host }}
+    ui_host: {{ .Values.memphis.hosts.uiHostName }}
     {{- end }}
 
-    {{- if .Values.broker_host }}
+    {{- if .Values.memphis.hosts.brokerHostName }}
     # Memphis Broker URL that displayed in dashboard
-    broker_host: {{ .Values.broker_host }}
+    broker_host: {{ .Values.memphis.hosts.brokerHostName }}
     {{- end }}
 
-    {{- if .Values.rest_gw_host }}
+    {{- if .Values.memphis.hosts.restgwHostName }}
     # Memphis Rest Gateway URL that displayed in dashboard
-    rest_gw_host: {{ .Values.rest_gw_host }}
+    rest_gw_host: {{ .Values.memphis.hosts.restgwHostName }}
     {{- end }}    
 
     # Logs retention parameter in days
