@@ -102,13 +102,6 @@ data:
 
       {{- if .Values.memphis.storageEngine.fileStorage.enabled }}
       store_dir: {{ .Values.memphis.storageEngine.fileStorage.storageDirectory }}
-
-      max_file:
-      {{- if .Values.memphis.storageEngine.fileStorage.existingClaim }}
-      {{- .Values.memphis.storageEngine.fileStorage.claimStorageSize  }}
-      {{- else }}
-      {{- .Values.memphis.storageEngine.fileStorage.size }}
-      {{- end }}
       {{- end }}
     }
 
