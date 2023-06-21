@@ -2,6 +2,110 @@ apiVersion: v1
 entries:
   memphis:
   - apiVersion: v2
+    appVersion: 1.0.3
+    created: "2022-04-11T15:50:54.605102+03:00"
+    description: Memphis.dev Helm chart
+    digest: f557dcaf1fbf21fe2fd5ae7ee28a1a5a3c149c9e78c1a16ebdcb9bd5cf9117e5
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    name: memphis
+    type: application
+    urls:
+    - https://k8s.memphis.dev/charts/memphis-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      category: Streaming and messaging
+      licenses: Memphis Business Source License 1.0
+    apiVersion: v2
+    appVersion: 1.0.1
+    created: "2023-05-31T10:28:58.065270998Z"
+    dependencies:
+    - condition: metadata.enabled
+      name: metadata
+      repository: ""
+      version: 11.0.1
+    description: Memphis.dev Official Helm chart
+    digest: 86488895624a1430996b0a2c25dae90ef1b16ccf8ea10317aaa75094c0e1f545
+    home: https://github.com/memphisdev/memphis
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    keywords:
+    - data streaming
+    - message broker
+    - memphis
+    - producer
+    - consumer
+    - cluster
+    - high availability
+    maintainers:
+    - name: Memphis.dev
+      url: https://k8s.memphis.dev/charts
+    name: memphis
+    sources:
+    - https://github.com/memphisdev/memphis
+    - https://www.memphis.dev
+    type: application
+    urls:
+    - memphis-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      category: Streaming and messaging
+      licenses: Memphis Business Source License 1.0
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2023-05-31T10:28:58.059783052Z"
+    dependencies:
+    - condition: metadata.enabled
+      name: metadata
+      repository: ""
+      version: '>1.0.0-0'
+    description: Memphis.dev Official Helm chart
+    digest: 2b67fb6ba49bbbc717015bb56fe8df25c4505079bfa44c94dca9e655f8c2de6a
+    home: https://github.com/memphisdev/memphis
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    keywords:
+    - data streaming
+    - message broker
+    - memphis
+    - producer
+    - consumer
+    - cluster
+    - high availability
+    maintainers:
+    - name: Memphis.dev
+      url: https://k8s.memphis.dev/charts
+    name: memphis
+    sources:
+    - https://github.com/memphisdev/memphis
+    - https://www.memphis.dev
+    type: application
+    urls:
+    - memphis-1.0.0.tgz
+    version: 1.0.0
+  - annotations:
+      category: Streaming and messaging
+      licenses: Memphis Business Source License 1.0
+    apiVersion: v2
+    appVersion: 0.4.5
+    created: "2023-05-31T10:28:58.054668554Z"
+    description: Memphis.dev Official Helm chart
+    digest: e3e2ca1f38e7072aea1cbe9eeaf3c79c849289422e340960b56709056a1dea0f
+    home: https://github.com/memphisdev/memphis
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    keywords:
+    - data streaming
+    - message broker
+    - memphis
+    - producer
+    - consumer
+    - cluster
+    - high availability
+    maintainers:
+    - name: Memphis.dev
+      url: https://k8s.memphis.dev/charts
+    name: memphis
+    sources:
+    - https://github.com/memphisdev/memphis
+    - https://www.memphis.dev
+  - apiVersion: v2
     appVersion: 0.4.5
     created: "2023-03-06T09:57:46.84712+02:00"
     description: Memphis.dev Helm chart

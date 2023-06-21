@@ -21,6 +21,8 @@ spec:
   {{- else }}
   replicas: 1
   {{- end }}
+  updateStrategy:
+    {{- toYaml .Values.updateStrategy | nindent 4 }}  
   serviceName: {{ include "memphis.svcName" . }}
 
   podManagementPolicy: {{ .Values.podManagementPolicy }}
@@ -374,6 +376,9 @@ spec:
           value: {{ .Values.exporter.enabled | quote }}
         - name: INSTALLATION_SOURCE
           value: {{ .Values.memphis.source | quote }}
+        {{- if .Values.memphis.extraEnvironmentVars.enabled }}
+        {{- .Values.memphis.extraEnvironmentVars.vars | toYaml | nindent 8  }}
+        {{- end }}
         {{- if .Values.metadata.external.enabled }}
         - name: METADATA_DB_USER
           value: {{ .Values.metadata.external.dbUser | quote }}
