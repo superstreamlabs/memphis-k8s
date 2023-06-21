@@ -51,10 +51,8 @@ spec:
         - name: memphis-rest-gateway
           image: {{ .Values.restGateway.image }}
           resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-          imagePullPolicy: Always
+            {{- toYaml .Values.restGateway.resources | nindent 12 }}
+          imagePullPolicy: {{ .Values.restGateway.pullPolicy }}
           ports:
             - containerPort: 4444
           env:

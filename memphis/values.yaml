@@ -429,6 +429,12 @@ restGateway:
   refreshJwtSecret: ""
   image: memphisos/memphis-rest-gateway:master
   pullPolicy: Always
+  resources:
+    limits:
+      memory: 500Mi
+    requests:
+      cpu: 500m
+      memory: 500Mi
 
 # Authentication setup
 auth:
