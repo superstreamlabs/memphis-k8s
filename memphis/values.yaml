@@ -48,6 +48,13 @@ memphis:
   # Installation source config
   source: main
 
+  # Additional variables configuration
+  extraEnvironmentVars:
+    enabled: false
+  #  vars:
+  #    - name: KEY
+  #      value: value
+
   # The servers name prefix, must be used for example when we want a Memphis cluster
   # spanning multiple Kubernetes clusters.
   serverNamePrefix: ""
@@ -280,6 +287,10 @@ securityContext: {}
 #   fsGroup: 1000
 #   runAsUser: 1000
 #   runAsNonRoot: true
+
+
+updateStrategy:
+  type: RollingUpdate
 
 # Affinity for pod assignment
 # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
