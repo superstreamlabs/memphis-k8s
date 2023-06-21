@@ -235,7 +235,8 @@ memphis:
     #################################
     memStorage:
       enabled: true
-      size: 8Gi
+      # storageEngine memory allocation. Default is 75% of the instance Memory available
+      # size: 8Gi
 
     ################################
     #                              #
