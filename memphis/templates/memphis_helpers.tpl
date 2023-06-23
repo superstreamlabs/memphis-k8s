@@ -93,7 +93,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 
 {{/*
-Return the proper NATS image name
+Return the proper Memphis image name
 */}}
 {{- define "memphis.clusterAdvertise" -}}
 {{- if $.Values.useFQDN }}
@@ -104,7 +104,7 @@ Return the proper NATS image name
 {{- end }}
 
 {{/*
-Return the NATS cluster routes.
+Return the Memphis cluster routes.
 */}}
 {{- define "memphis.clusterRoutes" -}}
 {{- $name := (include "memphis.fullname" . ) -}}
