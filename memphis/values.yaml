@@ -3,7 +3,6 @@
 #    Memphis Configuration BEGIN    #
 #                                   #
 #####################################
-analytics: true
 logsRetentionInDays: 3
 user_pass_based_auth: true
 #####################################
@@ -37,13 +36,31 @@ memphis:
     restgwHostName: ""
     brokerHostName: ""
   
-  # Varibles that configure Memphis credentials.Random by default
+  # Variables that configure Memphis credentials. Random by default
   creds:
     rootPwd: ""
     connectionToken: ""
     jwtSecret: ""
     refreshJwtSecret: ""
     encryptionSecretKey: ""
+    
+  # customConfigSecret can be used to use an custom secret for the config 
+    customConfigSecret:
+      enabled: false
+      secret:
+        name: "external-creds"
+      rootPwd_key: "rootPwd"
+      connectionToken_key: "connectionToken"
+      jwtSecret_key: "jwtSecret"
+      refreshJwtSecret_key: "refreshJwtSecret"
+      encryptionSecretKey_key: "encryptionSecretKey"
+
+  #### REMOVE
+  #  secret:
+  #     name: memphis-client-tls
+  #   ca: "ca.crt"
+  #   cert: "tls.crt"
+  #   key: "tls.key" 
 
   # Installation source config
   source: main
