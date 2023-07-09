@@ -64,16 +64,26 @@ spec:
             value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: USER_PASS_BASED_AUTH
             value: {{ .Values.user_pass_based_auth | quote }}
+          - name: ROOT_PASSWORD
+            valueFrom:
+                secretKeyRef:
+          {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.rootPwd_key }}
+                  name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
+                  key: {{ .Values.memphis.creds.customConfigSecret.rootPwd_key }}
+          {{- else }}
+                  name: "memphis-creds"
+                  key: ROOT_PASSWORD
+          {{- end }}
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
-                name: "memphis-creds"
-                key: CONNECTION_TOKEN
-          - name: ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: ROOT_PASSWORD
+          {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.connectionToken_key }}
+                  name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
+                  key: {{ .Values.memphis.creds.customConfigSecret.connectionToken_key }}
+          {{- else }}
+                  name: "memphis-creds"
+                  key: CONNECTION_TOKEN
+          {{- end }}
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
