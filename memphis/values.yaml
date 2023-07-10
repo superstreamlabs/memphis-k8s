@@ -27,7 +27,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:stable
+  image: memphisos/memphis:1.0.3-stable
   teston:
     image: memphisos/memphis-latest-test:latest
   pullPolicy: Always 
