@@ -304,6 +304,10 @@ spec:
           name: monitor
         - containerPort: 6222
           name: cluster
+        {{- if .Values.memphis.profiling.enabled }}
+        - containerPort: {{ .Values.memphis.profiling.port }}
+          name: profiler
+        {{- end }}
         command:
          - "nats-server"
          - "--config"
