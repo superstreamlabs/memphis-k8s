@@ -455,7 +455,7 @@ restGateway:
   port: 4444
   jwtSecret: ""
   refreshJwtSecret: ""
-  image: memphisos/memphis-rest-gateway:1.0.1
+  image: memphisos/memphis-rest-gateway:1.0.3
   pullPolicy: Always
   resources: {}
   ## An example of limits/requests
