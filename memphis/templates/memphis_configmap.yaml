@@ -23,19 +23,19 @@ data:
     # Memphis Rest Gateway API Port
     rest_gw_port: {{ .Values.restGateway.port }}
 
-    {{- if .Values.ui_host }}
+    {{- if .Values.memphis.hosts.uiHostName }}
     # Memphis UI URL that displayed in dashboard
-    ui_host: {{ .Values.ui_host }}
+    ui_host: {{ .Values.memphis.hosts.uiHostName }}
     {{- end }}
 
-    {{- if .Values.broker_host }}
+    {{- if .Values.memphis.hosts.brokerHostName }}
     # Memphis Broker URL that displayed in dashboard
-    broker_host: {{ .Values.broker_host }}
+    broker_host: {{ .Values.memphis.hosts.brokerHostName }}
     {{- end }}
 
-    {{- if .Values.rest_gw_host }}
+    {{- if .Values.memphis.hosts.restgwHostName }}
     # Memphis Rest Gateway URL that displayed in dashboard
-    rest_gw_host: {{ .Values.rest_gw_host }}
+    rest_gw_host: {{ .Values.memphis.hosts.restgwHostName }}
     {{- end }}    
 
     # Logs retention parameter in days
@@ -80,66 +80,30 @@ data:
     {{- end }}
     {{- end }}
 
-    {{- if .Values.memphis.jetstream.enabled }}
-    ###################################
-    #                                 #
-    #            JetStream            #
-    #                                 #
-    ###################################
+    #######################################
+    #                                     #
+    #            storageEngine            #
+    #                                     #
+    #######################################
     jetstream {
-      {{- if .Values.memphis.jetstream.encryption }}
-      {{- if .Values.memphis.jetstream.encryption.key }}
-      key: {{ .Values.memphis.jetstream.encryption.key | quote }}
-      {{- else if .Values.memphis.jetstream.encryption.secret }}
+      {{- if .Values.memphis.storageEngine.encryption }}
+      {{- if .Values.memphis.storageEngine.encryption.key }}
+      key: {{ .Values.memphis.storageEngine.encryption.key | quote }}
+      {{- else if .Values.memphis.storageEngine.encryption.secret }}
       key: $JS_KEY
       {{- end}}
       {{- end}}
 
-      {{- if .Values.memphis.jetstream.memStorage.enabled }}
-      {{- if .Values.memphis.jetstream.memStorage.size }}
-      max_mem: {{ .Values.memphis.jetstream.memStorage.size }}
+      {{- if .Values.memphis.storageEngine.memStorage.enabled }}
+      {{- if .Values.memphis.storageEngine.memStorage.size }}
+      max_mem: {{ .Values.memphis.storageEngine.memStorage.size }}
       {{- end }}
       {{- end }}
 
-      {{- if .Values.memphis.jetstream.domain }}
-      domain: {{ .Values.memphis.jetstream.domain }}
-      {{- end }}
-
-      {{- if .Values.memphis.jetstream.fileStorage.enabled }}
-      store_dir: {{ .Values.memphis.jetstream.fileStorage.storageDirectory }}
-
-      max_file:
-      {{- if .Values.memphis.jetstream.fileStorage.existingClaim }}
-      {{- .Values.memphis.jetstream.fileStorage.claimStorageSize  }}
-      {{- else }}
-      {{- .Values.memphis.jetstream.fileStorage.size }}
-      {{- end }}
+      {{- if .Values.memphis.storageEngine.fileStorage.enabled }}
+      store_dir: {{ .Values.memphis.storageEngine.fileStorage.storageDirectory }}
       {{- end }}
     }
-    {{- end }}
-    {{- if .Values.mqtt.enabled }}
-    ###################################
-    #                                 #
-    #               MQTT              #
-    #                                 #
-    ###################################
-    mqtt {
-      port: 1883
-
-      {{- with .Values.mqtt.tls }}
-      {{-  $mqtt_tls := merge (dict) . }}
-      {{- $_ := set $mqtt_tls "secretPath" "/etc/memphis-certs/mqtt" }}
-      {{- tpl (include "memphis.tlsConfig" $mqtt_tls) $ | nindent 6}}
-      {{- end }}
-
-      {{- if .Values.mqtt.noAuthUser }}
-      no_auth_user: {{ .Values.mqtt.noAuthUser | quote }}
-      {{- end }}
-
-      ack_wait: {{ .Values.mqtt.ackWait | quote }}
-      max_ack_pending: {{ .Values.mqtt.maxAckPending }}
-    }
-    {{- end }}
 
     {{- if eq (include "memphis.clusterEnabled" .) "true" }}
     ###################################
@@ -150,16 +114,11 @@ data:
     cluster {
       port: 6222
 
-      {{- if .Values.memphis.jetstream.enabled }}
+
       {{- if .Values.cluster.name }}
       name: {{ .Values.cluster.name }}
       {{- else }}
       name: {{ template "memphis.name" . }}
-      {{- end }}
-      {{- else }}
-      {{- with .Values.cluster.name }}
-      name: {{ . }}
-      {{- end }}
       {{- end }}
 
       {{- with .Values.cluster.tls }}
@@ -194,173 +153,10 @@ data:
 
       connect_retries: {{ .Values.memphis.connectRetries }}
     }
-    {{- end }}
+    {{- end }}  
 
     {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
     include "advertise/client_advertise.conf"
-    {{- end }}
-
-    {{- if or .Values.leafnodes.enabled .Values.leafnodes.remotes }}
-    ####################
-    #                  #
-    # Memphis Leafnode #
-    #                  #
-    ####################
-    leafnodes {
-      {{- if .Values.leafnodes.enabled }}
-      listen: "0.0.0.0:7422"
-      {{- end }}
-
-      {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
-      include "advertise/gateway_advertise.conf"
-      {{- end }}
-
-      {{- with .Values.leafnodes.noAdvertise }}
-      no_advertise: {{ . }}
-      {{- end }}
-
-      {{- with .Values.leafnodes.authorization }}
-      authorization: {
-        {{- with .user }}
-        user: {{ . }}
-        {{- end }}
-        {{- with .password }}
-        password: {{ . }}
-        {{- end }}
-        {{- with .account }}
-        account: {{ . | quote }}
-        {{- end }}
-        {{- with .timeout }}
-        timeout: {{ . }}
-        {{- end }}
-        {{- with .users }}
-        users: [
-        {{- range . }}
-        {{- toRawJson . | nindent 10 }},
-        {{- end }}
-        ]
-        {{- end }}
-      }
-      {{- end }}
-
-      {{- with .Values.leafnodes.tls }}
-      {{- if .custom }}
-      tls {
-        {{- .custom | nindent 8 }}
-      }
-      {{- else }}
-      {{-  $leafnode_tls := merge (dict) . }}
-      {{- $_ := set $leafnode_tls "secretPath" "/etc/memphis-certs/leafnodes" }}
-      {{- tpl (include "memphis.tlsConfig" $leafnode_tls) $ | nindent 6}}
-      {{- end }}
-      {{- end }}
-
-      remotes: [
-      {{- range .Values.leafnodes.remotes }}
-      {
-        {{- with .url }}
-        url: {{ . | quote }}
-        {{- end }}
-
-        {{- with .urls }}
-        urls: {{ toRawJson . }}
-        {{- end }}
-
-        {{- with .account }}
-        account: {{ . | quote }}
-        {{- end }}
-
-        {{- with .credentials }}
-        credentials: "/etc/memphis-creds/{{ .secret.name }}/{{ .secret.key }}"
-        {{- end }}
-
-        {{- with .tls }}
-        tls: {
-          {{- if .custom }}
-          {{- .custom | nindent 10 }}
-          {{- else }}
-          {{ $secretName := tpl .secret.name $ }}
-          {{- with .cert }}
-          cert_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
-          {{- end }}
-
-          {{- with .key }}
-          key_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
-          {{- end }}
-
-          {{- with .ca }}
-          ca_file: /etc/memphis-certs/leafnodes/{{ $secretName }}/{{ . }}
-          {{- end }}
-          {{- end }}
-        }
-        {{- end }}
-      }
-      {{- end }}
-      ]
-    }
-    {{- end }}
-
-    {{- if .Values.gateway.enabled }}
-    ####################
-    #                  #
-    # Memphis Gateways #
-    #                  #
-    ####################
-    gateway {
-      name: {{ .Values.gateway.name }}
-      port: 7522
-
-      {{- if .Values.gateway.advertise }}
-      advertise: {{ .Values.gateway.advertise }}
-      {{- end }}
-
-      {{- if .Values.gateway.rejectUnknownCluster }}
-      reject_unknown_cluster: {{ .Values.gateway.rejectUnknownCluster }}
-      {{- end }}
-
-      {{- if .Values.gateway.authorization }}
-      authorization {
-        {{- with .Values.gateway.authorization.user }}
-        user: {{ . }}
-        {{- end }}
-        {{- with .Values.gateway.authorization.password }}
-        password: {{ . }}
-        {{- end }}
-        {{- with .Values.gateway.authorization.timeout }}
-        timeout: {{ . }}
-        {{- end }}
-      }
-      {{- end }}
-
-      {{- if and .Values.memphis.advertise .Values.memphis.externalAccess }}
-      include "advertise/gateway_advertise.conf"
-      {{- end }}
-
-      {{- with .Values.gateway.tls }}
-      {{-  $gateway_tls := merge (dict) . }}
-      {{- $_ := set $gateway_tls "secretPath" "/etc/memphis-certs/gateways" }}
-      {{- tpl (include "memphis.tlsConfig" $gateway_tls) $ | nindent 6}}
-      {{- end }}
-
-      # Gateways array here
-      gateways: [
-        {{- range .Values.gateway.gateways }}
-        {
-          {{- with .name }}
-          name: {{ . }}
-          {{- end }}
-
-          {{- with .url }}
-          url: {{ . | quote }}
-          {{- end }}
-
-          {{- with .urls }}
-          urls: [{{ join "," . }}]
-          {{- end }}
-        },
-        {{- end }}
-      ]
-    }
     {{- end }}
 
     {{- with .Values.memphis.logging.debug }}

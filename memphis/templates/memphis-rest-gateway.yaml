@@ -20,11 +20,15 @@ metadata:
   labels:
     app: memphis-rest-gateway
 spec:
-{{- if eq (include "memphis.clusterEnabled" .) "true" }}
+{{- if .Values.restGateway.enabled }}
+  {{- if eq (include "memphis.clusterEnabled" .) "true" }}
   replicas: 2
   {{- else }}
   replicas: 1
   {{- end }}
+{{- else }}
+  replicas: 0
+{{- end }}
   selector:
     matchLabels:
       app: memphis-rest-gateway
@@ -34,19 +38,21 @@ spec:
       labels:
         app: memphis-rest-gateway
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
         - name: k8s-busybox-waits4broker
-          image: busybox:1.28
-          imagePullPolicy: Always
+          image: {{ .Values.busybox.image }}
+          imagePullPolicy: {{ .Values.busybox.pullPolicy }}
           command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-rest-gateway
           image: {{ .Values.restGateway.image }}
           resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-          imagePullPolicy: Always
+            {{- toYaml .Values.restGateway.resources | nindent 12 }}
+          imagePullPolicy: {{ .Values.restGateway.pullPolicy }}
           ports:
             - containerPort: 4444
           env:
@@ -58,16 +64,26 @@ spec:
             value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: USER_PASS_BASED_AUTH
             value: {{ .Values.user_pass_based_auth | quote }}
+          - name: ROOT_PASSWORD
+            valueFrom:
+                secretKeyRef:
+          {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.rootPwd_key }}
+                  name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
+                  key: {{ .Values.memphis.creds.customConfigSecret.rootPwd_key }}
+          {{- else }}
+                  name: "memphis-creds"
+                  key: ROOT_PASSWORD
+          {{- end }}
           - name: CONNECTION_TOKEN
             valueFrom:
               secretKeyRef:
-                name: "memphis-creds"
-                key: CONNECTION_TOKEN
-          - name: ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: "memphis-creds"
-                key: ROOT_PASSWORD
+          {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.connectionToken_key }}
+                  name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
+                  key: {{ .Values.memphis.creds.customConfigSecret.connectionToken_key }}
+          {{- else }}
+                  name: "memphis-creds"
+                  key: CONNECTION_TOKEN
+          {{- end }}
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
