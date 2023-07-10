@@ -3,13 +3,7 @@
 #    Memphis Configuration BEGIN    #
 #                                   #
 #####################################
-rootPwd: ""
-connectionToken: ""
-analytics: true
 logsRetentionInDays: 3
-ui_host: ""
-rest_gw_host: ""
-broker_host: ""
 user_pass_based_auth: true
 #####################################
 #                                   #
@@ -27,14 +21,55 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:stable
+  image: memphisos/memphis:1.0.3-stable
   teston:
     image: memphisos/memphis-latest-test:latest
-  pullPolicy: Always 
-  
+  pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
     port: 9000
+
+  # Hosts name configuration for UI configuraion
+  hosts:
+    uiHostName: ""
+    restgwHostName: ""
+    brokerHostName: ""
+  
+  # Variables that configure Memphis credentials. Random by default
+  creds:
+    rootPwd: ""
+    connectionToken: ""
+    jwtSecret: ""
+    refreshJwtSecret: ""
+    encryptionSecretKey: ""
+    
+  # customConfigSecret can be used to use an custom secret for the config 
+    customConfigSecret:
+      enabled: false
+      secret:
+        name: "external-creds"
+      rootPwd_key: "rootPwd"
+      connectionToken_key: "connectionToken"
+      jwtSecret_key: "jwtSecret"
+      refreshJwtSecret_key: "refreshJwtSecret"
+      encryptionSecretKey_key: "encryptionSecretKey"
+
+  #### REMOVE
+  #  secret:
+  #     name: memphis-client-tls
+  #   ca: "ca.crt"
+  #   cert: "tls.crt"
+  #   key: "tls.key" 
+
+  # Installation source config
+  source: main
+
+  # Additional variables configuration
+  extraEnvironmentVars:
+    enabled: false
+  #  vars:
+  #    - name: KEY
+  #      value: value
 
   # The servers name prefix, must be used for example when we want a Memphis cluster
   # spanning multiple Kubernetes clusters.
@@ -135,7 +170,7 @@ memphis:
 
   # Server settings.
   limits:
-    maxConnections:  
+    maxConnections:
     maxSubscriptions:
     maxControlLine:
     maxPayload: 1MB
@@ -193,46 +228,43 @@ memphis:
   #      configMap:
   #        name: log-config
 
-  jetstream:
-    enabled: true
+  storageEngine:
 
-    # Jetstream Domain
-    domain:
-
-    ##########################
-    #                        #
-    #  Jetstream Encryption  #
-    #                        #
-    ##########################
+    ##############################
+    #                            #
+    #  storageEngine Encryption  #
+    #                            #
+    ##############################
     encryption:
-      # Use key if you want to provide the key via Helm Values
-      # key: random_key
+    # Use key if you want to provide the key via Helm Values
+    # key: random_key
 
-      # Use a secret reference if you want to get a key from a secret
-      # secret:
-      #   name: "memphis-jetstream-encryption"
-      #   key: "key"
+    # Use a secret reference if you want to get a key from a secret
+    # secret:
+    #   name: "memphis-storageEngine-encryption"
+    #   key: "key"
 
-    #############################
-    #                           #
-    #  Jetstream Memory Storage #
-    #                           #
-    #############################
+    #################################
+    #                               #
+    #  storageEngine Memory Storage #
+    #                               #
+    #################################
     memStorage:
       enabled: true
-      size: 8Gi
+      # storageEngine memory allocation. Default is 75% of the instance Memory available
+      # size: 8Gi
 
-    ############################
-    #                          #
-    #  Jetstream File Storage  #
-    #                          #
-    ############################
+    ################################
+    #                              #
+    #  storageEngine File Storage  #
+    #                              #
+    ################################
     fileStorage:
       enabled: true
       storageDirectory: /data
 
       # Set for use with existing PVC
-      # existingClaim: jetstream-pvc
+      # existingClaim: storageEngine-pvc
       # claimStorageSize: 1Gi
 
       # Use below block to create new persistent volume
@@ -240,7 +272,7 @@ memphis:
       size: 30Gi
       # storageClassName: ""
       accessModes:
-        - ReadWriteOnce
+      - ReadWriteOnce
       annotations:
       # key: "value"
 
@@ -257,32 +289,13 @@ memphis:
   #   cert: "tls.crt"
   #   key: "tls.key"
 
-mqtt:
-  enabled: false
-  ackWait: 1m
-  maxAckPending: 100
-
-  #######################
-  #                     #
-  #  TLS Configuration  #
-  #                     #
-  #######################
-
-  #
-  # tls:
-  #   secret:
-  #     name: memphis-mqtt-tls
-  #   ca: "ca.crt"
-  #   cert: "tls.crt"
-  #   key: "tls.key"
-
 nameOverride: ""
 namespaceOverride: ""
 
 # An array of imagePullSecrets, and they have to be created manually in the same namespace
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets: 
-  - name: regcred
+imagePullSecrets:
+- name: regcred
 
 # Toggle whether to use setup a Pod Security Context
 # ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -292,9 +305,34 @@ securityContext: {}
 #   runAsUser: 1000
 #   runAsNonRoot: true
 
+
+updateStrategy:
+  type: RollingUpdate
+
 # Affinity for pod assignment
 # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-affinity: {}
+affinity:
+  # Inter-Pod Affinity rules for scheduling Pods of this StatefulSet.
+  # For details,
+  # see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+  podAffinity: {}
+  # Anti-affinity rules for scheduling Pods of this StatefulSet.
+  # For details,
+  # see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+  # You may either edit the default settings for anti-affinity rules,
+  # or specify new anti-affinity rules to use instead of the defaults.
+  podAntiAffinity:
+    # The topologyKey to be used.
+    # Can be used to spread across different nodes, AZs, regions etc.
+    topologyKey: kubernetes.io/hostname
+    # Valid anti-affinity types are `soft`, `hard`, or `custom`.
+    # Use `custom` if you want to supply your own anti-affinity rules in the `podAntiAffinity.custom` object.
+    type: hard
+    # Weight for `soft` anti-affinity rules.
+    # Does not apply for other anti-affinity types.
+    weight: 100
+    # Change `podAntiAffinity.type` to `custom` and provide your own podAntiAffinity rules here.
+    custom: {}
 
 ## Pod priority class name
 ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
@@ -355,7 +393,6 @@ additionalVolumes: []
 additionalVolumeMounts: []
 
 cluster:
-  enabled: false
   replicas: 3
   noAdvertise: false
 
@@ -367,61 +404,6 @@ cluster:
   #   user: foo
   #   password: pwd
   #   timeout: 0.5
-
-leafnodes:
-  enabled: false
-  noAdvertise: false
-  # remotes:
-  #   - url: "tls://connect.ngs.global:7422"
-
-  #######################
-  #                     #
-  #  TLS Configuration  #
-  #                     #
-  #######################
-
-  #
-  # tls:
-  #   secret:
-  #     name: memphis-client-tls
-  #   ca: "ca.crt"
-  #   cert: "tls.crt"
-  #   key: "tls.key"
-
-gateway:
-  enabled: false
-  name: "default"
-  # authorization:
-  #   user: foo
-  #   password: pwd
-  #   timeout: 0.5
-  # rejectUnknownCluster: false
-
-  # You can add an implicit advertise address instead of using from Node's IP
-  # could also be a fqdn address
-  # advertise: "memphis.example.com"
-
-  #############################
-  #                           #
-  #  List of remote gateways  #
-  #                           #
-  #############################
-  # gateways:
-  #   - name: other
-  #     url: nats://my-gateway-url:7522
-
-  #######################
-  #                     #
-  #  TLS Configuration  #
-  #                     #
-  #######################
-
-  # tls:
-  #   secret:
-  #     name: memphis-client-tls
-  #   ca: "ca.crt"
-  #   cert: "tls.crt"
-  #   key: "tls.key"
 
 # In case of both external access and advertisements being
 # enabled, an initializer container will be used to gather
@@ -445,7 +427,7 @@ exporter:
   enabled: false
   image: natsio/prometheus-nats-exporter:0.10.1
   pullPolicy: IfNotPresent
-  
+
   portName: metrics
   securityContext: {}
   resources: {}
@@ -460,14 +442,28 @@ exporter:
     path: /metrics
     # interval:
     # scrapeTimeout:
-    
-    
+
+# Memphis busybox configuration
+busybox:
+  image: busybox:1.36.1
+  pullPolicy: IfNotPresent
+
 # Memphis REST Gateway configuration
 restGateway:
+  enabled: true
   user: root
   port: 4444
-  image: memphisos/memphis-rest-gateway:1.0.1
+  jwtSecret: ""
+  refreshJwtSecret: ""
+  image: memphisos/memphis-rest-gateway:1.0.3
   pullPolicy: Always
+  resources: {}
+  ## An example of limits/requests
+  #  limits:
+  #    memory: 500Mi
+  #  requests:
+  #    cpu: 500m
+  #    memory: 500Mi
 
 # Authentication setup
 auth:
@@ -599,7 +595,7 @@ podManagementPolicy: Parallel
 # using `helm upgrade` command to apply upgrades.
 upgrade: false
 
- 
+
 # Metadata DB configuration
 metadata:
   enabled: true
