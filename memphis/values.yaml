@@ -21,9 +21,9 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis-master:latest
+  image: memphisos/memphis:1.0.3-stable
   teston:
-    image: memphisos/memphis-master-test:latest
+    image: memphisos/memphis-latest-test:latest
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
@@ -455,7 +455,7 @@ restGateway:
   port: 4444
   jwtSecret: ""
   refreshJwtSecret: ""
-  image: memphisos/memphis-rest-gateway:master
+  image: memphisos/memphis-rest-gateway:1.0.1
   pullPolicy: Always
   resources: {}
   ## An example of limits/requests
