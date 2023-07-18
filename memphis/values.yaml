@@ -5,12 +5,6 @@
 #####################################
 logsRetentionInDays: 3
 user_pass_based_auth: true
-#####################################
-#                                   #
-#        Tests Configuration        #
-#                                   #
-#####################################
-teston: ""
 
 #####################################
 #                                   #
@@ -22,8 +16,6 @@ global:
     enabled: false
 memphis:
   image: memphisos/memphis:1.0.3-stable
-  teston:
-    image: memphisos/memphis-latest-test:latest
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:

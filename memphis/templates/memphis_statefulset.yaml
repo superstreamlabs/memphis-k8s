@@ -278,11 +278,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.memphis.terminationGracePeriodSeconds }}
       containers:
       - name: memphis
-        {{ if eq .Values.teston "cp" }}
-        image: {{ .Values.memphis.teston.image }}
-        {{ else }}
         image: {{ .Values.memphis.image }}
-        {{ end }}
         imagePullPolicy: {{ .Values.memphis.pullPolicy }}
         {{- if .Values.memphis.securityContext }}
         securityContext:
