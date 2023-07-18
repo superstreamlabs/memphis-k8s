@@ -2,22 +2,56 @@ apiVersion: v1
 entries:
   memphis:
   - apiVersion: v2
-    appVersion: 1.0.3
-    created: "2022-04-11T15:50:54.605102+03:00"
+    appVersion: 1.1.0
+    created: "2023-07-10T15:50:54.605102+03:00"
     description: Memphis.dev Helm chart
     digest: f557dcaf1fbf21fe2fd5ae7ee28a1a5a3c149c9e78c1a16ebdcb9bd5cf9117e5
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
     name: memphis
     type: application
     urls:
-    - https://k8s.memphis.dev/charts/memphis-1.0.3.tgz
+    - https://k8s.memphis.dev/charts/memphis-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      category: Streaming and messaging
+      licenses: Memphis Business Source License 1.0
+    apiVersion: v2
+    appVersion: 1.0.3
+    created: "2023-07-10T17:53:28.374061473Z"
+    dependencies:
+    - condition: metadata.enabled
+      name: metadata
+      repository: ""
+      version: 11.0.1
+    description: Memphis.dev Official Helm chart
+    digest: de20efbde1d7e0dc757195cf1644333fad5a3d7769d763112e6957b9d18fa437
+    home: https://github.com/memphisdev/memphis
+    icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
+    keywords:
+    - data streaming
+    - message broker
+    - memphis
+    - producer
+    - consumer
+    - cluster
+    - high availability
+    maintainers:
+    - name: Memphis.dev
+      url: https://k8s.memphis.dev/charts
+    name: memphis
+    sources:
+    - https://github.com/memphisdev/memphis
+    - https://www.memphis.dev
+    type: application
+    urls:
+    - memphis-1.0.3.tgz
     version: 1.0.3
   - annotations:
       category: Streaming and messaging
       licenses: Memphis Business Source License 1.0
     apiVersion: v2
     appVersion: 1.0.1
-    created: "2023-05-31T10:28:58.065270998Z"
+    created: "2023-07-10T17:53:28.368054989Z"
     dependencies:
     - condition: metadata.enabled
       name: metadata
@@ -51,7 +85,7 @@ entries:
       licenses: Memphis Business Source License 1.0
     apiVersion: v2
     appVersion: 1.0.0
-    created: "2023-05-31T10:28:58.059783052Z"
+    created: "2023-07-10T17:53:28.362766107Z"
     dependencies:
     - condition: metadata.enabled
       name: metadata
@@ -85,7 +119,7 @@ entries:
       licenses: Memphis Business Source License 1.0
     apiVersion: v2
     appVersion: 0.4.5
-    created: "2023-05-31T10:28:58.054668554Z"
+    created: "2023-07-10T17:53:28.357043233Z"
     description: Memphis.dev Official Helm chart
     digest: e3e2ca1f38e7072aea1cbe9eeaf3c79c849289422e340960b56709056a1dea0f
     home: https://github.com/memphisdev/memphis
@@ -111,7 +145,7 @@ entries:
     version: 0.4.5
   - apiVersion: v2
     appVersion: 0.4.4
-    created: "2023-05-31T10:28:58.053523732Z"
+    created: "2023-07-10T17:53:28.355893582Z"
     description: Memphis.dev Helm chart
     digest: 6cf106e15fdfe86124e30afd91f036cd28d2a549fa01eba11bb08d35eb9c953e
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -122,7 +156,7 @@ entries:
     version: 0.4.4
   - apiVersion: v2
     appVersion: 0.4.3
-    created: "2023-05-31T10:28:58.052306695Z"
+    created: "2023-07-10T17:53:28.354641903Z"
     description: Memphis.dev Helm chart
     digest: be47621169bdd4942b954945ae97eb88041ae1220165aad628648dd7b9b3d7e7
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -133,7 +167,7 @@ entries:
     version: 0.4.3
   - apiVersion: v2
     appVersion: 0.4.2
-    created: "2023-05-31T10:28:58.05058186Z"
+    created: "2023-07-10T17:53:28.353422979Z"
     description: Memphis.dev Helm chart
     digest: 3a17890606d0eb961f17a88fc5a9d2258d2071745ba21d8864946a50ed7e3ebb
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -144,7 +178,7 @@ entries:
     version: 0.4.2
   - apiVersion: v2
     appVersion: 0.4.1
-    created: "2023-05-31T10:28:58.049369245Z"
+    created: "2023-07-10T17:53:28.351618406Z"
     description: Memphis.dev Helm chart
     digest: 3901e5059d04a93f2afef1e66f0f097610c4cf41ec8f85e030c3b4749a0b1c9b
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -155,7 +189,7 @@ entries:
     version: 0.4.1
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2023-05-31T10:28:58.048196358Z"
+    created: "2023-07-10T17:53:28.350454013Z"
     description: Memphis.dev Helm chart
     digest: abe8ef969af061633e0566bcc6f764a6175d74fe378d183a79394a3c4cf99b6b
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -166,7 +200,7 @@ entries:
     version: 0.4.0
   - apiVersion: v2
     appVersion: 0.3.6
-    created: "2023-05-31T10:28:58.047025513Z"
+    created: "2023-07-10T17:53:28.349246849Z"
     description: Memphis.dev Helm chart
     digest: 1463b0842ae745cfbc39bbbd59bf4aed1829610eb3305a5c9f0e8671fb9b433e
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -177,7 +211,7 @@ entries:
     version: 0.3.6
   - apiVersion: v2
     appVersion: 0.3.5
-    created: "2023-05-31T10:28:58.045889459Z"
+    created: "2023-07-10T17:53:28.348063779Z"
     description: Memphis.dev Helm chart
     digest: 9e05f5310f8456c431041b4e44f3570e4ae7d3bdab27d58f64c2486483951a2c
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -188,7 +222,7 @@ entries:
     version: 0.3.5
   - apiVersion: v2
     appVersion: 0.3.0
-    created: "2023-05-31T10:28:58.044723572Z"
+    created: "2023-07-10T17:53:28.346886786Z"
     description: A Helm chart for Kubernetes
     digest: df8bc3b91ffd995e9ee743c4814ce37b38ac55f9366d16a07eebf5f05a03d462
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -199,7 +233,7 @@ entries:
     version: 0.3.0
   - apiVersion: v2
     appVersion: 0.2.2
-    created: "2023-05-31T10:28:58.043521012Z"
+    created: "2023-07-10T17:53:28.34570678Z"
     description: A Helm chart for Kubernetes
     digest: d28563593f1577bb2381da7ec7a2b1a06301b04f30202ef00627127e21606657
     icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/Vector.jpg
@@ -210,7 +244,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-31T10:28:58.04237247Z"
+    created: "2023-07-10T17:53:28.344571241Z"
     description: A Helm chart for Kubernetes
     digest: 28d3abb9dbc8bb4e5d98e319af96bee39d7079373bc6f3ea1459f057557f07a2
     name: memphis
@@ -220,7 +254,7 @@ entries:
     version: 0.2.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-05-31T10:28:58.040456336Z"
+    created: "2023-07-10T17:53:28.343356401Z"
     description: A Helm chart for Kubernetes
     digest: 8a6ec6bc3d6cdaed00455814cceac7ee4096268d08e82bc9ca0af4cdf3a65cf1
     name: memphis
@@ -228,4 +262,4 @@ entries:
     urls:
     - memphis-0.2.0.tgz
     version: 0.2.0
-generated: "2023-05-31T10:28:58.039081928Z"
+generated: "2023-07-10T17:53:28.341455358Z"

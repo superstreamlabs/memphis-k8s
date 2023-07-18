@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   memphis:
   - apiVersion: v2
-    appVersion: 1.0.3
+    appVersion: 1.1.0
     created: "2022-04-11T15:50:54.605102+03:00"
     description: Memphis.dev Helm chart
     digest: f557dcaf1fbf21fe2fd5ae7ee28a1a5a3c149c9e78c1a16ebdcb9bd5cf9117e5
@@ -10,5 +10,5 @@ entries:
     name: memphis
     type: application
     urls:
-    - https://k8s.memphis.dev/charts/memphis-1.0.3.tgz
-    version: 1.0.3
+    - https://k8s.memphis.dev/charts/memphis-1.1.0.tgz
+    version: 1.1.0
