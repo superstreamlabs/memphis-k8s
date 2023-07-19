@@ -1,3 +1,4 @@
+{{- if not .Values.memphis.creds.secretConfig.existingSecret -}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -5,3 +6,4 @@ metadata:
   namespace: {{ include "memphis.namespace" . }}
 type: Opaque
 data: {{- ( include "gen.memphis.secret" . ) | nindent 2 -}}
+{{- end -}}

@@ -32,6 +32,7 @@ Expand the name of the chart.
 */}}
 
 {{- define "gen.memphis.secret" -}}
+{{- if not .Values.memphis.creds.secretConfig.existingSecret -}}
 {{- $secret := lookup "v1" "Secret" .Release.Namespace .Values.memphis.creds.secretConfig.name -}}
 {{- if $secret -}}
 {{ toYaml $secret.data }}
@@ -43,6 +44,7 @@ Expand the name of the chart.
 {{ .Values.memphis.creds.secretConfig.encryptionSecretKey_key }}: {{ if .Values.memphis.creds.encryptionSecretKey }}{{ .Values.memphis.creds.encryptionSecretKey | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 32 | b64enc | quote }}{{ end }}
 {{ .Values.memphis.creds.secretConfig.jwtSecretRestGW_key }}: {{ if .Values.restGateway.jwtSecret }}{{ .Values.restGateway.jwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
 {{ .Values.memphis.creds.secretConfig.refreshJwtSecretRestGW_key }}: {{ if .Values.restGateway.refreshJwtSecret }}{{ .Values.restGateway.refreshJwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 

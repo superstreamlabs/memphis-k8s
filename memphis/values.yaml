@@ -40,6 +40,7 @@ memphis:
       #  Be aware that the chart will suppose that all values are configured correctly
       #  In case it does not exist the secret will be created with random values.
       name: "memphis-creds"
+      existingSecret: false
       rootPwd_key: "ROOT_PASSWORD"
       connectionToken_key: "CONNECTION_TOKEN"
       jwtSecret_key: "JWT_SECRET"
