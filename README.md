@@ -1,6 +1,7 @@
 <div align="center">
   
-  ![github memphis banner](https://user-images.githubusercontent.com/70286779/229371212-8531c1e1-1a9d-4bbe-9285-b4dbb8601bfa.jpeg)
+  ![Banner- Memphis dev streaming  (2)](https://github.com/memphisdev/memphis-k8s/assets/107035359/ab72eb91-2589-4c2b-aa54-3bc1b120bcac)
+
   
 </div>
 
