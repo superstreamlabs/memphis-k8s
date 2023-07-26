@@ -340,7 +340,7 @@ spec:
         {{- end }}
         {{- end }}
         - name: USER_PASS_BASED_AUTH
-          value: {{ .Values.config.user_pass_based_auth | quote }}
+          value: {{ .Values.config.userPassBasedAuth | quote }}
         - name: LOGS_RETENTION_IN_DAYS
           value: {{ .Values.config.logsRetentionInDays | quote }}
         - name: K8S_NAMESPACE
