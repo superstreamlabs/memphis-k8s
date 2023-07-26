@@ -21,7 +21,7 @@ memphis:
     brokerHostName: ""
 
   # Memphis config file variables configuration
-  config:
+  configFile:
     logsRetentionInDays: 3
     gcProducerConsumerRetentionInHours: 3
     tieredStorageUploadIntervalSeconds: 8
