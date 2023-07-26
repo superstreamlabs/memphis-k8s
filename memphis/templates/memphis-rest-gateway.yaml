@@ -112,7 +112,11 @@ spec:
             - name: {{ $secretName }}-clients-volume
               mountPath: /etc/memphis-certs/clients/{{ $secretName }}
           {{- end }}
-         
+          
+      {{- with .Values.nodeSelector }}
+      nodeSelector: {{ toYaml . | nindent 8 }}
+      {{- end }}
+      
       {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}      
       volumes:
