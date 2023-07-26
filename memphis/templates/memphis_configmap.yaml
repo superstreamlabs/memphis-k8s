@@ -39,16 +39,16 @@ data:
     {{- end }}    
 
     # Logs retention parameter in days
-    logs_retention_days: {{ .Values.logsRetentionInDays }}
+    logs_retention_days: {{ .Values.config.logsRetentionInDays }}
 
     # Disconnected producer/consumer retention in hours
-    gc_producer_consumer_retention_hours: {{ .Values.gcProducerConsumerRetentionInHours }}
+    gc_producer_consumer_retention_hours: {{ .Values.config.gcProducerConsumerRetentionInHours }}
     
     # Tiered storage upload interval in seconds
-    tiered_storage_upload_interval_seconds: 8
+    tiered_storage_upload_interval_seconds: {{ .Values.config.tieredStorageUploadIntervalSeconds }}
 
     # Dead letter station retention
-    dls_retention_hours: 3
+    dls_retention_hours: {{ .Values.config.dlsRetentionHours }}
 
 
     {{- if .Values.memphis.config }}
