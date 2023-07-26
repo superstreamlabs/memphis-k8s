@@ -3,14 +3,7 @@
 #    Memphis Configuration BEGIN    #
 #                                   #
 #####################################
-logsRetentionInDays: 3
-user_pass_based_auth: true
 
-#####################################
-#                                   #
-#           Configuration           #
-#                                   #
-#####################################
 global:
   cluster:
     enabled: false
@@ -26,6 +19,14 @@ memphis:
     uiHostName: ""
     restgwHostName: ""
     brokerHostName: ""
+
+  # Memphis config file variables configuration
+  config:
+    logsRetentionInDays: 3
+    gcProducerConsumerRetentionInHours: 3
+    tieredStorageUploadIntervalSeconds: 8
+    dlsRetentionHours: 3
+    userPassBasedAuth: true
   
   # Variables that configure Memphis credentials. Random by default
   creds:
@@ -34,7 +35,6 @@ memphis:
     jwtSecret: ""
     refreshJwtSecret: ""
     encryptionSecretKey: ""
-    
   # customConfigSecret can be used to use an custom secret for the config 
     customConfigSecret:
       enabled: false
