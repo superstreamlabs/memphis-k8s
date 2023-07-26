@@ -340,9 +340,9 @@ spec:
         {{- end }}
         {{- end }}
         - name: USER_PASS_BASED_AUTH
-          value: {{ .Values.config.userPassBasedAuth | quote }}
+          value: {{ .Values.memphis.config.userPassBasedAuth | quote }}
         - name: LOGS_RETENTION_IN_DAYS
-          value: {{ .Values.config.logsRetentionInDays | quote }}
+          value: {{ .Values.memphis.config.logsRetentionInDays | quote }}
         - name: K8S_NAMESPACE
           value: {{ include "memphis.namespace" . }}
         - name: ROOT_PASSWORD
