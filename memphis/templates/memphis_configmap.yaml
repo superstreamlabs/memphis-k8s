@@ -41,6 +41,9 @@ data:
     # Logs retention parameter in days
     logs_retention_days: {{ .Values.logsRetentionInDays }}
 
+    # Disconnected producer/consumer retention in hours
+    gc_producer_consumer_retention_hours: {{ .Values.gcProducerConsumerRetentionInHours }}
+    
     # Tiered storage upload interval in seconds
     tiered_storage_upload_interval_seconds: 8
 
