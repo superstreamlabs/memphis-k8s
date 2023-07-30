@@ -94,6 +94,9 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET_REST_GW
+          {{- if .Values.restGateway.extraEnvironmentVars.enabled }}
+          {{- .Values.restGateway.extraEnvironmentVars.vars | toYaml | nindent 10 }}
+          {{- end }}
           {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
@@ -107,9 +110,6 @@ spec:
           {{- with .ca }}
           - name: ROOT_CA_PATH
             value: /etc/memphis-certs/clients/{{ $secretName }}/{{ . }}
-          {{- end }}
-          {{- if .Values.restGateway.extraEnvironmentVars.enabled }}
-          {{- .Values.restGateway.extraEnvironmentVars.vars | toYaml | nindent 10 }}
           {{- end }}
           volumeMounts:
             - name: {{ $secretName }}-clients-volume
