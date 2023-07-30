@@ -443,12 +443,18 @@ busybox:
 # Memphis REST Gateway configuration
 restGateway:
   enabled: true
+  image: memphisos/memphis-rest-gateway:master
+  pullPolicy: Always
   user: root
   port: 4444
   jwtSecret: ""
   refreshJwtSecret: ""
-  image: memphisos/memphis-rest-gateway:master
-  pullPolicy: Always
+  # Additional variables configuration
+  extraEnvironmentVars:
+    enabled: false
+  #  vars:
+  #    - name: KEY
+  #      value: value
   resources: {}
   ## An example of limits/requests
   #  limits:

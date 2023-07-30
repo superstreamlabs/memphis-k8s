@@ -108,6 +108,9 @@ spec:
           - name: ROOT_CA_PATH
             value: /etc/memphis-certs/clients/{{ $secretName }}/{{ . }}
           {{- end }}
+          {{- if .Values.restGateway.extraEnvironmentVars.enabled }}
+          {{- .Values.restGateway.extraEnvironmentVars.vars | toYaml | nindent 10 }}
+          {{- end }}
           volumeMounts:
             - name: {{ $secretName }}-clients-volume
               mountPath: /etc/memphis-certs/clients/{{ $secretName }}
