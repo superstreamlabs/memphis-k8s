@@ -133,13 +133,8 @@ memphis:
   securityContext: {}
 
   # Toggle whether to enable external access.
-  # This binds a host port for clients, gateways and leafnodes.
+  # This binds a host port for Memphis client port.
   externalAccess: false
-
-  # Toggle to disable client advertisements (connect_urls),
-  # in case of running behind a load balancer (which is not recommended)
-  # it might be required to disable advertisements.
-  advertise: true
 
   # In case both external access and advertise are enabled
   # then a service account would be required to be able to
