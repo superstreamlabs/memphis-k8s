@@ -145,12 +145,6 @@ spec:
       {{- end }}
       {{- end }}
 
-      {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
-      # Local volume shared with the advertise config initializer.
-      - name: advertiseconfig
-        emptyDir: {}
-      {{- end }}
-
       {{- if and .Values.memphis.storageEngine.fileStorage.enabled .Values.memphis.storageEngine.fileStorage.existingClaim }}
       # Persistent volume for storageEngine running with file storage option
       - name: {{ include "memphis.fullname" . }}-js-pvc
@@ -202,47 +196,9 @@ spec:
       {{- toYaml .Values.additionalVolumes | nindent 6 }}
       {{- end }}
 
-      {{ if and .Values.memphis.externalAccess .Values.memphis.advertise }}
-      # Assume that we only use the service account in case we want to
-      # figure out what is the current external public IP from the server
-      # in order to be able to advertise correctly.
-      serviceAccountName: {{ .Values.memphis.serviceAccount }}
-      {{ end }}
-
       # Required to be able to HUP signal and apply config
       # reload to the server without restarting the pod.
       shareProcessNamespace: true
-
-      {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
-      # Initializer container required to be able to lookup
-      # the external ip on which this node is running.
-      initContainers:
-      - name: bootconfig
-        command:
-        - nats-pod-bootconfig
-        - -f
-        - /etc/nats-config/advertise/client_advertise.conf
-        - -gf
-        - /etc/nats-config/advertise/gateway_advertise.conf
-        env:
-        - name: KUBERNETES_NODE_NAME
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: spec.nodeName
-        image: {{ .Values.bootconfig.image }}
-        imagePullPolicy: {{ .Values.bootconfig.pullPolicy }}
-        {{- if .Values.bootconfig.securityContext }}
-        securityContext:
-        {{- .Values.bootconfig.securityContext | toYaml | nindent 8 }}
-        {{- end }}
-        resources:
-          {{- toYaml .Values.bootconfig.resources | nindent 10 }}
-        volumeMounts:
-        - mountPath: /etc/nats-config/advertise
-          name: advertiseconfig
-          subPath: advertise
-      {{- end }}
 
       #####################
       #                   #
@@ -289,13 +245,13 @@ spec:
         ports:
         - containerPort: {{ .Values.memphis.ui.port }}
           name: http
-          hostPort: {{ .Values.memphis.ui.port }}
         - containerPort: {{ .Values.websocket.port }}
           name: ws
-          hostPort: {{ .Values.websocket.port }}
         - containerPort: {{ .Values.memphis.client.port }}
           name: clients
+        {{- if .Values.memphis.externalAccess }}
           hostPort: {{ .Values.memphis.client.port }}
+        {{- end }}
         - containerPort: 8222
           name: monitor
         - containerPort: 6222
@@ -455,12 +411,6 @@ spec:
             mountPath: /etc/nats-config
           - name: pid
             mountPath: /var/run/memphis
-          {{- if and .Values.memphis.externalAccess .Values.memphis.advertise }}
-          - mountPath: /etc/nats-config/advertise
-            name: advertiseconfig
-            subPath: advertise
-          {{- end }}
-
           {{/* User extended config volumes*/}}
           {{- range .Values.memphis.config }}
           # User extended config volumes
