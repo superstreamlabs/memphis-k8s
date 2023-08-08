@@ -616,8 +616,13 @@ metadata:
     dbHost: ""
     dbPort: ""
     dbUser: ""
+  # Use it only for test purposes, will be depricated.
     dbPass: ""
-
+  # Secret should be used to save metadata credentials.
+    secret:
+      enabled: false
+      name: "metadata-secret"
+      dbPass_key: "dbPass"
 #####################################
 #                                   #
 #    Memphis Configuration END      #
