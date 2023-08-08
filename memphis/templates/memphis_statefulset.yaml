@@ -362,6 +362,14 @@ spec:
         - name: METADATA_DB_USER
           value: {{ .Values.metadata.external.dbUser | quote }}
         - name: METADATA_DB_PASS
+        {{- if .Values.metadata.external.secret.enabled }}
+          valueFrom:
+              secretKeyRef:
+                name: {{ .Values.metadata.external.secret.name | quote }}
+                key: {{ .Values.metadata.external.secret.dbPass_key }}
+        {{- else }}
+          value: {{ .Values.metadata.external.dbPass | quote }}
+        {{- end }}
           value: {{ .Values.metadata.external.dbPass | quote }}
         - name: METADATA_DB_DBNAME
           value: {{ .Values.metadata.external.dbName | quote }}
