@@ -99,7 +99,7 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 Here is how to run an installation command with additional options -&#x20;
 
 ```
-helm install memphis --set cluster.replicas=3,rootPwd="rootpassword" memphis/memphis --create-namespace --namespace memphis
+helm install memphis --set cluster.replicas=3,memphis.creds.rootPwd=rootpassword" memphis/memphis --create-namespace --namespace memphis
 ```
 
 ### Deployed pods
@@ -107,6 +107,7 @@ helm install memphis --set cluster.replicas=3,rootPwd="rootpassword" memphis/mem
 - **memphis.** Memphis broker.
 - **memphis-rest-gateway.** Memphis REST Gateway.
 - **memphis-metadata.** Metadata store.
+- **memphis-metadata-coordinator.** Metadata coordinator
 
 For more information on each component, please head to the [architecture section](../../memphis/architecture.md#key-components).
 
@@ -169,7 +170,7 @@ tls:
 helm install memphis memphis \
 --create-namespace --namespace memphis --wait \
 --set \
-cluster.enabled="true",\
+global.cluster.enabled="true",\
 memphis.tls.verify="true",\
 memphis.tls.cert="memphis_client.pem",\
 memphis.tls.key="memphis-key_client.pem",\
