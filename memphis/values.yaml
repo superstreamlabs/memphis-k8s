@@ -8,7 +8,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:1.0.3-stable
+  image: memphisos/memphis:1.1.1-stable
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
@@ -35,7 +35,7 @@ memphis:
     jwtSecret: ""
     refreshJwtSecret: ""
     encryptionSecretKey: ""
-  # customConfigSecret can be used to use an custom secret for the config 
+  # customConfigSecret can be used to use a custom secret for the config 
     customConfigSecret:
       enabled: false
       secret:
