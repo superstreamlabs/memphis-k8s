@@ -38,22 +38,27 @@ node {
       sh"""
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/appVersion: \\"[0-9].[0-9].[0-9]/appVersion: \\"\$(cat version.conf)/g" memphis/Chart.yaml
+        sed -i -r "s/memphis-rest-gateway:[0-9].[0-9].[0-9]/memphis-rest-gateway:\$(cat gw_version.conf)/g" memphis/values.yaml
+      """
+      /* To Remove after release 1.1.3
+      sh """
         sed -i -r "s/appVersion: [0-9].[0-9].[0-9]/appVersion: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/index.yaml
         sed -i -r "s/[0-9].[0-9].[0-9].tgz/\$(cat version.conf).tgz/g" memphis/index.yaml
-        sed -i -r "s/memphis-rest-gateway:[0-9].[0-9].[0-9]/memphis-rest-gateway:\$(cat gw_version.conf)/g" memphis/values.yaml
       """
+      */
       }
-
-    stage('helm merge'){
-      dir ('charts'){
-        sh"helm repo index . --merge ../memphis/index.yaml"
-      }
-    }
 
     stage('helm package'){
       sh"helm package memphis -d charts"
     }
+    
+    stage('helm create index'){
+      dir ('charts'){
+        sh"helm repo index ./ --url https://k8s.memphis.dev/charts/"
+      }
+    }
+
     stage('Install gh + jq') {
       sh """
         sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo

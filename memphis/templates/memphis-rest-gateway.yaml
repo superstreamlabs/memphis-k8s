@@ -63,7 +63,7 @@ spec:
           - name: MEMPHIS_HOST
             value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
           - name: USER_PASS_BASED_AUTH
-            value: {{ .Values.user_pass_based_auth | quote }}
+            value: {{ .Values.memphis.configFile.userPassBasedAuth | quote }}
           - name: ROOT_PASSWORD
             valueFrom:
                 secretKeyRef:
@@ -94,6 +94,9 @@ spec:
               secretKeyRef:
                 name: "memphis-creds"
                 key: REFRESH_JWT_SECRET_REST_GW
+          {{- if .Values.restGateway.extraEnvironmentVars.enabled }}
+          {{- .Values.restGateway.extraEnvironmentVars.vars | toYaml | nindent 10 }}
+          {{- end }}
           {{- with .Values.memphis.tls }}
           {{ $secretName := tpl .secret.name $ }}
           {{- with .cert }}
@@ -112,7 +115,11 @@ spec:
             - name: {{ $secretName }}-clients-volume
               mountPath: /etc/memphis-certs/clients/{{ $secretName }}
           {{- end }}
-         
+          
+      {{- with .Values.nodeSelector }}
+      nodeSelector: {{ toYaml . | nindent 8 }}
+      {{- end }}
+      
       {{- with .Values.memphis.tls }}
       {{ $secretName := tpl .secret.name $ }}      
       volumes:

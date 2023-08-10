@@ -3,14 +3,7 @@
 #    Memphis Configuration BEGIN    #
 #                                   #
 #####################################
-logsRetentionInDays: 3
-user_pass_based_auth: true
 
-#####################################
-#                                   #
-#           Configuration           #
-#                                   #
-#####################################
 global:
   cluster:
     enabled: false
@@ -26,6 +19,14 @@ memphis:
     uiHostName: ""
     restgwHostName: ""
     brokerHostName: ""
+
+  # Memphis config file variables configuration
+  configFile:
+    logsRetentionInDays: 3
+    gcProducerConsumerRetentionInHours: 3
+    tieredStorageUploadIntervalSeconds: 8
+    dlsRetentionHours: 3
+    userPassBasedAuth: true
   
   # Variables that configure Memphis credentials. Random by default
   creds:
@@ -34,7 +35,6 @@ memphis:
     jwtSecret: ""
     refreshJwtSecret: ""
     encryptionSecretKey: ""
-    
   # customConfigSecret can be used to use an custom secret for the config 
     customConfigSecret:
       enabled: false
@@ -133,13 +133,8 @@ memphis:
   securityContext: {}
 
   # Toggle whether to enable external access.
-  # This binds a host port for clients, gateways and leafnodes.
+  # This binds a host port for Memphis client port.
   externalAccess: false
-
-  # Toggle to disable client advertisements (connect_urls),
-  # in case of running behind a load balancer (which is not recommended)
-  # it might be required to disable advertisements.
-  advertise: true
 
   # In case both external access and advertise are enabled
   # then a service account would be required to be able to
@@ -443,12 +438,18 @@ busybox:
 # Memphis REST Gateway configuration
 restGateway:
   enabled: true
+  image: memphisos/memphis-rest-gateway:1.1.1
+  pullPolicy: Always
   user: root
   port: 4444
   jwtSecret: ""
   refreshJwtSecret: ""
-  image: memphisos/memphis-rest-gateway:1.0.3
-  pullPolicy: Always
+  # Additional variables configuration
+  extraEnvironmentVars:
+    enabled: false
+  #  vars:
+  #    - name: KEY
+  #      value: value
   resources: {}
   ## An example of limits/requests
   #  limits:
@@ -615,8 +616,13 @@ metadata:
     dbHost: ""
     dbPort: ""
     dbUser: ""
+  # Use it only for test purposes, will be depricated.
     dbPass: ""
-
+  # Secret should be used to save metadata credentials.
+    secret:
+      enabled: false
+      name: "metadata-secret"
+      dbPass_key: "dbPass"
 #####################################
 #                                   #
 #    Memphis Configuration END      #
