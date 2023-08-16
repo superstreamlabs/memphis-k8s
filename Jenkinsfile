@@ -20,7 +20,7 @@ node {
         git credentialsId: 'main-github', url: 'git@github.com:memphisdev/memphis.git', branch: gitBranch
       }
       sh """
-        cat memphis-broker/version.conf | cut -d "-" -f1 > version.conf
+        cat memphis-broker/version.conf | cut -d "-" -f1 > broker_version.conf
         rm -rf memphis-broker
       """
     }
@@ -37,7 +37,7 @@ node {
     stage('Edit helm files') {
       sh"""
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/Chart.yaml
-        sed -i -r "s/appVersion: \\"[0-9].[0-9].[0-9]/appVersion: \\"\$(cat version.conf)/g" memphis/Chart.yaml
+        sed -i -r "s/appVersion: \\"[0-9].[0-9].[0-9]/appVersion: \\"\$(cat broker_version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/memphis-rest-gateway:[0-9].[0-9].[0-9]/memphis-rest-gateway:\$(cat gw_version.conf)/g" memphis/values.yaml
       """
       /* To Remove after release 1.1.3
