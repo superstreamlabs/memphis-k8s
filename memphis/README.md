@@ -1,14 +1,11 @@
-## [Memphis.dev](https://memphis.dev)
+## [Memphis](https://memphis.dev) is an intelligent, frictionless message broker.<br>Made to enable developers to build real-time and streaming apps fast.
 
-A simple, robust, and durable cloud-native message broker wrapped with<br>
-an entire ecosystem that enables cost-effective, fast, and reliable development of modern queue-based use cases.<br><br>
-Memphis enables the building of modern queue-based applications that require<br>
-large volumes of streamed and enriched data, modern protocols, zero ops, rapid development,<br>
-extreme cost reduction, and a significantly lower amount of dev time for data-oriented developers and data engineers.
+
+Memphis.dev is more than a broker. It's a new streaming stack.<br><br>
+It significantly accelerates the development of real-time applications that require a streaming platform with<br>
+high throughput, low latency, easy troubleshooting, fast time-to-value,<br>minimal platform operations, and all the observability you can think of.<br>
 
 # Memphis Kubernetes Deployment
-
-If you prefer using **Terraform**, head [here](https://github.com/memphisdev/memphis-terraform)
 
 Helm is a k8s package manager that allows users to deploy apps in a single, configurable command.<br>
 More information about Helm can be found [here](https://helm.sh/docs/topics/charts/).
@@ -19,7 +16,13 @@ Memphis is cloud-native and cloud-agnostic to any Kubernetes on **any cloud**.
 
 **Minimum Requirements (Without high availability)**
 
-<table><thead><tr><th>Resource</th><th>Quantity</th><th data-hidden></th></tr></thead><tbody><tr><td>Minimum Kubernetes version</td><td>1.20 and above</td><td></td></tr><tr><td>K8S Nodes</td><td>1</td><td></td></tr><tr><td>CPU</td><td>2 CPU</td><td></td></tr><tr><td>Memory</td><td>4GB RAM</td><td></td></tr><tr><td>Storage</td><td>12GB PVC</td><td></td></tr></tbody></table>
+| Resource                   | Minimum Quantity  |
+| -------------------------- | ----------------- |
+| Minimum Kubernetes version | 1.20 and above    |
+| K8S Nodes                  | 1                 |
+| CPU                        | 2 CPU             |
+| Memory                     | 4GB RAM           |
+| Storage                    | 12GB PVC          |
 
 ***
 
@@ -35,9 +38,8 @@ Memphis is cloud-native and cloud-agnostic to any Kubernetes on **any cloud**.
 
 ## Installation
 
-<details>
 
-<summary>Production</summary>
+**Production**
 
 Production-grade Memphis with three memphis brokers configured in cluster-mode
 
@@ -45,11 +47,7 @@ Production-grade Memphis with three memphis brokers configured in cluster-mode
 helm repo add memphis https://k8s.memphis.dev/charts/ --force-update && helm install memphis memphis/memphis --set global.cluster.enabled="true" --create-namespace --namespace memphis --wait
 ```
 
-</details>
-
-<details>
-
-<summary>Dev</summary>
+**Dev**
 
 Standard installation of Memphis with a single broker
 
@@ -58,33 +56,69 @@ helm repo add memphis https://k8s.memphis.dev/charts/ --force-update &&
 helm install memphis memphis/memphis --create-namespace --namespace memphis --wait
 ```
 
-</details>
+#### Helm deployment options
 
-## Local access
-### Via Kubernetes
-```shell
-To access Memphis using UI/CLI/SDK from localhost, run the below commands:
-
-  - kubectl port-forward service/memphis 6666:6666 9000:9000 7770:7770 --namespace memphis > /dev/null &
-
-For interacting with the broker via HTTP:
-
-  - kubectl port-forward service/memphis-rest-gateway 4444:4444 --namespace memphis > /dev/null &
-
-Dashboard/CLI: http://localhost:9000
-Broker: localhost:6666 (Client Connections)
-REST Gateway: localhost:4444 (Data + Mgmt)
-```
-
-
-#### \* Optional \* Helm deployment options
-
-<table><thead><tr><th width="265.3333333333333">Option</th><th>Description</th><th>Default Value</th><th>Example</th></tr></thead><tbody><tr><td>rootPwd</td><td>Root password for the dashboard</td><td><code>"memphis"</code></td><td><code>"memphis"</code></td></tr><tr><td>user_pass_based_auth</td><td>Authentication method selector.<br><code>true = User + pass</code><br><code>false = User + connection token</code></td><td><code>"true"</code></td><td><code>"true"</code></td></tr><tr><td>logsRetentionInDays</td><td>Amount of days to retain system logs</td><td>3</td><td>3</td></tr><tr><td>connectionToken</td><td>Token for connecting an app to the Memphis Message Queue. Auto generated</td><td><code>""</code></td><td><code>"memphis"</code></td></tr><tr><td>ui_host</td><td>Which URL should be seen as the "UI hostname"</td><td><code>""</code></td><td><code>"https://memphis.example.com"</code></td></tr><tr><td>rest_gw_host</td><td>Which URL should be seen as the "REST Gateway hostname"</td><td><code>""</code></td><td><code>"https://restgw.memphis.example.com"</code></td></tr><tr><td>broker_host</td><td>Which URL should be seen as the "broker hostname"</td><td><code>""</code></td><td><code>"memphis.example.com"</code></td></tr><tr><td>dashboard.port</td><td>Dashboard's (GUI) port</td><td>9000</td><td>9000</td></tr><tr><td>global.cluster.enabled</td><td>Cluster mode for HA and Performance</td><td><code>"false"</code></td><td><code>"false"</code></td></tr><tr><td>exporter.enabled</td><td>Prometheus exporter</td><td><code>"false"</code></td><td><code>"false"</code></td></tr><tr><td>analytics</td><td>Collection of anonymous metadata</td><td><code>"true"</code></td><td><code>"true"</code></td></tr><tr><td>cluster.enabled</td><td>Enables Memphis cluster deployment. For fully HA configuration use global.cluster.enabled</td><td><code>"false"</code></td><td><code>"true"</code></td></tr><tr><td>cluster.replicas</td><td>Memphis broker replicas</td><td><code>"3"</code></td><td><code>"5"</code></td></tr><tr><td>websocket.tls.secret.name</td><td><strong>*Optional*</strong> Memphis GUI using websockets for live rendering.<br>K8S secret name for the certs</td><td>""</td><td><code>"memphis-ws-tls-secret"</code></td></tr><tr><td>websocket.tls.cert</td><td><strong>*Optional*</strong><br>Memphis GUI using websockets for live rendering.<br>.pem file to use</td><td>""</td><td><code>"memphis_local.pem"</code></td></tr><tr><td>websocket.tls.key</td><td><strong>*Optional*</strong><br>Memphis GUI using websockets for live rendering.<br>key file</td><td>""</td><td><code>"memphis-key_local.pem"</code></td></tr><tr><td>memphis.tls.verify</td><td><strong>*Optional*</strong><br>For encrypted client-memphis communication. Verification for the CA autority. SSL.</td><td>""</td><td><code>"true"</code></td></tr><tr><td>memphis.tls.secret.name</td><td><strong>*Optional*</strong><br>For encrypted client-memphis communication.<br>K8S secret name that holds the certs. SSL.</td><td>""</td><td><code>"memphis-client-tls-secret"</code></td></tr><tr><td>memphis.tls.cert</td><td><strong>*Optional*</strong><br>For encrypted client-memphis communication.<br>.pem file to use. SSL.</td><td>""</td><td><code>"memphis_client.pem"</code></td></tr><tr><td>memphis.tls.key</td><td><strong>*Optional*</strong><br>For encrypted client-memphis communication.<br>Private key file to use. SSL.</td><td>""</td><td><code>"memphis-key_client.pem"</code></td></tr><tr><td>memphis.tls.ca</td><td><strong>*Optional*</strong><br>For encrypted client-memphis communication.<br>CA file to use. SSL.</td><td>""</td><td><code>"rootCA.pem"</code></td></tr><tr><td>metadata.postgresql.username</td><td><strong>*Optional*</strong><br>Username for postgres db</td><td>"postgres"</td><td>"postgres"</td></tr><tr><td>metadata.pgpool.tls.enabled</td><td><strong>*Optional*</strong><br>Enabling TLS-based communication with PG</td><td>"false"</td><td>"false"</td></tr><tr><td>metadata.pgpool.tls.certificatesSecret</td><td><strong>*Optional*</strong><br>PG TLS cert secret to be used</td><td>""</td><td>"tls-secret"</td></tr><tr><td>metadata.pgpool.tls.certFilename</td><td><strong>*Optional*</strong><br>PG TLS cert file to be used</td><td>""</td><td>"tls.crt"</td></tr><tr><td>metadata.pgpool.tls.certKeyFilename</td><td><strong>*Optional*</strong><br>PG TLS key to be used</td><td>""</td><td>"tls.key"</td></tr><tr><td>metadata.pgpool.tls.certCAFilename</td><td><strong>*Optional*</strong><br>PG TLS cert CA to be used</td><td>""</td><td>"ca.crt"</td></tr><tr><td>metadata.external.enabled</td><td><strong>*Optional*</strong><br>For using external PG instead of deploying dedicated one for Memphis</td><td>"false"</td><td>"true"</td></tr><tr><td>metadata.external.dbTlsMutual</td><td><strong>*Optional*</strong><br>External PG TLS-basec communication</td><td>"true"</td><td>"true"</td></tr><tr><td>metadata.external.dbName</td><td><strong>*Optional*</strong><br>External PG db name</td><td>""</td><td>"memphis"</td></tr><tr><td>metadata.external.dbHost</td><td><strong>*Optional*</strong><br>External PG db hostname</td><td>""</td><td>"metadata.example.url"</td></tr><tr><td>metadata.external.dbPort</td><td><strong>*Optional*</strong><br>External PG db port</td><td>""</td><td>5432</td></tr><tr><td>metadata.external.dbUser</td><td><strong>*Optional*</strong><br>External PG db user</td><td>""</td><td>"postgres"</td></tr><tr><td>metadata.external.dbPass</td><td><strong>*Optional*</strong><br>External PG db password</td><td>""</td><td>"12345678"</td></tr></tbody></table>
+| Option | Description | Default Value | Example |
+| --- | --- | --- | --- |
+| global.cluster.enabled | Cluster mode for HA and Performance | `"false"` | `"false"` |
+| exporter.enabled | Prometheus exporter | `"false"` | `"false"` |
+| cluster.enabled | Enables Memphis cluster deployment. For fully HA configuration use global.cluster.enabled | `"false"` | `"true"` |
+| cluster.replicas | Memphis broker replicas | `"3"` | `"5"` |
+| memphis.image | Memphis image name | "memphisos/memphis:x.x.x-stable" | "memphisos/memphis:latest" |
+| memphis.ui.port | Dashboard's (GUI) port | 9000 | 9000 |
+| memphis.hosts.uiHostName | Which URL should be seen as the "UI hostname" | ""  | `"https://memphis.example.com"` |
+| memphis.hosts.restgwHostName | Which URL should be seen as the "REST Gateway hostname" | ""  | `"https://restgw.memphis.example.com"` |
+| memphis.hosts.brokerHostName | Which URL should be seen as the "broker hostname" | ""  | `"memphis.example.com"` |
+| memphis.configFile.logsRetentionInDays | Amount of days to retain system logs | 3   | 3   |
+| memphis.configFile.gcProducerConsumerRetentionInHours | Amount of hours to retain producer/consumer in system | 3  | 3  |
+| memphis.configFile.tieredStorageUploadIntervalSeconds | Interval in seconds between uploads to tiered storage | 8  | 8  |
+| memphis.configFile.dlsRetentionHours | Amount of hours to retain messages in DLS | 3  | 3  |
+| memphis.configFile.userPassBasedAuth | Authentication method selector.  <br>`true = User + pass`  <br>`false = User + connection token` | `"true"` | `"true"` |
+| memphis.creds.rootPwd | Root password for the dashboard. Randomly generated. | ""  | "superpass" |
+| memphis.creds.connectionToken | Token for connecting an app to the Memphis Message Queue. Auto generated.Randomly generated. | ""  | "connectionToken |
+| memphis.creds.jwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
+| memphis.creds.refreshJwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
+| memphis.creds.encryptionSecretKey | Encryption secret key for internal encryption. Randomly generated. | ""  | ""  |
+| memphis.customConfigSecret.enabled | **\*Optional\***  <br>Can be configured for external secret that contains all memphis credentials | "false" | "true" |
+| memphis.customConfigSecret.secret.name | **\*Optional\***  <br>Name of the external secret | ""  | "external-secret-name" |
+| memphis.customConfigSecret.rootPwd_key | **\*Optional\***  <br>Name of the key in secret | ""  | "rootPwd" |
+| memphis.customConfigSecret.connectionToken_key | **\*Optional\***  <br>Name of the key in secret | ""  | "connectionToken" |
+| memphis.customConfigSecret.jwtSecret_key | **\*Optional\***  <br>Name of the key in secret | ""  | "jwtSecret" |
+| memphis.customConfigSecret.refreshJwtSecret_key | **\*Optional\***  <br>Name of the key in secret | ""  | "refreshJwtSecret" |
+| memphis.customConfigSecret.encryptionSecretKey_key | **\*Optional\***  <br>Name of the key in secret | ""  | "encryptionSecretKey" |
+| memphis.extraEnvironmentVars.enabled | **\*Optional\***  <br>List of additional environment variables for memphis. | ""  | vars:  <br>\- name: KEY  <br>\- valye: value |
+| memphis.tls.verify | **\*Optional\***  <br>For encrypted client-memphis communication. Verification for the CA autority. SSL. | ""  | `"true"` |
+| memphis.tls.secret.name | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>K8S secret name that holds the certs. SSL. | ""  | `"memphis-client-tls-secret"` |
+| memphis.tls.cert | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>.pem file to use. SSL. | ""  | `"memphis_client.pem"` |
+| memphis.tls.key | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>Private key file to use. SSL. | ""  | `"memphis-key_client.pem"` |
+| memphis.tls.ca | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>CA file to use. SSL. | ""  | `"rootCA.pem"` |
+| websocket.tls.secret.name | **\*Optional\*** Memphis GUI using websockets for live rendering.  <br>K8S secret name for the certs | ""  | `"memphis-ws-tls-secret"` |
+| websocket.tls.cert | **\*Optional\***  <br>Memphis GUI using websockets for live rendering.  <br>.pem file to use | ""  | `"memphis_local.pem"` |
+| websocket.tls.key | **\*Optional\***  <br>Memphis GUI using websockets for live rendering.  <br>key file | ""  | `"memphis-key_local.pem"` |
+| metadata.postgresql.username | **\*Optional\***  <br>Username for postgres db | "postgres" | "postgres" |
+| metadata.pgpool.tls.enabled | **\*Optional\***  <br>Enabling TLS-based communication with PG | "false" | "false" |
+| metadata.pgpool.tls.certificatesSecret | **\*Optional\***  <br>PG TLS cert secret to be used | ""  | "tls-secret" |
+| metadata.pgpool.tls.certFilename | **\*Optional\***  <br>PG TLS cert file to be used | ""  | "tls.crt" |
+| metadata.pgpool.tls.certKeyFilename | **\*Optional\***  <br>PG TLS key to be used | ""  | "tls.key" |
+| metadata.pgpool.tls.certCAFilename | **\*Optional\***  <br>PG TLS cert CA to be used | ""  | "ca.crt" |
+| metadata.external.enabled | **\*Optional\***  <br>For using external PG instead of deploying dedicated one for Memphis | "false" | "true" |
+| metadata.external.dbTlsMutual | **\*Optional\***  <br>External PG TLS-basec communication | "true" | "true" |
+| metadata.external.dbName | **\*Optional\***  <br>External PG db name | ""  | "memphis" |
+| metadata.external.dbHost | **\*Optional\***  <br>External PG db hostname | ""  | "metadata.example.url" |
+| metadata.external.dbPort | **\*Optional\***  <br>External PG db port | ""  | 5432 |
+| metadata.external.dbUser | **\*Optional\***  <br>External PG db user | ""  | "postgres" |
+| metadata.external.dbPass | **\*Optional\***  <br>External PG db password | ""  | "12345678" |
+| metadata.external.secret.enabled | **\*Optional\***  <br>Enable an option to use secret for password store | "false" | "true" |
+| metadata.external.secret.name | **\*Optional\***  <br>Secret name | ""  | "metadata-secret" |
+| metadata.external.secret.dbPass_key | **\*Optional\***  <br>Name of the key in the secret | ""  | "dbPass" |
+| restGateway.enabled | **\*Optional\***  <br>Memphis Rest Gateway can be disabled if not in use | "true" | "false" |
+| restGateway.jwtSecret | **\*Optional\***  <br>Manual Jwt Token configurtion | ""  | ""  |
+| restGateway.refreshJwtSecret | **\*Optional\***  <br>Manual Refresh Jwt Token configurtion | ""  | ""  |
 
 Here is how to run an installation command with additional options -&#x20;
 
 ```
-helm install memphis --set cluster.replicas=3,rootPwd="rootpassword" memphis/memphis --create-namespace --namespace memphis
+helm install memphis --set cluster.replicas=3,memphis.creds.rootPwd=rootpassword" memphis/memphis --create-namespace --namespace memphis
 ```
 
 ### Deployed pods
@@ -92,6 +126,7 @@ helm install memphis --set cluster.replicas=3,rootPwd="rootpassword" memphis/mem
 - **memphis.** Memphis broker.
 - **memphis-rest-gateway.** Memphis REST Gateway.
 - **memphis-metadata.** Metadata store.
+- **memphis-metadata-coordinator.** Metadata coordinator
 
 For more information on each component, please head to the [architecture section](../../memphis/architecture.md#key-components).
 
@@ -106,7 +141,7 @@ $ mkcert -client \
 -cert-file memphis_client.pem \
 -key-file memphis-key_client.pem  \
 "127.0.0.1" "localhost" "*.memphis.dev" ::1 \
-email@localhost valera@Valeras-MBP-2.lan
+email@localhost admin@local.lan
 ```
 
 b) Find the `rootCA`
@@ -131,6 +166,7 @@ kubectl create namespace memphis
 
 b) Create a k8s secret with the required certs
 
+
 ```bash
 kubectl create secret generic memphis-client-tls-secret \
 --from-file=memphis_client.pem \
@@ -153,7 +189,7 @@ tls:
 helm install memphis memphis \
 --create-namespace --namespace memphis --wait \
 --set \
-cluster.enabled="true",\
+global.cluster.enabled="true",\
 memphis.tls.verify="true",\
 memphis.tls.cert="memphis_client.pem",\
 memphis.tls.key="memphis-key_client.pem",\
@@ -189,4 +225,3 @@ memphis.tls.ca="rootCA.pem"
 ## Deployment diagram
 
 ![Memphis Architecture (1)](https://user-images.githubusercontent.com/70286779/229374721-963cd3e6-e425-44cd-8467-233e6fc5e680.jpeg)
-
