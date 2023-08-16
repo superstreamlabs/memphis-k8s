@@ -30,7 +30,7 @@ sources:
   - https://github.com/memphisdev/memphis
   - https://www.memphis.dev
   
-version: 1.2.0
+version: 1.2.1
 
 appVersion: "1.2.0"
 
