@@ -1,40 +1,5 @@
-<div align="center">
-  
-  ![Banner- Memphis dev streaming  (2)](https://github.com/memphisdev/memphis-k8s/assets/107035359/ab72eb91-2589-4c2b-aa54-3bc1b120bcac)
+## [Memphis](https://memphis.dev) is an intelligent, frictionless message broker.<br>Made to enable developers to build real-time and streaming apps fast.
 
-  
-</div>
-
-<div align="center">
-
-  <h4>
-
-**[Memphis](https://memphis.dev)** is an intelligent, frictionless message broker.<br>Made to enable developers to build real-time and streaming apps fast.
-
-  </h4>
-  
-  <a href="https://landscape.cncf.io/?selected=memphis"><img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/white/cncf-member-silver-white.svg#gh-dark-mode-only"></a>
-  
-</div>
-
-<div align="center">
-  
-  <img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/color/cncf-member-silver-color.svg#gh-light-mode-only">
-  
-</div>
- 
- <p align="center">
-  <a href="https://memphis.dev/pricing/">Cloud - </a><a href="https://memphis.dev/docs/">Docs</a> - <a href="https://twitter.com/Memphis_Dev">Twitter</a> - <a href="https://www.youtube.com/channel/UCVdMDLCSxXOqtgrBaRUHKKg">YouTube</a>
-</p>
-
-<p align="center">
-<a href="https://discord.gg/WZpysvAeTf"><img src="https://img.shields.io/discord/963333392844328961?color=6557ff&label=discord" alt="Discord"></a>
-<a href="https://github.com/memphisdev/memphis/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed/memphisdev/memphis?color=6557ff"></a> 
-  <img src="https://img.shields.io/npm/dw/memphis-dev?color=ffc633&label=installations">
-<a href="https://github.com/memphisdev/memphis/blob/master/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Code%20of%20Conduct-v1.0-ff69b4.svg?color=ffc633" alt="Code Of Conduct"></a> 
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/memphisdev/memphis?color=61dfc6">
-<img src="https://img.shields.io/github/last-commit/memphisdev/memphis?color=61dfc6&label=last%20commit">
-</p>
 
 Memphis.dev is more than a broker. It's a new streaming stack.<br><br>
 It significantly accelerates the development of real-time applications that require a streaming platform with<br>
@@ -51,7 +16,13 @@ Memphis is cloud-native and cloud-agnostic to any Kubernetes on **any cloud**.
 
 **Minimum Requirements (Without high availability)**
 
-<table><thead><tr><th>Resource</th><th>Quantity</th><th data-hidden></th></tr></thead><tbody><tr><td>Minimum Kubernetes version</td><td>1.20 and above</td><td></td></tr><tr><td>K8S Nodes</td><td>1</td><td></td></tr><tr><td>CPU</td><td>2 CPU</td><td></td></tr><tr><td>Memory</td><td>4GB RAM</td><td></td></tr><tr><td>Storage</td><td>12GB PVC</td><td></td></tr></tbody></table>
+| Resource                   | Minimum Quantity  |
+| -------------------------- | ----------------- |
+| Minimum Kubernetes version | 1.20 and above    |
+| K8S Nodes                  | 1                 |
+| CPU                        | 2 CPU             |
+| Memory                     | 4GB RAM           |
+| Storage                    | 12GB PVC          |
 
 ***
 
@@ -67,9 +38,8 @@ Memphis is cloud-native and cloud-agnostic to any Kubernetes on **any cloud**.
 
 ## Installation
 
-<details>
 
-<summary>Production</summary>
+**Production**
 
 Production-grade Memphis with three memphis brokers configured in cluster-mode
 
@@ -77,11 +47,7 @@ Production-grade Memphis with three memphis brokers configured in cluster-mode
 helm repo add memphis https://k8s.memphis.dev/charts/ --force-update && helm install memphis memphis/memphis --set global.cluster.enabled="true" --create-namespace --namespace memphis --wait
 ```
 
-</details>
-
-<details>
-
-<summary>Dev</summary>
+**Dev**
 
 Standard installation of Memphis with a single broker
 
@@ -90,9 +56,7 @@ helm repo add memphis https://k8s.memphis.dev/charts/ --force-update &&
 helm install memphis memphis/memphis --create-namespace --namespace memphis --wait
 ```
 
-</details>
-
-#### \* Optional \* Helm deployment options
+#### Helm deployment options
 
 | Option | Description | Default Value | Example |
 | --- | --- | --- | --- |
@@ -177,7 +141,7 @@ $ mkcert -client \
 -cert-file memphis_client.pem \
 -key-file memphis-key_client.pem  \
 "127.0.0.1" "localhost" "*.memphis.dev" ::1 \
-email@localhost valera@Valeras-MBP-2.lan
+email@localhost admin@local.lan
 ```
 
 b) Find the `rootCA`
