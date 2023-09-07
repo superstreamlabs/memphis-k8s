@@ -1,6 +1,6 @@
 def gitBranch = "latest"
 def gitURL = "git@github.com:Memphisdev/memphis-k8s.git"
-def repoUrlPrefix = "memphisos"
+def repoUrlPrefix = "memphivsos"
 import hudson.model.*
 import groovy.transform.Field
 
