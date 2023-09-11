@@ -39,7 +39,7 @@ node {
         sed -i -r "s/version: [0-9].[0-9].[0-9]/version: \$(cat version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/appVersion: \\"[0-9].[0-9].[0-9]/appVersion: \\"\$(cat broker_version.conf)/g" memphis/Chart.yaml
         sed -i -r "s/memphis-rest-gateway:[0-9].[0-9].[0-9]/memphis-rest-gateway:\$(cat gw_version.conf)/g" memphis/values.yaml
-        sed -i -r "s/memphis:[0-9].[0-9].[0-9]/memphis:\$(cat broker_version.conf)/g" memphis/values/yaml
+        sed -i -r "s/memphis:[0-9].[0-9].[0-9]/memphis:\$(cat broker_version.conf)/g" memphis/values.yaml
       """
       /* To Remove after release 1.1.3
       sh """
