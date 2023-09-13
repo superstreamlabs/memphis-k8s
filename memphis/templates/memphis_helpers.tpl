@@ -31,6 +31,24 @@ Expand the name of the chart.
 {{- end -}}
 */}}
 
+{{- define "gen.memphis.secret" -}}
+{{- if not .Values.memphis.creds.secretConfig.existingSecret -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace .Values.memphis.creds.secretConfig.name -}}
+{{- if $secret -}}
+{{ toYaml $secret.data }}
+{{- else -}}
+{{ .Values.memphis.creds.secretConfig.rootPwd_key }}: {{ if .Values.memphis.creds.rootPwd }}{{ .Values.memphis.creds.rootPwd | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.connectionToken_key }}: {{ if .Values.memphis.creds.connectionToken }}{{ .Values.memphis.creds.connectionToken | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.jwtSecret_key }}: {{ if .Values.memphis.creds.jwtSecret }}{{ .Values.memphis.creds.jwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.refreshJwtSecret_key }}: {{ if .Values.memphis.creds.refreshJwtSecret }}{{ .Values.memphis.creds.refreshJwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.encryptionSecretKey_key }}: {{ if .Values.memphis.creds.encryptionSecretKey }}{{ .Values.memphis.creds.encryptionSecretKey | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 32 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.jwtSecretRestGW_key }}: {{ if .Values.restGateway.jwtSecret }}{{ .Values.restGateway.jwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+{{ .Values.memphis.creds.secretConfig.refreshJwtSecretRestGW_key }}: {{ if .Values.restGateway.refreshJwtSecret }}{{ .Values.restGateway.refreshJwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+
 {{/*
 Return the cluster.enabled value
 */}}
@@ -90,7 +108,6 @@ app.kubernetes.io/name: {{ include "memphis.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 {{- end }}
-
 
 {{/*
 Return the proper Memphis image name

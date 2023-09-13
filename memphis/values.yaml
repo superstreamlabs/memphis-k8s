@@ -35,16 +35,19 @@ memphis:
     jwtSecret: ""
     refreshJwtSecret: ""
     encryptionSecretKey: ""
-  # customConfigSecret can be used to use an custom secret for the config 
-    customConfigSecret:
-      enabled: false
-      secret:
-        name: "external-creds"
-      rootPwd_key: "rootPwd"
-      connectionToken_key: "connectionToken"
-      jwtSecret_key: "jwtSecret"
-      refreshJwtSecret_key: "refreshJwtSecret"
-      encryptionSecretKey_key: "encryptionSecretKey"
+    secretConfig:
+      #  If name is a secret that already exists that secret will be used.
+      #  Be aware that the chart will suppose that all values are configured correctly
+      #  In case it does not exist the secret will be created with random values.
+      name: "memphis-creds"
+      existingSecret: false
+      rootPwd_key: "ROOT_PASSWORD"
+      connectionToken_key: "CONNECTION_TOKEN"
+      jwtSecret_key: "JWT_SECRET"
+      refreshJwtSecret_key: "REFRESH_JWT_SECRET"
+      encryptionSecretKey_key: "ENCRYPTION_SECRET_KEY"
+      refreshJwtSecretRestGW_key: "REFRESH_JWT_SECRET_REST_GW"
+      jwtSecretRestGW_key: "JWT_SECRET_REST_GW"
 
   #### REMOVE
   #  secret:
@@ -186,8 +189,6 @@ memphis:
     connectErrorReports:
     reconnectErrorReports:
 
-  # customConfigSecret can be used to use an custom secret for the config
-  # of the Memphis Broker.
   # NOTE: For this to work the name of the configuration has to be
   # called `nats.conf`.
   #
