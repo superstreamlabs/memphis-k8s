@@ -540,7 +540,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "nats-server -sl=ldm=/var/run/nats/nats.pid"
+              - "nats-server -sl=ldm=/var/run/memphis/memphis.pid"
 
       #################################
       #                               #
