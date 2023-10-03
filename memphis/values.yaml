@@ -405,7 +405,7 @@ bootconfig:
 # The Memphis config reloader image to use.
 reloader:
   enabled: true
-  image: memphisos/memphis-broker-server-config-reloader-test:0.13.0
+  image: memphisos/memphis-config-reloader-test:0.13.0
   pullPolicy: IfNotPresent
   securityContext: {}
   extraConfigs: []
