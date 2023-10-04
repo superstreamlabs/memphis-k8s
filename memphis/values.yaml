@@ -413,7 +413,7 @@ reloader:
 # Prometheus Memphis Exporter configuration.
 exporter:
   enabled: false
-  image: memphisos/memphis-prometheus-exporter:0.12.0
+  image: memphisos/memphis-prometheus-exporter-test:0.12.0
   pullPolicy: IfNotPresent
 
   portName: metrics
