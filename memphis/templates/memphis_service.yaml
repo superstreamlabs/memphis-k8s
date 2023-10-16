@@ -24,11 +24,15 @@ spec:
   - name: memphis-cp-management
     port: 9000
     targetPort: 9000
+    appProtocol: http
   - name: memphis-ws
     port: 7770
     targetPort: 7770
+    appProtocol: tcp
   - name: memphis-cp-tcp
     port: 6666
     targetPort: 6666
+    appProtocol: tcp
   - name: monitor
     port: 8222
+    appProtocol: http
