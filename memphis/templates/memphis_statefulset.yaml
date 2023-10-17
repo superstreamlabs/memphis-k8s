@@ -42,6 +42,7 @@ spec:
       {{- end }}
       labels:
         {{- include "memphis.selectorLabels" . | nindent 8 }}
+        {{- include "memphis.statefulSetPodLabels" . | nindent 8 }}
         {{- if .Values.statefulSetPodLabels }}
         {{- tpl (toYaml .Values.statefulSetPodLabels) . | nindent 8 }}
         {{- end }}
