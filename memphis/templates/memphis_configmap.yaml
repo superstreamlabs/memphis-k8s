@@ -162,13 +162,9 @@ data:
     include "advertise/client_advertise.conf"
     {{- end }}
 
-    {{- with .Values.memphis.logging.debug }}
-    debug: {{ . }}
-    {{- end }}
+    debug: {{ if .Values.memphis.logging.debug }}{{ .Values.memphis.logging.debug }}{{ else }}{{ false }}{{ end }}
 
-    {{- with .Values.memphis.logging.trace }}
-    trace:  {{ . }}
-    {{- end }}
+    trace: {{ if .Values.memphis.logging.trace }}{{ .Values.memphis.logging.trace }}{{ else }}{{ false }}{{ end }}
 
     {{- with .Values.memphis.logging.logtime }}
     logtime: {{ . }}
