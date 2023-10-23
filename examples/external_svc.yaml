@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: memphis-external
+  namespace: memphis
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "9000"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert:  <SSL_CERTIFICATE>
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+spec:
+  ports:
+  - name: https
+    port: 443
+    targetPort: 9000
+    appProtocol: https
+  - name: memphis-ws
+    port: 7770
+    targetPort: 7770
+    appProtocol: tcp
+  - name: memphis-cp-tcp
+    port: 6666
+    protocol: TCP
+    targetPort: 6666
+    appProtocol: TCP
+  selector:
+    app.kubernetes.io/instance: memphis
+    app.kubernetes.io/name: memphis
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memphis-gw-external
+  namespace: memphis
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: <SSL_CERTIFICATE>
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "restgw"
+spec:
+  ports:
+  - name: restgw
+    port: 443
+    protocol: TCP
+    targetPort: 4444
+    appProtocol: TCP
+  selector:
+    app: memphis-rest-gateway
+  type: LoadBalancer
