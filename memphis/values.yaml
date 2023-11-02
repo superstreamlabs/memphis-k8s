@@ -439,7 +439,7 @@ busybox:
 # Memphis REST Gateway configuration
 restGateway:
   enabled: true
-  image: memphisos/memphis-rest-gateway:master
+  image: memphisos/memphis-rest-gateway-test:master
   pullPolicy: Always
   user: root
   port: 4444
