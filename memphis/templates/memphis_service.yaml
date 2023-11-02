@@ -36,3 +36,9 @@ spec:
   - name: monitor
     port: 8222
     appProtocol: http
+  {{ if .Values.exporter.serviceExposed.enabled }}
+  - name: {{ .Values.exporter.portName }}
+    port: {{ .Values.exporter.port }}
+    appProtocol: tcp
+    targetPort: {{ .Values.exporter.port }}
+   {{- end }}
