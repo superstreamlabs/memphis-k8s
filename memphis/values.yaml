@@ -417,6 +417,7 @@ exporter:
   pullPolicy: IfNotPresent
 
   portName: metrics
+  port: 7777
   securityContext: {}
   resources: {}
   # Prometheus operator ServiceMonitor support. Exporter has to be enabled
@@ -430,6 +431,8 @@ exporter:
     path: /metrics
     # interval:
     # scrapeTimeout:
+  serviceExposed:
+    enabled: false
 
 # Memphis busybox configuration
 busybox:

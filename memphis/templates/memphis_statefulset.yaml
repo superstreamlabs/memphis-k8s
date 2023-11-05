@@ -33,7 +33,7 @@ spec:
       annotations:
       {{- if .Values.exporter.enabled }}
         prometheus.io/path: /metrics
-        prometheus.io/port: "7777"
+        prometheus.io/port: {{ .Values.exporter.port | quote }}
         prometheus.io/scrape: "true"
       {{- end }}
       {{- range $key, $value := .Values.podAnnotations }}
