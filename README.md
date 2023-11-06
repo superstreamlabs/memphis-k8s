@@ -1,34 +1,6 @@
-<div align="center">
-  
-  ![Banner- Memphis dev streaming  (2)](https://github.com/memphisdev/memphis-k8s/assets/107035359/ab72eb91-2589-4c2b-aa54-3bc1b120bcac)
-
-  
-</div>
-
-<div align="center">
-
-  <h4>
-
-**[Memphis](https://memphis.dev)** is an intelligent, frictionless message broker.<br>Made to enable developers to build real-time and streaming apps fast.
-
-  </h4>
-  
-  <a href="https://landscape.cncf.io/?selected=memphis"><img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/white/cncf-member-silver-white.svg#gh-dark-mode-only"></a>
-  
-</div>
-
-<div align="center">
-  
-  <img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/color/cncf-member-silver-color.svg#gh-light-mode-only">
-  
-</div>
- 
- <p align="center">
-  <a href="https://memphis.dev/pricing/">Cloud - </a><a href="https://memphis.dev/docs/">Docs</a> - <a href="https://twitter.com/Memphis_Dev">Twitter</a> - <a href="https://www.youtube.com/channel/UCVdMDLCSxXOqtgrBaRUHKKg">YouTube</a>
-</p>
-
+<a href="![Github (2)](https://github.com/memphisdev/memphis.js/assets/107035359/731a59be-0f46-4a94-84c3-c0b2a07fe01c)">![Github (2)](https://github.com/memphisdev/memphis.js/assets/107035359/281222f9-8f93-4a20-9de8-7c26541bded7)</a>
 <p align="center">
-<a href="https://discord.gg/WZpysvAeTf"><img src="https://img.shields.io/discord/963333392844328961?color=6557ff&label=discord" alt="Discord"></a>
+<a href="https://memphis.dev/discord"><img src="https://img.shields.io/discord/963333392844328961?color=6557ff&label=discord" alt="Discord"></a>
 <a href="https://github.com/memphisdev/memphis/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed/memphisdev/memphis?color=6557ff"></a> 
   <img src="https://img.shields.io/npm/dw/memphis-dev?color=ffc633&label=installations">
 <a href="https://github.com/memphisdev/memphis/blob/master/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Code%20of%20Conduct-v1.0-ff69b4.svg?color=ffc633" alt="Code Of Conduct"></a> 
@@ -36,9 +8,21 @@
 <img src="https://img.shields.io/github/last-commit/memphisdev/memphis?color=61dfc6&label=last%20commit">
 </p>
 
-Memphis.dev is more than a broker. It's a new streaming stack.<br><br>
-It significantly accelerates the development of real-time applications that require a streaming platform with<br>
-high throughput, low latency, easy troubleshooting, fast time-to-value,<br>minimal platform operations, and all the observability you can think of.<br>
+<div align="center">
+  
+  <img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/color/cncf-member-silver-color.svg#gh-light-mode-only">
+  <img width="200" alt="CNCF Silver Member" src="https://github.com/cncf/artwork/raw/master/other/cncf-member/silver/white/cncf-member-silver-white.svg#gh-dark-mode-only">
+ 
+
+  <h4>
+
+**[Memphis.dev](https://memphis.dev)** is a highly scalable, painless, and effortless data streaming platform.<br>
+Made to enable developers and data teams to collaborate and build<br>
+real-time and streaming apps fast.
+
+  </h4>
+  
+</div>
 
 # Memphis Kubernetes Deployment
 
@@ -115,13 +99,15 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | memphis.creds.jwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
 | memphis.creds.refreshJwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
 | memphis.creds.encryptionSecretKey | Encryption secret key for internal encryption. Randomly generated. | ""  | ""  |
-| memphis.customConfigSecret.enabled | **\*Optional\***  <br>Can be configured for external secret that contains all memphis credentials | "false" | "true" |
-| memphis.customConfigSecret.secret.name | **\*Optional\***  <br>Name of the external secret | ""  | "external-secret-name" |
-| memphis.customConfigSecret.rootPwd_key | **\*Optional\***  <br>Name of the key in secret | ""  | "rootPwd" |
-| memphis.customConfigSecret.connectionToken_key | **\*Optional\***  <br>Name of the key in secret | ""  | "connectionToken" |
-| memphis.customConfigSecret.jwtSecret_key | **\*Optional\***  <br>Name of the key in secret | ""  | "jwtSecret" |
-| memphis.customConfigSecret.refreshJwtSecret_key | **\*Optional\***  <br>Name of the key in secret | ""  | "refreshJwtSecret" |
-| memphis.customConfigSecret.encryptionSecretKey_key | **\*Optional\***  <br>Name of the key in secret | ""  | "encryptionSecretKey" |
+| memphis.secretConfig.name | **\*Optional\***  <br>Name of the secret | "memphis-creds"  | "memphis-creds" |
+| memphis.secretConfig.existingSecret | **\*Optional\***  <br>Is this secret an existing secret | "false"  | "false" |
+| memphis.secretConfig.rootPwd_key | **\*Optional\***  <br>Name of the key in secret | "ROOT_PASSWORD"  | "rootPwd" |
+| memphis.secretConfig.connectionToken_key | **\*Optional\***  <br>Name of the key in secret | "CONNECTION_TOKEN"  | "connectionToken" |
+| memphis.secretConfig.jwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET"  | "jwtSecret" |
+| memphis.secretConfig.refreshJwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET"  | "refreshJwtSecret" |
+| memphis.secretConfig.encryptionSecretKey_key | **\*Optional\***  <br>Name of the key in secret | "ENCRYPTION_SECRET_KEY"  | "encryptionSecretKey" |
+| memphis.secretConfig.refreshJwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET_REST_GW"  | "refreshJwtSecretRestGW" |
+| memphis.secretConfig.jwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET_REST_GW"  | "jwtSecretRestGW" |
 | memphis.extraEnvironmentVars.enabled | **\*Optional\***  <br>List of additional environment variables for memphis. | ""  | vars:  <br>\- name: KEY  <br>\- valye: value |
 | memphis.tls.verify | **\*Optional\***  <br>For encrypted client-memphis communication. Verification for the CA autority. SSL. | ""  | `"true"` |
 | memphis.tls.secret.name | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>K8S secret name that holds the certs. SSL. | ""  | `"memphis-client-tls-secret"` |
