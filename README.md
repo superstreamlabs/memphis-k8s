@@ -82,6 +82,7 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | --- | --- | --- | --- |
 | global.cluster.enabled | Cluster mode for HA and Performance | `"false"` | `"false"` |
 | exporter.enabled | Prometheus exporter | `"false"` | `"false"` |
+| exporter.serviceExposed.enbaled | Expose metrics port with memphis service | `"false"` | `"true"` |
 | cluster.enabled | Enables Memphis cluster deployment. For fully HA configuration use global.cluster.enabled | `"false"` | `"true"` |
 | cluster.replicas | Memphis broker replicas | `"3"` | `"5"` |
 | memphis.image | Memphis image name | "memphisos/memphis:x.x.x-stable" | "memphisos/memphis:latest" |
