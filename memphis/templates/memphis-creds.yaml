@@ -1,16 +1,9 @@
+{{- if not .Values.memphis.creds.secretConfig.existingSecret -}}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: memphis-creds
+  name: {{ .Values.memphis.creds.secretConfig.name }}
   namespace: {{ include "memphis.namespace" . }}
 type: Opaque
-data:
-{{- if not .Values.memphis.creds.customConfigSecret.enabled }}
-  ROOT_PASSWORD: {{ if .Values.memphis.creds.rootPwd }}{{ .Values.memphis.creds.rootPwd | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
-  CONNECTION_TOKEN: {{ if .Values.memphis.creds.connectionToken }}{{ .Values.memphis.creds.connectionToken | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 20 | b64enc | quote }}{{ end }}
-  JWT_SECRET: {{ if .Values.memphis.creds.jwtSecret }}{{ .Values.memphis.creds.jwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
-  REFRESH_JWT_SECRET: {{ if .Values.memphis.creds.refreshJwtSecret }}{{ .Values.memphis.creds.refreshJwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
-  ENCRYPTION_SECRET_KEY: {{ if .Values.memphis.creds.encryptionSecretKey }}{{ .Values.memphis.creds.encryptionSecretKey | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 32 | b64enc | quote }}{{ end }}
-{{- end }}
-  JWT_SECRET_REST_GW: {{ if .Values.restGateway.jwtSecret }}{{ .Values.restGateway.jwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
-  REFRESH_JWT_SECRET_REST_GW: {{ if .Values.restGateway.refreshJwtSecret }}{{ .Values.restGateway.refreshJwtSecret | toString | b64enc | quote }}{{ else }}{{ randAlphaNum 128 | b64enc | quote }}{{ end }}
+data: {{- ( include "gen.memphis.secret" . ) | nindent 2 -}}
+{{- end -}}

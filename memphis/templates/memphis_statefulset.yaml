@@ -33,7 +33,7 @@ spec:
       annotations:
       {{- if .Values.exporter.enabled }}
         prometheus.io/path: /metrics
-        prometheus.io/port: "7777"
+        prometheus.io/port: {{ .Values.exporter.port | quote }}
         prometheus.io/scrape: "true"
       {{- end }}
       {{- range $key, $value := .Values.podAnnotations }}
@@ -42,6 +42,7 @@ spec:
       {{- end }}
       labels:
         {{- include "memphis.selectorLabels" . | nindent 8 }}
+        {{- include "memphis.statefulSetPodLabels" . | nindent 8 }}
         {{- if .Values.statefulSetPodLabels }}
         {{- tpl (toYaml .Values.statefulSetPodLabels) . | nindent 8 }}
         {{- end }}
@@ -111,9 +112,9 @@ spec:
       # Common volumes for the containers.
       volumes:
       - name: config-volume
-        {{ if .Values.memphis.customConfigSecret }}
+        {{ if .Values.memphis.secretConfig }}
         secret:
-          secretName: {{ .Values.memphis.customConfigSecret.name }}
+          secretName: {{ .Values.memphis.secretConfig.name }}
         {{ else }}
         configMap:
           name: {{ include "memphis.fullname" . }}-config
@@ -304,53 +305,28 @@ spec:
         - name: ROOT_PASSWORD
           valueFrom:
               secretKeyRef:
-        {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.rootPwd_key }}
-                name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
-                key: {{ .Values.memphis.creds.customConfigSecret.rootPwd_key }} 
-        {{- else }}
-                name: "memphis-creds"
-                key: ROOT_PASSWORD
-        {{- end }}
+                name: {{ .Values.memphis.creds.secretConfig.name | quote }}
+                key: {{ .Values.memphis.creds.secretConfig.rootPwd_key }} 
         - name: JWT_SECRET
           valueFrom:
               secretKeyRef:
-        {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.jwtSecret_key }}
-                name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
-                key: {{ .Values.memphis.creds.customConfigSecret.jwtSecret_key }}
-        {{- else }}
-                name: "memphis-creds"
-                key: JWT_SECRET
-        {{- end }}
+                name: {{ .Values.memphis.creds.secretConfig.name | quote }}
+                key: {{ .Values.memphis.creds.secretConfig.jwtSecret_key }}
         - name: REFRESH_JWT_SECRET
           valueFrom:
               secretKeyRef:
-         {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.refreshJwtSecret_key }}
-                name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
-                key: {{ .Values.memphis.creds.customConfigSecret.refreshJwtSecret_key }}
-        {{- else }}
-                name: "memphis-creds"
-                key: REFRESH_JWT_SECRET
-        {{- end }}
+                name: {{ .Values.memphis.creds.secretConfig.name | quote }}
+                key: {{ .Values.memphis.creds.secretConfig.refreshJwtSecret_key }}
         - name: CONNECTION_TOKEN
           valueFrom:
               secretKeyRef:
-        {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.connectionToken_key }}
-                name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
-                key: {{ .Values.memphis.creds.customConfigSecret.connectionToken_key }}
-        {{- else }}
-                name: "memphis-creds"
-                key: CONNECTION_TOKEN
-        {{- end }}
+                name: {{ .Values.memphis.creds.secretConfig.name | quote }}
+                key: {{ .Values.memphis.creds.secretConfig.connectionToken_key }}
         - name: ENCRYPTION_SECRET_KEY
           valueFrom:
               secretKeyRef:
-        {{- if and .Values.memphis.creds.customConfigSecret.enabled .Values.memphis.creds.customConfigSecret.encryptionSecretKey_key }}
-                name: {{ .Values.memphis.creds.customConfigSecret.secret.name | quote }}
-                key: {{ .Values.memphis.creds.customConfigSecret.encryptionSecretKey_key }}
-        {{- else }}
-                name: "memphis-creds"
-                key: ENCRYPTION_SECRET_KEY
-        {{- end }}
+                name: {{ .Values.memphis.creds.secretConfig.name | quote }}
+                key: {{ .Values.memphis.creds.secretConfig.encryptionSecretKey_key }}
         - name: EXPORTER
           value: {{ .Values.exporter.enabled | quote }}
         - name: INSTALLATION_SOURCE
@@ -565,7 +541,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "nats-server -sl=ldm=/var/run/nats/nats.pid"
+              - "nats-server -sl=ldm=/var/run/memphis/memphis.pid"
 
       #################################
       #                               #
