@@ -100,15 +100,15 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | memphis.creds.jwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
 | memphis.creds.refreshJwtSecret | For internal traffic. Randomly generated. | ""  | "&lt;JWT_TOKEN&gt;" |
 | memphis.creds.encryptionSecretKey | Encryption secret key for internal encryption. Randomly generated. | ""  | ""  |
-| memphis.secretConfig.name | **\*Optional\***  <br>Name of the secret | "memphis-creds"  | "memphis-creds" |
-| memphis.secretConfig.existingSecret | **\*Optional\***  <br>Is this secret an existing secret | "false"  | "false" |
-| memphis.secretConfig.rootPwd_key | **\*Optional\***  <br>Name of the key in secret | "ROOT_PASSWORD"  | "rootPwd" |
-| memphis.secretConfig.connectionToken_key | **\*Optional\***  <br>Name of the key in secret | "CONNECTION_TOKEN"  | "connectionToken" |
-| memphis.secretConfig.jwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET"  | "jwtSecret" |
-| memphis.secretConfig.refreshJwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET"  | "refreshJwtSecret" |
-| memphis.secretConfig.encryptionSecretKey_key | **\*Optional\***  <br>Name of the key in secret | "ENCRYPTION_SECRET_KEY"  | "encryptionSecretKey" |
-| memphis.secretConfig.refreshJwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET_REST_GW"  | "refreshJwtSecretRestGW" |
-| memphis.secretConfig.jwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET_REST_GW"  | "jwtSecretRestGW" |
+| memphis.creds.secretConfig.name | **\*Optional\***  <br>Name of the secret | "memphis-creds"  | "memphis-creds" |
+| memphis.creds.secretConfig.existingSecret | **\*Optional\***  <br>Is this secret an existing secret | "false"  | "false" |
+| memphis.creds.secretConfig.rootPwd_key | **\*Optional\***  <br>Name of the key in secret | "ROOT_PASSWORD"  | "rootPwd" |
+| memphis.creds.secretConfig.connectionToken_key | **\*Optional\***  <br>Name of the key in secret | "CONNECTION_TOKEN"  | "connectionToken" |
+| memphis.creds.secretConfig.jwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET"  | "jwtSecret" |
+| memphis.creds.secretConfig.refreshJwtSecret_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET"  | "refreshJwtSecret" |
+| memphis.creds.secretConfig.encryptionSecretKey_key | **\*Optional\***  <br>Name of the key in secret | "ENCRYPTION_SECRET_KEY"  | "encryptionSecretKey" |
+| memphis.creds.secretConfig.refreshJwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "REFRESH_JWT_SECRET_REST_GW"  | "refreshJwtSecretRestGW" |
+| memphis.creds.secretConfig.jwtSecretRestGW_key | **\*Optional\***  <br>Name of the key in secret | "JWT_SECRET_REST_GW"  | "jwtSecretRestGW" |
 | memphis.extraEnvironmentVars.enabled | **\*Optional\***  <br>List of additional environment variables for memphis. | ""  | vars:  <br>\- name: KEY  <br>\- valye: value |
 | memphis.tls.verify | **\*Optional\***  <br>For encrypted client-memphis communication. Verification for the CA autority. SSL. | ""  | `"true"` |
 | memphis.tls.secret.name | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>K8S secret name that holds the certs. SSL. | ""  | `"memphis-client-tls-secret"` |
