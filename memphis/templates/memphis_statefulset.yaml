@@ -598,7 +598,7 @@ spec:
         - -routez
         - -subz
         - -varz
-        - -prefix=nats
+        - -prefix=memphis
         - -use_internal_server_id
         - -jsz=all
         - http://localhost:8222/
