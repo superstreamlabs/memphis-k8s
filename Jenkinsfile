@@ -62,8 +62,8 @@ node {
 
     stage('Install gh + jq') {
       sh """
-        sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-        sudo dnf install gh
+        sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo -y
+        sudo dnf install gh -y
         sudo dnf install jq -y
       """
     }

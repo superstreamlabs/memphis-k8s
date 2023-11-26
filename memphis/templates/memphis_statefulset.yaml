@@ -529,25 +529,25 @@ spec:
 
         {{- end }}
 
-        # Gracefully stop NATS Server on pod deletion or image upgrade.
+        # Gracefully stop Memphis Server on pod deletion or image upgrade.
         #
         lifecycle:
           preStop:
             exec:
-              # Using the alpine based NATS image, we add an extra sleep that is
+              # Using the alpine based Memphis image, we add an extra sleep that is
               # the same amount as the terminationGracePeriodSeconds to allow
-              # the NATS Server to gracefully terminate the client connections.
+              # the Memphis Server to gracefully terminate the client connections.
               #
               command:
               - "/bin/sh"
               - "-c"
               - "nats-server -sl=ldm=/var/run/memphis/memphis.pid"
 
-      #################################
-      #                               #
-      #  NATS Configuration Reloader  #
-      #                               #
-      #################################
+      ####################################
+      #                                  #
+      #  Memphis Configuration Reloader  #
+      #                                  #
+      ####################################
       {{ if .Values.reloader.enabled }}
       - name: reloader
         image: {{ .Values.reloader.image }}
@@ -578,11 +578,11 @@ spec:
           {{- end }}
       {{ end }}
 
-      ##############################
-      #                            #
-      #  NATS Prometheus Exporter  #
-      #                            #
-      ##############################
+      #################################
+      #                               #
+      #  Memphis Prometheus Exporter  #
+      #                               #
+      #################################
       {{ if .Values.exporter.enabled }}
       - name: metrics
         image: {{ .Values.exporter.image }}
@@ -598,7 +598,7 @@ spec:
         - -routez
         - -subz
         - -varz
-        - -prefix=nats
+        - -prefix=memphis
         - -use_internal_server_id
         - -jsz=all
         - http://localhost:8222/
