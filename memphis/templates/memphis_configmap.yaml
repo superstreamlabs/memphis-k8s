@@ -260,3 +260,12 @@ data:
     {{- end }}
     }
     {{- end }}
+    
+  initial.conf: |
+    users:
+      mgmt:
+        user: admin
+        password: pass
+      client:
+        user: test
+        password: test
