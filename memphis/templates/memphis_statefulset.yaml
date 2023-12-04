@@ -132,20 +132,6 @@ spec:
       - name: pid
         emptyDir: {}
 
-      {{- if and .Values.auth.enabled .Values.auth.resolver }}
-      {{- if .Values.auth.resolver.configMap }}
-      - name: resolver-volume
-        configMap:
-          name: {{ .Values.auth.resolver.configMap.name }}
-      {{- end }}
-
-      {{- if eq .Values.auth.resolver.type "URL" }}
-      - name: operator-jwt-volume
-        configMap:
-          name: {{ .Values.auth.operatorjwt.configMap.name }}
-      {{- end }}
-      {{- end }}
-
       {{- if and .Values.memphis.storageEngine.fileStorage.enabled .Values.memphis.storageEngine.fileStorage.existingClaim }}
       # Persistent volume for storageEngine running with file storage option
       - name: {{ include "memphis.fullname" . }}-js-pvc
@@ -402,30 +388,6 @@ spec:
             mountPath: /etc/nats-config/{{ .name }}
           {{- end }}
 
-
-          {{- if and .Values.auth.enabled .Values.auth.resolver }}
-          {{- if eq .Values.auth.resolver.type "memory" }}
-          - name: resolver-volume
-            mountPath: /etc/nats-config/accounts
-          {{- end }}
-
-          {{- if eq .Values.auth.resolver.type "full" }}
-          {{- if .Values.auth.resolver.configMap }}
-          - name: resolver-volume
-            mountPath: /etc/nats-config/accounts
-          {{- end }}
-          {{- if and .Values.auth.resolver .Values.auth.resolver.store }}
-          - name: memphis-jwt-pvc
-            mountPath: {{ .Values.auth.resolver.store.dir }}
-          {{- end }}
-          {{- end }}
-
-          {{- if eq .Values.auth.resolver.type "URL" }}
-          - name: operator-jwt-volume
-            mountPath: /etc/nats-config/operator
-          {{- end }}
-          {{- end }}
-
           {{- if .Values.memphis.storageEngine.fileStorage.enabled }}
           - name: {{ include "memphis.fullname" . }}-js-pvc
             mountPath: {{ .Values.memphis.storageEngine.fileStorage.storageDirectory }}
@@ -609,23 +571,6 @@ spec:
 
 
   volumeClaimTemplates:
-  {{- if eq .Values.auth.resolver.type "full" }}
-  {{- if and .Values.auth.resolver .Values.auth.resolver.store }}
-  #####################################
-  #                                   #
-  #  Account Server Embedded JWT      #
-  #                                   #
-  #####################################
-    - metadata:
-        name: nats-jwt-pvc
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: {{ .Values.auth.resolver.store.size }}
-  {{- end }}
-  {{- end }}
 
   {{- if and .Values.memphis.storageEngine.fileStorage.enabled (not .Values.memphis.storageEngine.fileStorage.existingClaim) }}
   #########################################
