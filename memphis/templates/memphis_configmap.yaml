@@ -260,12 +260,12 @@ data:
     {{- end }}
     }
     {{- end }}
-    
+
+  {{- if .Values.auth.enabled }}  
   initial.conf: |
     users:
       mgmt:
-        user: admin
-        password: pass
+        {{- .Values.users.mgmt | toYaml | nindent 8  }}
       client:
-        user: test
-        password: test
+        {{- .Values.users.client | toYaml | nindent 8  }}
+  {{- end }}
