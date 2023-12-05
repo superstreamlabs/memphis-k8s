@@ -1,0 +1,15 @@
+auth:
+  enabled: true
+  users:
+    mgmt:
+    - user: admin
+      password: admin
+    - user: test
+      password: test
+    - user: test
+      password: test
+    client:
+    - user: test
+      password: test
+    - user: test
+      password: test
