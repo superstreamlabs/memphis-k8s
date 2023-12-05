@@ -4,12 +4,12 @@ auth:
     mgmt:
     - user: admin
       password: admin
-    - user: test
+    - user: test_mgmt
       password: test
     - user: test
       password: test
     client:
-    - user: test
+    - user: test_app
       password: test
-    - user: test
+    - user: test_app2
       password: test
