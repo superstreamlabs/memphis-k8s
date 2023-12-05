@@ -464,7 +464,7 @@ restGateway:
 
 # Authentication setup
 auth:
-  enabled: false
+  enabled: true
   # users:
   #   mgmt: {}
   #   client: {}
