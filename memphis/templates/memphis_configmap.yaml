@@ -265,7 +265,7 @@ data:
   initial.conf: |
     users:
       mgmt:
-      {{- .Values.users.mgmt | toYaml | nindent 6  }}
+      {{- .Values.auth.users.mgmt | toYaml | nindent 6  }}
       client:
-      {{- .Values.users.client | toYaml | nindent 6  }}
+      {{- .Values.auth.users.client | toYaml | nindent 6  }}
   {{- end }}
