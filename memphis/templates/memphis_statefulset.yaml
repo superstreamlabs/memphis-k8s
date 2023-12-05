@@ -112,13 +112,10 @@ spec:
       # Common volumes for the containers.
       volumes:
       - name: config-volume
-        {{ if .Values.memphis.secretConfig }}
-        secret:
-          secretName: {{ .Values.memphis.secretConfig.name }}
-        {{ else }}
         configMap:
           name: {{ include "memphis.fullname" . }}-config
-        {{ end }}
+
+
 
       {{/* User extended config volumes*/}}
       {{- if .Values.memphis.config }}
