@@ -27,7 +27,7 @@ memphis:
     tieredStorageUploadIntervalSeconds: 8
     dlsRetentionHours: 3
     userPassBasedAuth: true
-  
+
   # Variables that configure Memphis credentials. Random by default
   creds:
     rootPwd: ""
@@ -464,101 +464,18 @@ restGateway:
 
 # Authentication setup
 auth:
-  enabled: true
-  # systemAccount: "$SYS"
+  enabled: false
+  # users:
+  #  mgmt:
+  #  - user: admin
+  #    password: admin
+  #  client:
+  #  - user: test
+  #    password: test
 
-  # basic:
-  #   noAuthUser:
-  #   # List of users that can connect with basic auth,
-  #   # that belong to the global account.
-  #   users:
 
-  #   # List of accounts with users that can connect
-  #   # using basic auth.
-  #   accounts:
-  #   accounts:
-  #     $SYS:
-  #       users:
-  #       - user: sys
-  #         pass: sys
-  #     js:
-  #       jetstream: true
-  #       users:
-  #       - user: foo
-  #         pass: foo
-  # Reference to the Operator JWT.
-  #operatorjwt:
-  #  configMap:
-  #    name: operator-jwt
-  #    key: KO.jwt
 
-  # Token authentication
-  # token: ""
 
-  # NKey authentication
-  # nkeys:
-  #   users:
-
-  # Public key of the System Account
-  #systemAccount: ACDAOKW5IIW7GTSHN55LKTUTTLXOHPFC7UQZMCQGCPJSN2RHSI7O2JOF
-
-  resolver:
-    # Disables the resolver by default
-    type: none
-
-    ##########################################
-    #                                        #
-    #   Embedded Memphis Account Resolver    #
-    #                                        #
-    ##########################################
-    ##type: full
-
-    # If the resolver type is 'full', delete when enabled will rename the jwt.
-    allowDelete: false
-
-    # Interval at which a memphis-server with a memphis based account resolver will compare
-    # it's state with one random memphis based account resolver in the cluster and if needed,
-    # exchange jwt and converge on the same set of jwt.
-    ##interval: 2m
-
-    # Operator JWT
-    ##operator: 
-
-    # System Account Public NKEY
-    ##systemAccount: 
-
-    # resolverPreload:
-    #   <ACCOUNT>: <JWT>
-
-    # Directory in which the account JWTs will be stored.
-    store:
-      dir: "/accounts/jwt"
-
-      # Size of the account JWT storage.
-      size: 1Gi
-
-    ##############################
-    #                            #
-    # Memory resolver settings   #
-    #                            #
-    ##############################
-    # type: memory
-    #
-    # Use a configmap reference which will be mounted
-    # into the container.
-    #
-    # configMap:
-    #   name: memphis-accounts
-    #   key: resolver.conf
-
-    ##########################
-    #                        #
-    #  URL resolver settings #
-    #                        #
-    ##########################
-    #type: URL
-    #url: "http://control-plane/api-gw/usermgmt/memphis/authenticate/"
-    #url: "https://gi1piv1ac8.execute-api.eu-central-1.amazonaws.com/Production/jwt/v1/accounts/"
 
 websocket:
   enabled: true
@@ -620,9 +537,9 @@ metadata:
     dbHost: ""
     dbPort: ""
     dbUser: ""
-  # Use it only for test purposes, will be depricated.
+    # Use it only for test purposes, will be depricated.
     dbPass: ""
-  # Secret should be used to save metadata credentials.
+    # Secret should be used to save metadata credentials.
     secret:
       enabled: false
       name: "metadata-secret"
