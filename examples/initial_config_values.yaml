@@ -3,13 +3,13 @@ auth:
   users:
     mgmt:
     - user: admin
-      password: admin
+      password: Admin123456!
     - user: test_mgmt
-      password: test
+      password: Test123456!
     - user: test
-      password: test
+      password: Test123456@
     client:
     - user: test_app
-      password: test
+      password: Test123456!@
     - user: test_app2
-      password: test
+      password: Test123456@!
