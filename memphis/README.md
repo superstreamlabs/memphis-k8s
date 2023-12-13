@@ -44,7 +44,8 @@ Memphis is cloud-native and cloud-agnostic to any Kubernetes on **any cloud**.
 Production-grade Memphis with three memphis brokers configured in cluster-mode
 
 ```bash
-helm repo add memphis https://k8s.memphis.dev/charts/ --force-update && helm install memphis memphis/memphis --set global.cluster.enabled="true" --create-namespace --namespace memphis --wait
+helm repo add memphis https://k8s.memphis.dev/charts/ --force-update &&
+helm install memphis memphis/memphis --set global.cluster.enabled="true" --create-namespace --namespace memphis --wait
 ```
 
 **Dev**
@@ -55,6 +56,8 @@ Standard installation of Memphis with a single broker
 helm repo add memphis https://k8s.memphis.dev/charts/ --force-update && 
 helm install memphis memphis/memphis --create-namespace --namespace memphis --wait
 ```
+
+For more information, please visit the [Memphis Documentation](https://docs.memphis.dev/memphis/open-source-installation/kubernetes/1-installation).
 
 #### Helm deployment options
 
@@ -119,9 +122,6 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | auth.enabled.client | **\*Optional\***  <br>Client users that will be created at first deployment | ""  | ""  |
 Here is how to run an installation command with additional options -&#x20;
 
-```
-helm install memphis --set cluster.replicas=3,memphis.creds.rootPwd=rootpassword" memphis/memphis --create-namespace --namespace memphis
-```
 
 ### Deployed pods
 
@@ -131,98 +131,6 @@ helm install memphis --set cluster.replicas=3,memphis.creds.rootPwd=rootpassword
 - **memphis-metadata-coordinator.** Metadata coordinator
 
 For more information on each component, please head to the [architecture section](../../memphis/architecture.md#key-components).
-
-## Deploy Memphis with TLS (encrypted communication via SSL)
-
-### 0. Optional: Create self-signed certificates
-
-a) Generate a self-signed certificate using `mkcert`
-
-```bash
-$ mkcert -client \
--cert-file memphis_client.pem \
--key-file memphis-key_client.pem  \
-"127.0.0.1" "localhost" "*.memphis.dev" ::1 \
-email@localhost admin@local.lan
-```
-
-b) Find the `rootCA`
-
-```
-$ mkcert -CAROOT
-```
-
-c) Create self-signed certificates for client
-
-```bash
-$ mkcert -client -cert-file client.pem -key-file key-client.pem  localhost ::1 
-```
-
-### 1. Create namespace + secret for the TLS certs
-
-a) Create a dedicated namespace for memphis
-
-```bash
-kubectl create namespace memphis
-```
-
-b) Create a k8s secret with the required certs
-
-
-```bash
-kubectl create secret generic memphis-client-tls-secret \
---from-file=memphis_client.pem \
---from-file=memphis-key_client.pem \
---from-file=rootCA.pem -n memphis
-```
-
-```yaml
-tls:
-  secret:
-    name: memphis-client-tls-secret
-  ca: "rootCA.pem"
-  cert: "memphis_client.pem"
-  key: "memphis-key_client.pem"
-```
-
-### 2. Deploy Memphis with the generated certificate
-
-```bash
-helm install memphis memphis \
---create-namespace --namespace memphis --wait \
---set \
-global.cluster.enabled="true",\
-memphis.tls.verify="true",\
-memphis.tls.cert="memphis_client.pem",\
-memphis.tls.key="memphis-key_client.pem",\
-memphis.tls.secret.name="memphis-client-tls-secret",\
-memphis.tls.ca="rootCA.pem"
-```
-
-## Upgrade existing deployment
-
-### For adding TLS support
-
-1. Create a k8s secret with the provided TLS certs
-
-```
-kubectl create secret generic memphis-client-tls-secret \
---from-file=memphis_client.pem \
---from-file=memphis-key_client.pem \
---from-file=rootCA.pem -n memphis
-```
-
-2. Upgrade Memphis to use the TLS certs
-
-```bash
-helm upgrade memphis memphis -n memphis --reuse-values \
---set \
-memphis.tls.verify="true",\
-memphis.tls.cert="memphis_client.pem",\
-memphis.tls.key="memphis-key_client.pem",\
-memphis.tls.secret.name="tls-client-secret",\
-memphis.tls.ca="rootCA.pem"
-```
 
 ## Deployment diagram
 
