@@ -8,7 +8,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis-master:master
+  image: memphisos/memphis:1.4.0
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
