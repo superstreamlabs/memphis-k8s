@@ -137,7 +137,9 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | restGateway.enabled | **\*Optional\***  <br>Memphis Rest Gateway can be disabled if not in use | "true" | "false" |
 | restGateway.jwtSecret | **\*Optional\***  <br>Manual Jwt Token configurtion | ""  | ""  |
 | restGateway.refreshJwtSecret | **\*Optional\***  <br>Manual Refresh Jwt Token configurtion | ""  | ""  |
-
+| auth.enabled | **\*Optional\***  <br>Enable using predefined parameters | "false"  | "true"  |
+| auth.enabled.mgmt | **\*Optional\***  <br>Management users that will be created at first deployment | ""  | ""  |
+| auth.enabled.client | **\*Optional\***  <br>Client users that will be created at first deployment | ""  | ""  |
 Here is how to run an installation command with additional options -&#x20;
 
 ```

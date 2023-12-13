@@ -1,0 +1,15 @@
+auth:
+  enabled: true
+  users:
+    mgmt:
+    - user: admin
+      password: Admin123456!
+    - user: test_mgmt
+      password: Test123456!
+    - user: test
+      password: Test123456@
+    client:
+    - user: test_app
+      password: Test123456!@
+    - user: test_app2
+      password: Test123456@!
