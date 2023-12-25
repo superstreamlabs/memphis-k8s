@@ -480,13 +480,11 @@ auth:
 websocket:
   enabled: true
   port: 7770
+  # Websocket URL configuration.
+  host: localhost
   noTLS: true
   sameOrigin: false
   allowedOrigins: []
-  #auth:
-  #  token: memphis
-  #  user: ""
-  #  pass: ""
 appProtocol:
   enabled: false
 
