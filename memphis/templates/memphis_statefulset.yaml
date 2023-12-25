@@ -279,6 +279,12 @@ spec:
               key: {{ .key }}
         {{- end }}
         {{- end }}
+        {{- with .Values.websocket }}
+        {{- with .host }}
+        - name: WS_HOST
+          value: {{ .Values.websocket.host }}:{{ .Values.websocket.port }}
+        {{- end }}
+        {{- end }}
         - name: USER_PASS_BASED_AUTH
           value: {{ .Values.memphis.configFile.userPassBasedAuth | quote }}
         - name: LOGS_RETENTION_IN_DAYS
