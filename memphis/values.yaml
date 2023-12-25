@@ -480,6 +480,8 @@ auth:
 websocket:
   enabled: true
   port: 7770
+  # host: memphis.example.com
+  host: staging.memphis-gcp.dev
   noTLS: true
   sameOrigin: false
   allowedOrigins: []
