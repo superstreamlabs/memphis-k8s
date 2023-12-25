@@ -485,10 +485,6 @@ websocket:
   noTLS: true
   sameOrigin: false
   allowedOrigins: []
-  #auth:
-  #  token: memphis
-  #  user: ""
-  #  pass: ""
 appProtocol:
   enabled: false
 

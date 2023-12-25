@@ -280,10 +280,8 @@ spec:
         {{- end }}
         {{- end }}
         {{- with .Values.websocket }}
-        {{- with .host }}
         - name: WS_HOST
-          value: {{ .Values.websocket.host }}:{{ .Values.websocket.port }}
-        {{- end }}
+          value: {{ .host }}:{{ .port }}
         {{- end }}
         - name: USER_PASS_BASED_AUTH
           value: {{ .Values.memphis.configFile.userPassBasedAuth | quote }}
