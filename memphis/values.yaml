@@ -518,6 +518,7 @@ metadata:
     initdbScripts:
       init.sql: |
         CREATE DATABASE memphis;
+    existingSecret: ""
   fullnameOverride: memphis-metadata
   pgpool:
     image:
@@ -528,6 +529,7 @@ metadata:
       certFilename: ""
       certKeyFilename: ""
       certCAFilename: ""
+    existingSecret: ""
   external:
     enabled: false
     dbTlsMutual: true

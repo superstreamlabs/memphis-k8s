@@ -1,4 +1,3 @@
-
  __  __                      _     _     
 |  \/  | ___ _ __ ___  _ __ | |__ (_)___ 
 | |\/| |/ _ \ '_ ` _ \| '_ \| '_ \| / __|
@@ -34,9 +33,9 @@ Deployment Information
 -------------------------
 ## Secrets ##
 UI/CLI/SDK root username        - root
-UI/CLI root Password            - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
+UI/CLI     root Password        - kubectl get secret {{ .Values.memphis.creds.secretConfig.name }} -n {{ .Release.Namespace }} -o jsonpath="{.data.ROOT_PASSWORD}" | base64 --decode
 {{- if eq .Values.user_pass_based_auth false }}
-SDK root connection token       - kubectl get secret memphis-creds -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
+SDK root connection token       - kubectl get secret {{ .Values.memphis.creds.secretConfig.name }} -n {{ .Release.Namespace }} -o jsonpath="{.data.CONNECTION_TOKEN}" | base64 --decode
 {{- end }}
 
 
