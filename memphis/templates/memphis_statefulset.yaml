@@ -348,7 +348,6 @@ spec:
         - name: METADATA_DB_PASS
           valueFrom:
               secretKeyRef:
-                #name: "memphis-metadata"
                 name: {{ if .Values.metadata.postgresql.existingSecret }}{{ .Values.metadata.postgresql.existingSecret | quote }}{{ else }}{{ "memphis-metadata" }}{{ end }}
                 key: password
         - name: METADATA_DB_DBNAME
