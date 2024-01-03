@@ -115,10 +115,16 @@ helm install memphis memphis/memphis --create-namespace --namespace memphis --wa
 | memphis.tls.cert | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>.pem file to use. SSL. | ""  | `"memphis_client.pem"` |
 | memphis.tls.key | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>Private key file to use. SSL. | ""  | `"memphis-key_client.pem"` |
 | memphis.tls.ca | **\*Optional\***  <br>For encrypted client-memphis communication.  <br>CA file to use. SSL. | ""  | `"rootCA.pem"` |
+| websocket.enabled | **\*Optional\*** Memphis GUI using websockets for live rendering. | ""  | `"false"` |
+| websocket.port | Memphis GUI using websockets for live rendering. The port can be configured | "7770" | "77777" |
+| websocket.host | Websocket host can be handled on separate LB/DNS. | "localhost" | "ws.example.com" |
+| websocket.noTLS | Websocket can be configured with tls, default is noTLS. | "true" | "false" |
 | websocket.tls.secret.name | **\*Optional\*** Memphis GUI using websockets for live rendering.  <br>K8S secret name for the certs | ""  | `"memphis-ws-tls-secret"` |
 | websocket.tls.cert | **\*Optional\***  <br>Memphis GUI using websockets for live rendering.  <br>.pem file to use | ""  | `"memphis_local.pem"` |
 | websocket.tls.key | **\*Optional\***  <br>Memphis GUI using websockets for live rendering.  <br>key file | ""  | `"memphis-key_local.pem"` |
 | metadata.postgresql.username | **\*Optional\***  <br>Username for postgres db | "postgres" | "postgres" |
+| metadata.postgresql.existingSecret |  **\*Optional\*** <br> An ability to provide predefined secret for metadata PostgreSQL credentials | "" | "metadata-creds.yaml" |
+| metadata.pgpool.existingSecret |  **\*Optional\*** <br> An ability to provide predefined secret for metadata PG credentials | "" | "metadata-creds.yaml" |
 | metadata.pgpool.tls.enabled | **\*Optional\***  <br>Enabling TLS-based communication with PG | "false" | "false" |
 | metadata.pgpool.tls.certificatesSecret | **\*Optional\***  <br>PG TLS cert secret to be used | ""  | "tls-secret" |
 | metadata.pgpool.tls.certFilename | **\*Optional\***  <br>PG TLS cert file to be used | ""  | "tls.crt" |
