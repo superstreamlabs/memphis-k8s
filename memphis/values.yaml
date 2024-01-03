@@ -8,7 +8,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:1.4.1
+  image: memphisos/memphis:1.4.2
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
@@ -442,7 +442,7 @@ busybox:
 # Memphis REST Gateway configuration
 restGateway:
   enabled: true
-  image: memphisos/memphis-rest-gateway:1.2.6
+  image: memphisos/memphis-rest-gateway:1.2.7
   pullPolicy: Always
   user: root
   port: 4444
