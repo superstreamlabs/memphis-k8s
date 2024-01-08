@@ -4,7 +4,7 @@ def repoUrlPrefix = "memphisos"
 import hudson.model.*
 import groovy.transform.Field
 
-node {
+node ("memphis-jenkins-big-fleet,") {
   git credentialsId: 'main-github', url: gitURL, branch: gitBranch
   
   try{
