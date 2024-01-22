@@ -30,8 +30,8 @@ sources:
   - https://github.com/memphisdev/memphis
   - https://www.memphis.dev
   
-version: 1.4.1
+version: 1.4.2
 
-appVersion: "1.4.2"
+appVersion: "1.4.3"
 
 icon: https://memphis-public-files.s3.eu-central-1.amazonaws.com/icon.png
