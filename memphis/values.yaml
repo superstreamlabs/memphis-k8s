@@ -8,7 +8,7 @@ global:
   cluster:
     enabled: false
 memphis:
-  image: memphisos/memphis:1.4.2
+  image: memphisos/memphis:1.4.3
   pullPolicy: Always
   # This configures memphis UI port to default (9000)
   ui:
@@ -282,8 +282,8 @@ namespaceOverride: ""
 
 # An array of imagePullSecrets, and they have to be created manually in the same namespace
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-imagePullSecrets:
-- name: regcred
+imagePullSecrets: ""
+#- name: regcred
 
 # Toggle whether to use setup a Pod Security Context
 # ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -442,7 +442,7 @@ busybox:
 # Memphis REST Gateway configuration
 restGateway:
   enabled: true
-  image: memphisos/memphis-rest-gateway:1.2.7
+  image: memphisos/memphis-rest-gateway:1.2.8
   pullPolicy: Always
   user: root
   port: 4444
