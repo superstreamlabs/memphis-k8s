@@ -8,7 +8,7 @@ dependencies:
 - name: metadata
   condition: metadata.enabled
   version: "11.5.2"
-home: https://github.com/memphisdev/memphis
+home: https://github.com/superstreamlabs/memphis
 
 keywords:
 - data streaming
@@ -27,7 +27,7 @@ maintainers:
 type: application
 
 sources:
-  - https://github.com/memphisdev/memphis
+  - https://github.com/superstreamlabs/memphis
   - https://www.memphis.dev
   
 version: 1.2.3
