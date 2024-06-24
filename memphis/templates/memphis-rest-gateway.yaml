@@ -46,7 +46,7 @@ spec:
         - name: k8s-busybox-waits4broker
           image: {{ .Values.busybox.image }}
           imagePullPolicy: {{ .Values.busybox.pullPolicy }}
-          command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for broker; sleep 2; done"]
+          command: ['sh', '-c', "until nslookup {{ include "memphis.svcName" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.{{ .Values.k8sClusterDomain }} kube-dns.kube-system; do echo waiting for broker; sleep 2; done"]
       containers:
         - name: memphis-rest-gateway
           image: {{ .Values.restGateway.image }}
@@ -61,7 +61,7 @@ spec:
           - name: HTTP_PORT
             value: {{ .Values.restGateway.port | quote }}
           - name: MEMPHIS_HOST
-            value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.cluster.local
+            value: {{ include "memphis.svcName" . }}.{{ include "memphis.namespace" . }}.svc.{{ .Values.k8sClusterDomain }}
           - name: USER_PASS_BASED_AUTH
             value: {{ .Values.memphis.configFile.userPassBasedAuth | quote }}
           - name: ROOT_PASSWORD
