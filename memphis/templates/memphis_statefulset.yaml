@@ -198,7 +198,7 @@ spec:
           env:
           - name: NAMESPACE
             value: {{ include "memphis.namespace" . }}
-          command: ['sh', '-c', "until nslookup {{ .Values.metadata.fullnameOverride }}-1.{{ .Values.metadata.fullnameOverride }}-headless.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-metadata; sleep 2; done"]
+          command: ['sh', '-c', "until nslookup {{ .Values.metadata.fullnameOverride }}-1.{{ .Values.metadata.fullnameOverride }}-headless.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.{{ .Values.k8sClusterDomain }}; do echo waiting for memphis-metadata; sleep 2; done"]
       {{- else }}
         - name: memphis-metadata-readiness
           image: {{ .Values.busybox.image }}
@@ -206,7 +206,7 @@ spec:
           env:
           - name: NAMESPACE
             value: {{ include "memphis.namespace" . }}
-          command: ['sh', '-c', "until nslookup {{ .Values.metadata.fullnameOverride }}-0.{{ .Values.metadata.fullnameOverride }}-headless.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for memphis-metadata; sleep 2; done"]
+          command: ['sh', '-c', "until nslookup {{ .Values.metadata.fullnameOverride }}-0.{{ .Values.metadata.fullnameOverride }}-headless.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.{{ .Values.k8sClusterDomain }}; do echo waiting for memphis-metadata; sleep 2; done"]
       {{- end }}   
       {{- end }}
 
